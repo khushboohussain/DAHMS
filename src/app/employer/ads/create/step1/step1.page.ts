@@ -14,6 +14,18 @@ export class Step1Page implements OnInit {
 
   constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder, private api: ApiService) {}
 
+  
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      jobTitle: ['', Validators.required],
+      address: ['', Validators.required],
+      startJob: ['', Validators.required], 
+      endJob: ['', Validators.required],
+      continueWork: ['', Validators.required],
+      fastResponse: ['', Validators.required]
+    })
+  }
   async adOptions() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Stelleneinstellung',
@@ -25,4 +37,15 @@ export class Step1Page implements OnInit {
       }, {
         text: 'Einzelne Termine bearbeiten',
         handler: () => {
-          this.navController.navigateForward("/employe
+          this.navController.navigateForward("/employer/ads/create/step2");
+        }
+      }, {
+        text: 'Abbrechen',
+        role: 'cancel',
+        handler: () => { }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+}

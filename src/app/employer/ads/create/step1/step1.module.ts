@@ -22,4 +22,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [
+  declarations: [Step1Page]
+})
+export class Step1PageModule {}

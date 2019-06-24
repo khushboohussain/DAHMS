@@ -35,14 +35,14 @@
               <!-- start date -->
               <ion-item lines="none">
                 <ion-label position="stacked">Startdatum</ion-label>
-                <ion-datetime displayFormat="DD.MM.YYYY" formControlName="startDate" cancelText="Abbrechen" doneText="Fertig" required>
+                <ion-datetime formControlName="startDate" displayFormat="DD.MM.YYYY" cancelText="Abbrechen" doneText="Fertig" required>
                 </ion-datetime>
               </ion-item>
 
               <!-- last date -->
               <ion-item lines="none">
                 <ion-label position="stacked">Enddatum</ion-label>
-                <ion-datetime displayFormat="DD.MM.YYYY" formControlName="endDate" cancelText="Abbrechen" doneText="Fertig" required>
+                <ion-datetime formControlName="endDate" displayFormat="DD.MM.YYYY" cancelText="Abbrechen" doneText="Fertig" required>
                 </ion-datetime>
               </ion-item>
             </div>
@@ -52,7 +52,7 @@
             <div class="box">
               <!-- continuous work -->
               <ion-item lines="none">
-                <ion-checkbox value="CONTINUOUS" formControlName="continuousWork"></ion-checkbox>
+                <ion-checkbox formControlName="continuousWork" value="CONTINUOUS"></ion-checkbox>
                 <ion-label>Durchgehende Schicht?</ion-label>
               </ion-item>
             </div>
@@ -60,9 +60,18 @@
             <!-- fast reply -->
             <div class="box">
               <ion-item lines="none">
-                <ion-checkbox value="FASTREPLY" formControlName="fastReply"></ion-checkbox>
+                <ion-checkbox formControlName="fastRep" value="FASTREPLY"></ion-checkbox>
                 <ion-label>Schnelle Rückmeldung</ion-label>
               </ion-item>
             </div>
 
-            <!-- go to the ad details; "Alle Termine
+            <!-- go to the ad details; "Alle Termine gleich" = same dates / "Einzelne Termine bearbeiten" = different dates -->
+            <ion-button color="primary" expand="block" (click)="adOptions()">Zu den Einsatzdetails</ion-button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</ion-content>
