@@ -8,6 +8,8 @@ import { NavController } from '@ionic/angular';
 })
 export class Step2Page implements OnInit {
 
+  x = false;
+
   constructor(private navController: NavController) { }
 
   navigateConfirmation() {

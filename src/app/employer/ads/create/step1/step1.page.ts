@@ -20,11 +20,22 @@ export class Step1Page implements OnInit {
     this.form = this.fb.group({
       jobTitle: ['', Validators.required],
       address: ['', Validators.required],
-      startJob: ['', Validators.required], 
-      endJob: ['', Validators.required],
-      continueWork: ['', Validators.required],
-      fastResponse: ['', Validators.required]
+      startDate: ['', Validators.required], 
+      endDate: ['', Validators.required],
+      continoueWork: ['', Validators.required],
+      fastReply: ['', Validators.required]
     })
+  }
+  submit(form) {
+    let data = {
+      jobTitle: form.value.jobTitle,
+      address: form.value.address,
+      startDate: form.value.startDate,
+      endDate: form.value.endDate,
+      continoueWork: form.value.continoueWork,
+      fastReply: form.value.fastReply,
+    }
+    console.log(data);
   }
   async adOptions() {
     const actionSheet = await this.actionSheetController.create({
@@ -46,6 +57,8 @@ export class Step1Page implements OnInit {
       }]
     });
     await actionSheet.present();
+
+    
   }
 
 }
