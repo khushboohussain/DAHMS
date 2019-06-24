@@ -25,12 +25,12 @@ export class ApiService {
   }
 
   // Employeer OR Organization
- 
+
   // getCompany() {
   //   return this.afs.collection('users', ref => ref.where('type', '==', 'EMPLOYER')).snapshotChanges();
   // }
 
-  getAllEmployer(){
+  getAllEmployer() {
     return this.afs.collection('employer').snapshotChanges();
   }
 
@@ -38,11 +38,11 @@ export class ApiService {
     return this.afs.doc('employer/' + id).set(data);
   }
 
-  getEmployerData(id: any){
+  getEmployerData(id: any) {
     return this.afs.doc('employer/' + id).valueChanges();
   }
 
-  updateEmployerData(id: any ,data: any){
+  updateEmployerData(id: any, data: any) {
     return this.afs.doc('employer/' + id).update(data);
   }
   deleteEmployer(id: any) {
@@ -54,22 +54,43 @@ export class ApiService {
   //   return this.afs.collection('users', ref => ref.where('type', '==', 'employees')).snapshotChanges();
   // }
 
-  getAllEmployees(){
-    return this.afs.collection('employees').snapshotChanges();
-  }
-
   createEmployee(id: any, data: any) {
     return this.afs.doc('employees/' + id).set(data);
   }
 
-  getEmployeeData(id: any){
+  getAllEmployees() {
+    return this.afs.collection('employees').snapshotChanges();
+  }
+
+  getEmployeeData(id: any) {
     return this.afs.doc('employees/' + id).valueChanges();
   }
 
-  updateEmployee(id: any ,data: any){
+  updateEmployee(id: any, data: any) {
     return this.afs.doc('employees/' + id).update(data);
   }
   deleteEmployee(id: any) {
     return this.afs.doc('employees/' + id).delete();
+  }
+
+  // Job or Ads 
+  createAds(id: any, data: any) {
+    return this.afs.doc('ads/' + id).set(data);
+  }
+
+  getAd(id: any) {
+    return this.afs.doc('ads/' + id).valueChanges();
+  }
+
+  getAllAds() {
+    return this.afs.collection('ads').snapshotChanges();
+  }
+
+  UpdateAds(id: any, data: any) {
+    return this.afs.doc('ads/' + id).update(data);
+  }
+
+  deleteAds(id: any) {
+    return this.afs.doc('ads/' + id).delete();
   }
 }

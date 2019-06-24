@@ -36,6 +36,7 @@ export class Step1Page implements OnInit {
       fastReply: form.value.fastReply,
     }
     console.log(data);
+    this.adOptions();
   }
   async adOptions() {
     const actionSheet = await this.actionSheetController.create({
@@ -57,8 +58,6 @@ export class Step1Page implements OnInit {
       }]
     });
     await actionSheet.present();
-
-    
   }
 
 }
