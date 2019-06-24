@@ -1,0 +1,38 @@
+<ion-content>
+  <div class="main">
+    <div class="header container">
+      <ion-back-button text="" defaultHref="" icon="arrow-round-back"></ion-back-button>
+    </div>
+
+    <div class="content">
+      <div class="title container">
+        <!-- Show by defaul all applications, if more than 1 personal qualification is needed, I should able to filter between those -->
+        <h2>Alle Bewerbungen</h2>
+        <div class="text">
+          <p>Alle Bewerbungen sortiert nach Qualifikation.</p>
+        </div>
+      </div>
+
+      <!-- show applications after personal qualifications -->
+      <div class="applications">
+        <div class="list-items">
+          <!-- personal qualification -->
+          <div class="title container">
+            <h3>Sanitätshelfer</h3>
+          </div>
+          <!-- show each application for the specific qualification -->
+          <div class="item" (click)="navigateApplication()">
+            <!-- FIRST NAME LAST NAME -->
+            <div class="item-text text container">
+              <p>Max Mustermann</p>
+            </div>
+            <div class="item-icon">
+              <ion-icon name="arrow-forward"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

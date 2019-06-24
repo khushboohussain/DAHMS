@@ -1,0 +1,78 @@
+<ion-content>
+  <div class="main">
+    <div class="header container">
+      <ion-back-button text="" defaultHref="" icon="arrow-round-back"></ion-back-button>
+    </div>
+
+    <div class="content">
+      <div class="title container">
+        <h2>Qualifikationen ändern</h2>
+      </div>
+
+      <div class="general">
+        <form>
+          <ion-list>
+            <!-- personal qualification -->
+            <ion-item lines="none">
+              <ion-label position="stacked">Persönliche Qualifikation</ion-label>
+              <ion-select cancelText="Abbrechen" okText="Fertig">
+                <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
+                <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+                <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
+                <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
+                <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
+                <ion-select-option value="ARZT">Arzt</ion-select-option>
+                <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+              </ion-select>
+
+              <!-- qualification certificate -->
+              <ion-input type="file" placeholder="Qualifikationsnachweis hochladen"></ion-input>
+
+              <!-- training certificate -->
+              <ion-input type="file" placeholder="Fortbildungsnachweis hochladen"></ion-input>
+            </ion-item>
+
+            <!-- driving license -->
+            <ion-item lines="none">
+              <ion-label position="stacked">Führerscheinklasse</ion-label>
+              <ion-select cancelText="Abbrechen" okText="Fertig">
+                <ion-select-option value="NO">Kein Führerschein</ion-select-option>
+                <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
+                <ion-select-option value="B">B</ion-select-option>
+                <ion-select-option value="B1">B1</ion-select-option>
+              </ion-select> 
+
+              <!-- Show only if first option is not selected, driving license certificate -->
+              <ion-input type="file" placeholder="Führerschein Vorderseite hochladen"></ion-input>
+              <ion-input type="file" placeholder="Führerschein Rückseite hochladen"></ion-input>
+            </ion-item>
+
+            <!-- other qualification -->
+            <ion-item lines="none">
+              <ion-label position="stacked">Sonstige Qualifikation</ion-label>
+
+              <!-- name of qualification -->
+              <ion-input type="text"></ion-input>
+
+              <!-- other qualification certificate -->
+              <ion-input type="file" placeholder="Qualifikationsnachweis"></ion-input>
+            </ion-item>
+
+            <!-- add another other qualification -->
+            <div class="add-new container">
+              <ion-icon name="add"></ion-icon><p>Weitere sonstige Qualifikation hinzufügen</p>
+            </div>
+          </ion-list>
+          
+          <div class="divider"></div>
+          
+          <div class="container">
+            <ion-button color="primary" expand="block" (click)="update()">Aktualisieren</ion-button>
+          </div>
+          
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</ion-content>

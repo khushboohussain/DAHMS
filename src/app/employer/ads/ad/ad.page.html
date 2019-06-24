@@ -1,0 +1,108 @@
+<ion-content>
+  <div class="main">
+    <div class="header container">
+      <ion-back-button text="" defaultHref="" icon="arrow-round-back"></ion-back-button>
+    </div>
+
+    <div class="content">
+      <div class="title container">
+        <h2>Einsatzart</h2>
+      </div>
+
+      <div class="card-list container">
+        <!-- dont show this one once the employer got all his employees -->
+        <div class="small-red-card" (click)="navigateApplications()">
+          <h2>Bewerbungen (<span>2</span>)</h2>
+        </div>
+        <!-- show this one only if the employer accepted at least one employee -->
+        <div class="small-red-card" (click)="navigateConfirmedApplications()">
+          <h2>Zusagen (<span>2</span>)</h2>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="ad-info">
+        <!-- Where will the job be? -->
+        <div class="address">
+          <p class="small-title container">Wo?</p>
+          <div class="list-items">
+            <div class="item-no-icon container">
+              <p>Musterstr. 10, 10000 Musterhausen</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- show if the ad is set as same dates and continuous is not selected-->
+        <div class="same-dates">
+          <!-- when will the job be? -->
+          <div class="when">
+            <p class="small-title container">Wann?</p>
+            <div class="list-items">
+              <div class="item-no-icon container">
+                <!-- FORMAT: Am "FIRST DATE" - "LAST DATE" zwischen "START TIME" - "END TIME" Uhr -->
+                <p>Am 01.01.19 - 02.01.19 zwischen 09.00 - 18.00 Uhr</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- show personal qualification needed -->
+          <div class="who">
+            <p class="small-title container">Wer?</p>
+            <div class="list-items">
+              <!-- FORMAT: "AMOUNT PERSONAL QUALIFICATION" - "DRIVING LICENSE" - "WAGE MONEY" / "If DAILY then Tag, if HOURLY then Stunde" -->
+              <div class="item-no-icon container">
+                <p>5 Sanitätshelfer - B1 - 100,00€/Tag</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- show if the ad is set as same dates and continuous is selected-->
+        <div class="same-dates-continuous">
+          <!-- when will the job be? -->
+          <div class="when">
+            <p class="small-title container">Wann?</p>
+            <div class="list-items">
+              <div class="item-no-icon container">
+                <!-- FORMAT: Am "FIRST DATE" um "START TIME" Uhr bis zum "LAST DATE" um "END TIME" Uhr -->
+                <p>Am 01.01.19 um 09.00 Uhr bis zum 02.01.19 um 09.00 Uhr</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- show personal qualification needed -->
+          <div class="who">
+            <p class="small-title container">Wer?</p>
+            <div class="list-items">
+              <!-- FORMAT: "AMOUNT PERSONAL QUALIFICATION" - "DRIVING LICENSE" - "WAGE MONEY" / "If DAILY then Tag, if HOURLY then Stunde" -->
+              <div class="item-no-icon container">
+                <p>5 Sanitätshelfer - B1 - 100,00€/Tag</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- show if the ad is set as different dates and continuous is not selected-->
+        <div class="different-dates">
+          <div class="when-who">
+            <p class="small-title container">Wann und wer?</p>
+            <!-- Show for each date -->
+            <div class="list-items">
+              <div class="item-no-icon container">
+                <!-- FORMAT: Am "FIRST DATE" zwischen "START TIME" - "END TIME" Uhr -->
+                <p>Am 01.01.19 zwischen 09.00 - 18.00 Uhr</p>
+              </div>
+              
+              <!-- FORMAT: "AMOUNT PERSONAL QUALIFICATION" - "DRIVING LICENSE" - "WAGE MONEY" / "If DAILY then Tag, if HOURLY then Stunde" -->
+              <div class="item-no-icon container">
+                <p>5 Sanitätshelfer - B1 - 100,00€/Tag</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

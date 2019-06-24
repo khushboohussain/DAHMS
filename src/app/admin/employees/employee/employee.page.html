@@ -1,0 +1,92 @@
+<ion-content>
+  <div class="main">
+    <div class="header container">
+      <ion-back-button text="" defaultHref="" icon="arrow-round-back"></ion-back-button>
+    </div>
+
+    <div class="content">
+      <!-- name of employee -->
+      <div class="title container">
+        <h2>Max Mustermann</h2>
+      </div>
+
+      <div class="info">
+        <!-- employee profile image -->
+        <div class="profile-image container">
+          <img src="../../../../../../assets/IMG_9577.JPG">
+        </div>
+
+        <!-- employee information -->
+        <div class="employee-info">
+          <p class="small-title container">Allgemeine Informationen</p>
+          <div class="list-items">
+            <!-- email -->
+            <div class="item-no-icon container">
+              <p>info@medapp.com</p>
+            </div>
+            <!-- address -->
+            <div class="item-no-icon container">
+              <p>Musterstr. 10, 10000 Musterhausen</p>
+            </div>
+            <!-- phone number -->
+            <div class="item-no-icon container">
+              <p>+92 334 872 2424</p>
+            </div>
+            <!-- association -->
+            <div class="item-no-icon container">
+              <p>Deutsches Rotes Kreuz</p>
+            </div>
+            <!-- max. work radius -->
+            <div class="item-no-icon container">
+              <p>25km</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="employee-qualifications">
+          <p class="small-title container">Qualifikationsnachweise</p>
+          <div class="list-items">
+            <!-- personal qualification -->
+            <div class="item-no-icon container">
+              <p>Sanitätshelfer</p>
+            </div>
+            <!-- qualification certificate -->
+            <div class="item-no-icon container">
+              <p>Qualifikationsnachweis</p>
+            </div>
+            <!-- training certificate -->
+            <div class="item-no-icon container">
+              <p>Fortbildungsnachweis</p>
+            </div>
+            <!-- driver license, FORMAT: Führerschein: "DRIVING LICENSE TYPE" -->
+            <div class="item-no-icon container">
+              <p>Führerschein: </p>
+            </div>
+            <!-- other qualification, show each other qualification as an entry -->
+            <div class="item-no-icon container">
+              <p>Andere</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- accept or not accept employee, show only if still not accepted -->
+        <div class="container">
+          <ion-button color="primary" expand="block" (click)="block()">Akzeptieren / Ablehnen</ion-button>
+        </div>
+
+        <!-- block employee -->
+        <div class="container">
+          <ion-button color="primary" expand="block" (click)="block()">Blockieren</ion-button>
+        </div>
+
+        <!-- delete employee -->
+        <div class="container">
+          <ion-button color="primary" expand="block" (click)="delete()">Löschen</ion-button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

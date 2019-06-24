@@ -1,0 +1,68 @@
+<ion-content>
+  <div class="main">
+    <div class="header container">
+      <ion-back-button text="" defaultHref="" icon="arrow-round-back"></ion-back-button>
+    </div>
+
+    <div class="content">
+      <div class="title container">
+        <h2>Neue Stelle</h2>
+        <div class="text">
+          <p></p>
+        </div>
+      </div>
+
+      <div class="general">
+        <form [formGroup]="form">
+          <ion-list>
+            <!-- ad title -->
+            <ion-item lines="none">
+              <ion-label position="stacked">Einsatzart</ion-label>
+              <ion-select formControlName="jobTitle" cancelText="Abbrechen" okText="Fertig">
+                <ion-select-option>empty field</ion-select-option>
+                <ion-select-option>not given</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <!-- where? (address) -->
+            <ion-item lines="none">
+              <ion-label position="stacked">Wo?</ion-label>
+              <ion-input type="text" formControlName="address" clearInput autocapitalize="word" autocomplete autocorrect required></ion-input>
+            </ion-item>
+
+            <!-- when? -->
+            <div class="grid-2">
+              <!-- start date -->
+              <ion-item lines="none">
+                <ion-label position="stacked">Startdatum</ion-label>
+                <ion-datetime displayFormat="DD.MM.YYYY" formControlName="startDate" cancelText="Abbrechen" doneText="Fertig" required>
+                </ion-datetime>
+              </ion-item>
+
+              <!-- last date -->
+              <ion-item lines="none">
+                <ion-label position="stacked">Enddatum</ion-label>
+                <ion-datetime displayFormat="DD.MM.YYYY" formControlName="endDate" cancelText="Abbrechen" doneText="Fertig" required>
+                </ion-datetime>
+              </ion-item>
+            </div>
+          </ion-list>
+
+          <div class="container">
+            <div class="box">
+              <!-- continuous work -->
+              <ion-item lines="none">
+                <ion-checkbox value="CONTINUOUS" formControlName="continuousWork"></ion-checkbox>
+                <ion-label>Durchgehende Schicht?</ion-label>
+              </ion-item>
+            </div>
+
+            <!-- fast reply -->
+            <div class="box">
+              <ion-item lines="none">
+                <ion-checkbox value="FASTREPLY" formControlName="fastReply"></ion-checkbox>
+                <ion-label>Schnelle Rückmeldung</ion-label>
+              </ion-item>
+            </div>
+
+            <!-- go to the ad details; "Alle Termine
