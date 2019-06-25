@@ -1,26 +1,18 @@
-import * as core from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-@core.Component({
+@Component({
   selector: 'app-step1',
   templateUrl: './step1.page.html',
   styleUrls: ['./step1.page.scss'],
 })
-export class Step1Page implements core.OnInit {
-
+export class Step1Page implements OnInit {
   form: FormGroup;
   // data: any;
   actionController: boolean;
   continueWork: boolean;
-
-
   constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder) { }
-
-
-
   ngOnInit() {
-
     this.form = this.fb.group({
       jobTitle: ['', Validators.required],
       address: ['', Validators.required],
@@ -28,11 +20,8 @@ export class Step1Page implements core.OnInit {
       endDate: ['', Validators.required],
       continoueWork: ['', Validators.required],
       fastReply: ['', Validators.required]
-    })
-
+    });
   }
-
-
   submit(form: any) {
     let data = {
       jobTitle: form.value.jobTitle,
@@ -41,19 +30,15 @@ export class Step1Page implements core.OnInit {
       endDate: form.value.endDate,
       continoueWork: form.value.continoueWork,
       fastReply: form.value.fastReply,
-    }
+    };
     this.continueWork = data.continoueWork;
     console.log(this.continueWork);
     // Put the object into storage
     localStorage.setItem('AdsData', JSON.stringify(data));
-
     // localStorage.setItem('AdsData', this.data);
     // let id = localStorage.getItem('uid');
     // console.log('Current User Id is' + localStorage.getItem('uid'));
-
     this.adOptions();
-
-
     // this.api.createAds(localStorage.getItem('uid'), {
     //   jobTitle: this.data.value.jobTitle,
     //   address: this.data.address,
@@ -70,8 +55,6 @@ export class Step1Page implements core.OnInit {
     // }, err => {
     //   this.helper.presentToast(err.message + 'Error!');
     // });
-
-
     // var test = JSON.parse(localStorage.getItem("continousCheck"));
     // console.log(typeof test);
     // console.log(test); 
@@ -85,6 +68,13 @@ export class Step1Page implements core.OnInit {
           handler: () => {
             this.navController.navigateForward("/employer/ads/create/step2");
             localStorage.setItem('actionController', JSON.stringify(this.actionController = true));
+          }
+        }, {
+          text: 'Einzelne Termine bearbeiten',
+          handler: () => {
+            this.navController.navigateForward("/employer/ads/create/step2");
+            // this.actionController = false;
+            localStorage.setItem('actionController', JSON.stringify(this.actionController = false));
           }
         }, {
           text: 'Abbrechen',
@@ -119,5 +109,4 @@ export class Step1Page implements core.OnInit {
       await actionSheet.present();
     }
   }
-
 }

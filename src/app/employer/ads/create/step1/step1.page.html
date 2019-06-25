@@ -1,7 +1,8 @@
 <ion-content>
   <div class="main">
     <div class="header container">
-      <ion-back-button text="" defaultHref="" icon="arrow-round-back" [routerLink]="['/employer/ads']"></ion-back-button>
+      <ion-back-button text="" defaultHref="" icon="arrow-round-back" [routerLink]="['/employer/ads']">
+      </ion-back-button>
     </div>
 
     <div class="content">
@@ -17,7 +18,7 @@
           <ion-list>
             <!-- ad title -->
             <ion-item lines="none">
-              <ion-label position="stacked">Einsatzart</ion-label>
+              <ion-label position="stacked">Einsatzart </ion-label>
               <ion-select formControlName="jobTitle" cancelText="Abbrechen" okText="Fertig">
                 <ion-select-option>empty field</ion-select-option>
                 <ion-select-option>not given</ion-select-option>
@@ -56,7 +57,7 @@
               <!-- continuous work -->
               <ion-item lines="none">
                 <ion-checkbox formControlName="continoueWork" value="CONTINUOUS" checked='false'></ion-checkbox>
-                <ion-label>Durchgehende Schicht?</ion-label>
+                <ion-label>&nbsp; Durchgehende Schicht?</ion-label>
               </ion-item>
             </div>
 
@@ -64,12 +65,13 @@
             <div class="box">
               <ion-item lines="none">
                 <ion-checkbox formControlName="fastReply" value="FASTREPLY" checked='false'></ion-checkbox>
-                <ion-label>Schnelle Rückmeldung</ion-label>
+                <ion-label>&nbsp; Schnelle Rückmeldung</ion-label>
               </ion-item>
             </div>
 
             <!-- go to the ad details; "Alle Termine gleich" = same dates / "Einzelne Termine bearbeiten" = different dates -->
             <ion-button color="primary" expand="block" (click)="submit(form)">Zu den Einsatzdetails</ion-button>
+            <!-- [disabled]="form.invalid || form.pristine" -->
           </div>
 
         </form>

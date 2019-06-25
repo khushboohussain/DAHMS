@@ -22,7 +22,7 @@ export class Step2Page implements OnInit {
   ngOnInit() {
 
     // Retrieve the object from storage
-    this.data = JSON.parse(localStorage.getItem('testObject'));
+    this.data = JSON.parse(localStorage.getItem('AdsData'));
     // console.log('retrievedObject: \n', this.data);
 
     this.actionController = JSON.parse(localStorage.getItem("actionController"));

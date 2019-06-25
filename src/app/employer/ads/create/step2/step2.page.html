@@ -4,23 +4,20 @@
       <ion-back-button text="" defaultHref="" icon="arrow-round-back"></ion-back-button>
     </div>
 
-
     <div class="content">
-
       <!-- show if dates same (option 1) is clicked and continuous checkbox is not selected -->
       <div *ngIf="option1;" class=" dates-same">
-        <!-- Content to render when condition is true.</ng-template> -->
-        <!-- Content to render when condition is false. -->
+
         <form [formGroup]="form">
           <div class="title container">
-            <h2>Einsatz </h2>
+            <h2>Einsatz Template 1</h2>
           </div>
 
           <ion-list>
             <div class="grid-2">
               <!-- start time -->
               <ion-item lines="none">
-                <ion-label position="stacked">Startzeit</ion-label>
+                <ion-label position="stacked">Startzeit </ion-label>
                 <ion-datetime displayFormat="HH:mm" formControlName="startTime" cancelText="Abbrechen"
                   doneText="Fertig"></ion-datetime>
               </ion-item>
@@ -100,7 +97,8 @@
           <!-- create ad -->
           <div class="container">
             <div class="divider"></div>
-            <ion-button color="primary" expand="block" (click)="submitForm1(form)">Jetzt Stelle erstellen
+            <ion-button color="primary" expand="block" [disabled]="form.invalid || form.pristine"
+              (click)="submitForm1(form)">Jetzt Stelle erstellen
             </ion-button>
           </div>
 
@@ -108,16 +106,17 @@
       </div>
       <!-- show if dates same (Option 1) is clicked and continuous checkbox is selected -->
       <div *ngIf="option2;" class=" dates-same-continuous">
+
         <form [formGroup]="form">
           <div class="title container">
-            <h2>Einsatz </h2>
+            <h2>Einsatz Template 2</h2>
           </div>
 
           <ion-list>
             <div class="grid-2">
               <!-- start time start date-->
               <ion-item lines="none">
-                <ion-label position="stacked">Startzeit FIRSTDATE</ion-label>
+                <ion-label position="stacked">Startzeit FIRSTDATE </ion-label>
                 <ion-datetime formControlName="startTime" displayFormat="HH:mm" cancelText="Abbrechen"
                   doneText="Fertig"></ion-datetime>
               </ion-item>
@@ -186,7 +185,8 @@
           <!-- create ad -->
           <div class="container">
             <div class="divider"></div>
-            <ion-button color="primary" expand="block" (click)="submitForm2(form)">Jetzt Stelle erstellen
+            <ion-button color="primary" expand="block" [disabled]="form.invalid || form.pristine"
+              (click)="submitForm2(form)">Jetzt Stelle erstellen
             </ion-button>
           </div>
 
@@ -197,14 +197,15 @@
         <ion-slides>
           <!-- show for each date an own form/slide; in last slide the submit button will be to confirm, else it should just go to the next slide -->
           <ion-slide>
+
             <form [formGroup]="form">
               <div class="title container">
-                <h2>Einsatz 3</h2>
+                <h2>Einsatz Template 3</h2>
 
                 <!-- get data from last slide, if first slide then don't show -->
                 <div class="add-new">
                   <ion-icon name="add"></ion-icon>
-                  <p>Voherige Daten übernehmen</p>
+                  <p>Voherige Daten übernehmen </p>
                 </div>
               </div>
 
@@ -213,13 +214,15 @@
                   <!-- start time -->
                   <ion-item lines="none">
                     <ion-label position="stacked">Startzeit</ion-label>
-                    <ion-datetime formControlName="startTime" displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                    <ion-datetime formControlName="startTime" displayFormat="HH:mm" cancelText="Abbrechen"
+                      doneText="Fertig"></ion-datetime>
                   </ion-item>
 
                   <!-- end time -->
                   <ion-item lines="none">
                     <ion-label position="stacked">Endzeit</ion-label>
-                    <ion-datetime formControlName="endTime" displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                    <ion-datetime formControlName="endTime" displayFormat="HH:mm" cancelText="Abbrechen"
+                      doneText="Fertig"></ion-datetime>
                   </ion-item>
                 </div>
               </ion-list>
@@ -292,7 +295,8 @@
               <!-- create ad -->
               <div class="container">
                 <div class="divider"></div>
-                <ion-button color="primary" expand="block" (click)="submitForm1(form)">Jetzt Stelle erstellen
+                <ion-button color="primary" expand="block" [disabled]="form.invalid || form.pristine"
+                  (click)="submitForm1(form)">Jetzt Stelle erstellen
                 </ion-button>
               </div>
             </form>

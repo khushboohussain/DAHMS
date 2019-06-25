@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { Step1Page } from './step1.page';
+import { Step1Page } from "./Step1Page";
 
 const routes: Routes = [
   {
