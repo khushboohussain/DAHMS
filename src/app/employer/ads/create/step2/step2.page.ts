@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-step2',
@@ -64,48 +65,63 @@ export class Step2Page implements OnInit {
 
   }
 
-  constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService) { }
+  constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, public helper: HelperService) { }
 
-  submitForm1(form: any) {
-    let record = {
-      jobTitle: this.data.jobTitle,
-      location: this.data.address,
-      startDate: this.data.startDate,
-      endDate: this.data.endDate,
-      fastReply: this.data.fastReply,
+  submitForm(form: any) {
+    if (this.option2 === true) {
+      let record = {
+        jobTitle: this.data.jobTitle,
+        location: this.data.address,
+        startDate: this.data.startDate,
+        endDate: this.data.endDate,
+        fastReply: this.data.fastReply,
 
-      startTime: form.value.startTime,
-      endTime: form.value.endTime,
-      qualification: form.value.qualification,
-      wage: form.value.wage,
-      wageType: form.value.wageType,
-      drivingLinse: form.value.drivingLicence
-      // drivingLicence: form.value.drivingLicence[0].text,
-      // licence: form.value.licence
+        startTime: form.value.startTime,
+        endTime: form.value.endTime,
+        qualification: form.value.qualification,
+        wage: form.value.wage,
+        wageType: form.value.wageType,
+        drivingLinse: form.value.drivingLicence
+        // drivingLicence: form.value.drivingLicence[0].text,
+        // licence: form.value.licence
+      }
+      console.log(record);
+      this.api.createAds(localStorage.getItem('uid'), record)
+        .then(res => {
+          this.helper.presentToast('Ad Created Successfuliy!');
+          this.navController.navigateRoot("/employer/ads/create/step3");
+        }, err => {
+          this.helper.presentToast(err.message + 'Error!');
+        });
+
+    } else {
+      let record = {
+        jobTitle: this.data.jobTitle,
+        location: this.data.address,
+        startDate: this.data.startDate,
+        endDate: this.data.endDate,
+        fastReply: this.data.fastReply,
+
+        startTime: form.value.startTime,
+        endTime: form.value.endTime,
+        qualification: form.value.qualification,
+        wage: form.value.wage,
+        drivingLinse: form.value.drivingLicence
+        // drivingLicence: form.value.drivingLicence[0].text,
+        // licence: form.value.licence
+      }
+      console.log(record);
+      this.api.createAds(localStorage.getItem('uid'), record)
+        .then(res => {
+          this.helper.presentToast('Ad Created Successfuliy!');
+          this.navController.navigateRoot("/employer/ads/create/step3");
+        }, err => {
+          this.helper.presentToast(err.message + 'Error!');
+        });
     }
-    console.log(record);
-    this.navController.navigateRoot("/employer/ads/create/step3");
-  }
-  submitForm2(form: any) {
+    // end Else Bloack
 
-    let record = {
-      jobTitle: this.data.jobTitle,
-      location: this.data.address,
-      startDate: this.data.startDate,
-      endDate: this.data.endDate,
-      fastReply: this.data.fastReply,
-
-      startTime: form.value.startTime,
-      endTime: form.value.endTime,
-      qualification: form.value.qualification,
-      wage: form.value.wage,
-      drivingLinse: form.value.drivingLicence
-      // drivingLicence: form.value.drivingLicence[0].text,
-      // licence: form.value.licence
-    }
-    console.log(record);
-  }
-
+  } // end Submit method
 
 
 }

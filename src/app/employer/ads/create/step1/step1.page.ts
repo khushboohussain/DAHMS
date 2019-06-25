@@ -26,8 +26,8 @@ export class Step1Page implements core.OnInit {
       address: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      continoueWork: ['', Validators.required],
-      fastReply: ['', Validators.required]
+      continoueWork: [''],
+      fastReply: ['']
     })
 
   }
