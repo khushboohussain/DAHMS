@@ -11,9 +11,9 @@
       <div *ngIf="option1;" class=" dates-same">
         <!-- Content to render when condition is true.</ng-template> -->
         <!-- Content to render when condition is false. -->
-        <form>
+        <form [formGroup]="form">
           <div class="title container">
-            <h2>Einsatz 1</h2>
+            <h2>Einsatz </h2>
           </div>
 
           <ion-list>
@@ -21,17 +21,18 @@
               <!-- start time -->
               <ion-item lines="none">
                 <ion-label position="stacked">Startzeit</ion-label>
-                <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                <ion-datetime displayFormat="HH:mm" formControlName="startTime" cancelText="Abbrechen"
+                  doneText="Fertig"></ion-datetime>
               </ion-item>
 
               <!-- end time -->
               <ion-item lines="none">
                 <ion-label position="stacked">Endzeit</ion-label>
-                <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                <ion-datetime formControlName="endTime" displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig">
+                </ion-datetime>
               </ion-item>
             </div>
           </ion-list>
-
           <div class="employee-info">
             <div class="title container">
               <h3>Einsatzkraft</h3>
@@ -41,7 +42,7 @@
                 <!-- personal qualification -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Einsatzkraft</ion-label>
-                  <ion-select cancelText="Abbrechen" okText="Fertig">
+                  <ion-select formControlName="qualification" cancelText="Abbrechen" okText="Fertig">
                     <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
                     <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                     <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
@@ -55,7 +56,7 @@
                 <!-- how many of those employees -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Anzahl</ion-label>
-                  <ion-input type="number" clearInput></ion-input>
+                  <ion-input formControlName="requiredEmployees" type="number" clearInput></ion-input>
                 </ion-item>
               </div>
 
@@ -64,13 +65,13 @@
                 <!-- money -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Honorar</ion-label>
-                  <ion-input type="number" clearInput></ion-input>
+                  <ion-input formControlName="wage" type="number" clearInput></ion-input>
                 </ion-item>
 
                 <!-- money per day or per hour paid -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Tag/Std.</ion-label>
-                  <ion-select cancelText="Abbrechen" okText="Fertig">
+                  <ion-select formControlName="wageType" cancelText="Abbrechen" okText="Fertig">
                     <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
                     <ion-select-option value="DAILY">pro Tag</ion-select-option>
                   </ion-select>
@@ -80,7 +81,7 @@
               <!-- driving license -->
               <ion-item lines="none">
                 <ion-label position="stacked">Führerschein benötigt?</ion-label>
-                <ion-select cancelText="Abbrechen" okText="Fertig">
+                <ion-select formControlName="drivingLicence" cancelText="Abbrechen" okText="Fertig">
                   <ion-select-option value="NO">Kein Führerschein</ion-select-option>
                   <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
                   <ion-select-option value="B">B</ion-select-option>
@@ -99,7 +100,7 @@
           <!-- create ad -->
           <div class="container">
             <div class="divider"></div>
-            <ion-button color="primary" expand="block" (click)="navigateConfirmation()">Jetzt Stelle erstellen
+            <ion-button color="primary" expand="block" (click)="submitForm1(form)">Jetzt Stelle erstellen
             </ion-button>
           </div>
 
@@ -107,9 +108,9 @@
       </div>
       <!-- show if dates same (Option 1) is clicked and continuous checkbox is selected -->
       <div *ngIf="option2;" class=" dates-same-continuous">
-        <form>
+        <form [formGroup]="form">
           <div class="title container">
-            <h2>Einsatz 2</h2>
+            <h2>Einsatz </h2>
           </div>
 
           <ion-list>
@@ -117,13 +118,15 @@
               <!-- start time start date-->
               <ion-item lines="none">
                 <ion-label position="stacked">Startzeit FIRSTDATE</ion-label>
-                <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                <ion-datetime formControlName="startTime" displayFormat="HH:mm" cancelText="Abbrechen"
+                  doneText="Fertig"></ion-datetime>
               </ion-item>
 
               <!-- end time end date-->
               <ion-item lines="none">
                 <ion-label position="stacked">Endzeit LASTDATE</ion-label>
-                <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                <ion-datetime formControlName="endTime" displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig">
+                </ion-datetime>
               </ion-item>
             </div>
           </ion-list>
@@ -137,7 +140,7 @@
                 <!-- personal qualification -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Einsatzkraft</ion-label>
-                  <ion-select cancelText="Abbrechen" okText="Fertig">
+                  <ion-select formControlName="qualification" cancelText="Abbrechen" okText="Fertig">
                     <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
                     <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                     <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
@@ -151,20 +154,20 @@
                 <!-- how many of those employees -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Anzahl</ion-label>
-                  <ion-input type="number" clearInput></ion-input>
+                  <ion-input formControlName="requiredEmployees" type="number" clearInput></ion-input>
                 </ion-item>
               </div>
 
               <!-- wage -->
               <ion-item lines="none">
                 <ion-label position="stacked">Honorar</ion-label>
-                <ion-input type="number" clearInput></ion-input>
+                <ion-input formControlName="wage" type="number" clearInput></ion-input>
               </ion-item>
 
               <!-- driving license -->
               <ion-item lines="none">
                 <ion-label position="stacked">Führerschein benötigt?</ion-label>
-                <ion-select cancelText="Abbrechen" okText="Fertig">
+                <ion-select formControlName="drivingLicence" cancelText="Abbrechen" okText="Fertig">
                   <ion-select-option value="NO">Kein Führerschein</ion-select-option>
                   <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
                   <ion-select-option value="B">B</ion-select-option>
@@ -183,7 +186,7 @@
           <!-- create ad -->
           <div class="container">
             <div class="divider"></div>
-            <ion-button color="primary" expand="block" (click)="navigateConfirmation()">Jetzt Stelle erstellen
+            <ion-button color="primary" expand="block" (click)="submitForm2(form)">Jetzt Stelle erstellen
             </ion-button>
           </div>
 
@@ -194,7 +197,7 @@
         <ion-slides>
           <!-- show for each date an own form/slide; in last slide the submit button will be to confirm, else it should just go to the next slide -->
           <ion-slide>
-            <form>
+            <form [formGroup]="form">
               <div class="title container">
                 <h2>Einsatz 3</h2>
 
@@ -210,13 +213,13 @@
                   <!-- start time -->
                   <ion-item lines="none">
                     <ion-label position="stacked">Startzeit</ion-label>
-                    <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                    <ion-datetime formControlName="startTime" displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
                   </ion-item>
 
                   <!-- end time -->
                   <ion-item lines="none">
                     <ion-label position="stacked">Endzeit</ion-label>
-                    <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                    <ion-datetime formControlName="endTime" displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
                   </ion-item>
                 </div>
               </ion-list>
@@ -231,7 +234,7 @@
                     <!-- personal qualfication-->
                     <ion-item lines="none">
                       <ion-label position="stacked">Einsatzkraft</ion-label>
-                      <ion-select cancelText="Abbrechen" okText="Fertig">
+                      <ion-select formControlName="qualification" cancelText="Abbrechen" okText="Fertig">
                         <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
                         <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                         <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
@@ -245,7 +248,7 @@
                     <!-- how many of those employees -->
                     <ion-item lines="none">
                       <ion-label position="stacked">Anzahl</ion-label>
-                      <ion-input type="number" clearInput></ion-input>
+                      <ion-input formControlName="requiredEmployees" type="number" clearInput></ion-input>
                     </ion-item>
                   </div>
 
@@ -254,13 +257,13 @@
                     <!-- money -->
                     <ion-item lines="none">
                       <ion-label position="stacked">Honorar</ion-label>
-                      <ion-input type="number" clearInput></ion-input>
+                      <ion-input formControlName="wage" type="number" clearInput></ion-input>
                     </ion-item>
 
                     <!-- money per day or per hour paid -->
                     <ion-item lines="none">
                       <ion-label position="stacked">Tag/Std.</ion-label>
-                      <ion-select cancelText="Abbrechen" okText="Fertig">
+                      <ion-select formControlName="wageType" cancelText="Abbrechen" okText="Fertig">
                         <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
                         <ion-select-option value="DAILY">pro Tag</ion-select-option>
                       </ion-select>
@@ -270,7 +273,7 @@
                   <!-- driving license -->
                   <ion-item lines="none">
                     <ion-label position="stacked">Führerschein benötigt?</ion-label>
-                    <ion-select cancelText="Abbrechen" okText="Fertig">
+                    <ion-select formControlName="drivingLicence" cancelText="Abbrechen" okText="Fertig">
                       <ion-select-option value="NO">Kein Führerschein</ion-select-option>
                       <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
                       <ion-select-option value="B">B</ion-select-option>
@@ -289,7 +292,7 @@
               <!-- create ad -->
               <div class="container">
                 <div class="divider"></div>
-                <ion-button color="primary" expand="block" (click)="navigateConfirmation()">Jetzt Stelle erstellen
+                <ion-button color="primary" expand="block" (click)="submitForm1(form)">Jetzt Stelle erstellen
                 </ion-button>
               </div>
             </form>

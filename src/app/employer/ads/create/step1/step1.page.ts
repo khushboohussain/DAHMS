@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from 'src/app/services/api.service';
-import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-step1',
@@ -16,7 +14,7 @@ export class Step1Page implements OnInit {
   actionController: boolean;
 
 
-  constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder, private api: ApiService, private helper: HelperService) { }
+  constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder) { }
 
 
 
