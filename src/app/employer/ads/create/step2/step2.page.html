@@ -6,201 +6,197 @@
 
 
     <div class="content">
-      <div *ngIf="x; then thenBlock else elseBlock"></div>
-      <ng-template #thenBlock>
-        <!-- show if dates same is clicked and continuous checkbox is not selected -->
-        <div class="dates-same">
-          <!-- Content to render when condition is true.</ng-template> -->
-          <!-- Content to render when condition is false. -->
-          <form>
-            <div class="title container">
-              <h2>Einsatz</h2>
+
+      <!-- show if dates same (option 1) is clicked and continuous checkbox is not selected -->
+      <div *ngIf="option1;" class=" dates-same">
+        <!-- Content to render when condition is true.</ng-template> -->
+        <!-- Content to render when condition is false. -->
+        <form>
+          <div class="title container">
+            <h2>Einsatz 1</h2>
+          </div>
+
+          <ion-list>
+            <div class="grid-2">
+              <!-- start time -->
+              <ion-item lines="none">
+                <ion-label position="stacked">Startzeit</ion-label>
+                <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+              </ion-item>
+
+              <!-- end time -->
+              <ion-item lines="none">
+                <ion-label position="stacked">Endzeit</ion-label>
+                <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+              </ion-item>
             </div>
+          </ion-list>
 
+          <div class="employee-info">
+            <div class="title container">
+              <h3>Einsatzkraft</h3>
+            </div>
             <ion-list>
-              <div class="grid-2">
-                <!-- start time -->
+              <div class="grid-2-l">
+                <!-- personal qualification -->
                 <ion-item lines="none">
-                  <ion-label position="stacked">Startzeit</ion-label>
-                  <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
-                </ion-item>
-
-                <!-- end time -->
-                <ion-item lines="none">
-                  <ion-label position="stacked">Endzeit</ion-label>
-                  <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
-                </ion-item>
-              </div>
-            </ion-list>
-
-            <div class="employee-info">
-              <div class="title container">
-                <h3>Einsatzkraft</h3>
-              </div>
-              <ion-list>
-                <div class="grid-2-l">
-                  <!-- personal qualification -->
-                  <ion-item lines="none">
-                    <ion-label position="stacked">Einsatzkraft</ion-label>
-                    <ion-select cancelText="Abbrechen" okText="Fertig">
-                      <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                      <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
-                      <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
-                      <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
-                      <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
-                      <ion-select-option value="ARZT">Arzt</ion-select-option>
-                      <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
-                    </ion-select>
-                  </ion-item>
-
-                  <!-- how many of those employees -->
-                  <ion-item lines="none">
-                    <ion-label position="stacked">Anzahl</ion-label>
-                    <ion-input type="number" clearInput></ion-input>
-                  </ion-item>
-                </div>
-
-                <!-- wage -->
-                <div class="grid-2-l">
-                  <!-- money -->
-                  <ion-item lines="none">
-                    <ion-label position="stacked">Honorar</ion-label>
-                    <ion-input type="number" clearInput></ion-input>
-                  </ion-item>
-
-                  <!-- money per day or per hour paid -->
-                  <ion-item lines="none">
-                    <ion-label position="stacked">Tag/Std.</ion-label>
-                    <ion-select cancelText="Abbrechen" okText="Fertig">
-                      <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
-                      <ion-select-option value="DAILY">pro Tag</ion-select-option>
-                    </ion-select>
-                  </ion-item>
-                </div>
-
-                <!-- driving license -->
-                <ion-item lines="none">
-                  <ion-label position="stacked">Führerschein benötigt?</ion-label>
+                  <ion-label position="stacked">Einsatzkraft</ion-label>
                   <ion-select cancelText="Abbrechen" okText="Fertig">
-                    <ion-select-option value="NO">Kein Führerschein</ion-select-option>
-                    <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
-                    <ion-select-option value="B">B</ion-select-option>
-                    <ion-select-option value="B1">B1</ion-select-option>
+                    <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
+                    <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+                    <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
+                    <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
+                    <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
+                    <ion-select-option value="ARZT">Arzt</ion-select-option>
+                    <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
                   </ion-select>
                 </ion-item>
-              </ion-list>
-            </div>
 
-            <!-- create another "employee-info" just below the first one, the newly created one should have a remove icon so we can delete it if added by mistake -->
-            <div class="add-new container">
-              <ion-icon name="add"></ion-icon>
-              <p>Weitere Einsatzkraft hinzufügen</p>
-            </div>
-
-            <!-- create ad -->
-            <div class="container">
-              <div class="divider"></div>
-              <ion-button color="primary" expand="block" (click)="navigateConfirmation()">Jetzt Stelle erstellen
-              </ion-button>
-            </div>
-
-          </form>
-        </div>
-      </ng-template>
-      <ng-template #elseBlock>
-        <!-- show if dates same is clicked and continuous checkbox is selected -->
-        <div class="dates-same-continuous">
-          <form>
-            <div class="title container">
-              <h2>Einsatz</h2>
-            </div>
-
-            <ion-list>
-              <div class="grid-2">
-                <!-- start time start date-->
+                <!-- how many of those employees -->
                 <ion-item lines="none">
-                  <ion-label position="stacked">Startzeit FIRSTDATE</ion-label>
-                  <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
-                </ion-item>
-
-                <!-- end time end date-->
-                <ion-item lines="none">
-                  <ion-label position="stacked">Endzeit LASTDATE</ion-label>
-                  <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+                  <ion-label position="stacked">Anzahl</ion-label>
+                  <ion-input type="number" clearInput></ion-input>
                 </ion-item>
               </div>
-            </ion-list>
 
-            <div class="employee-info">
-              <div class="title container">
-                <h3>Einsatzkraft</h3>
-              </div>
-              <ion-list>
-                <div class="grid-2-l">
-                  <!-- personal qualification -->
-                  <ion-item lines="none">
-                    <ion-label position="stacked">Einsatzkraft</ion-label>
-                    <ion-select cancelText="Abbrechen" okText="Fertig">
-                      <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                      <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
-                      <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
-                      <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
-                      <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
-                      <ion-select-option value="ARZT">Arzt</ion-select-option>
-                      <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
-                    </ion-select>
-                  </ion-item>
-
-                  <!-- how many of those employees -->
-                  <ion-item lines="none">
-                    <ion-label position="stacked">Anzahl</ion-label>
-                    <ion-input type="number" clearInput></ion-input>
-                  </ion-item>
-                </div>
-
-                <!-- wage -->
+              <!-- wage -->
+              <div class="grid-2-l">
+                <!-- money -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Honorar</ion-label>
                   <ion-input type="number" clearInput></ion-input>
                 </ion-item>
 
-                <!-- driving license -->
+                <!-- money per day or per hour paid -->
                 <ion-item lines="none">
-                  <ion-label position="stacked">Führerschein benötigt?</ion-label>
+                  <ion-label position="stacked">Tag/Std.</ion-label>
                   <ion-select cancelText="Abbrechen" okText="Fertig">
-                    <ion-select-option value="NO">Kein Führerschein</ion-select-option>
-                    <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
-                    <ion-select-option value="B">B</ion-select-option>
-                    <ion-select-option value="B1">B1</ion-select-option>
+                    <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
+                    <ion-select-option value="DAILY">pro Tag</ion-select-option>
                   </ion-select>
                 </ion-item>
-              </ion-list>
-            </div>
+              </div>
 
-            <!-- create another "employee-info" just below the first one, the newly created one should have a remove icon so we can delete it if added by mistake -->
-            <div class="add-new container">
-              <ion-icon name="add"></ion-icon>
-              <p>Weitere Einsatzkraft hinzufügen</p>
-            </div>
+              <!-- driving license -->
+              <ion-item lines="none">
+                <ion-label position="stacked">Führerschein benötigt?</ion-label>
+                <ion-select cancelText="Abbrechen" okText="Fertig">
+                  <ion-select-option value="NO">Kein Führerschein</ion-select-option>
+                  <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
+                  <ion-select-option value="B">B</ion-select-option>
+                  <ion-select-option value="B1">B1</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-list>
+          </div>
 
-            <!-- create ad -->
-            <div class="container">
-              <div class="divider"></div>
-              <ion-button color="primary" expand="block" (click)="navigateConfirmation()">Jetzt Stelle erstellen
-              </ion-button>
-            </div>
+          <!-- create another "employee-info" just below the first one, the newly created one should have a remove icon so we can delete it if added by mistake -->
+          <div class="add-new container">
+            <ion-icon name="add"></ion-icon>
+            <p>Weitere Einsatzkraft hinzufügen</p>
+          </div>
 
-          </form>
-        </div>
-      </ng-template>
-      <!-- show if dates different is clicked and continuous checkbox is not selected -->
-      <div *ngIf="x" class="dates-different">
+          <!-- create ad -->
+          <div class="container">
+            <div class="divider"></div>
+            <ion-button color="primary" expand="block" (click)="navigateConfirmation()">Jetzt Stelle erstellen
+            </ion-button>
+          </div>
+
+        </form>
+      </div>
+      <!-- show if dates same (Option 1) is clicked and continuous checkbox is selected -->
+      <div *ngIf="option2;" class=" dates-same-continuous">
+        <form>
+          <div class="title container">
+            <h2>Einsatz 2</h2>
+          </div>
+
+          <ion-list>
+            <div class="grid-2">
+              <!-- start time start date-->
+              <ion-item lines="none">
+                <ion-label position="stacked">Startzeit FIRSTDATE</ion-label>
+                <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+              </ion-item>
+
+              <!-- end time end date-->
+              <ion-item lines="none">
+                <ion-label position="stacked">Endzeit LASTDATE</ion-label>
+                <ion-datetime displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig"></ion-datetime>
+              </ion-item>
+            </div>
+          </ion-list>
+
+          <div class="employee-info">
+            <div class="title container">
+              <h3>Einsatzkraft</h3>
+            </div>
+            <ion-list>
+              <div class="grid-2-l">
+                <!-- personal qualification -->
+                <ion-item lines="none">
+                  <ion-label position="stacked">Einsatzkraft</ion-label>
+                  <ion-select cancelText="Abbrechen" okText="Fertig">
+                    <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
+                    <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+                    <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
+                    <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
+                    <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
+                    <ion-select-option value="ARZT">Arzt</ion-select-option>
+                    <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                  </ion-select>
+                </ion-item>
+
+                <!-- how many of those employees -->
+                <ion-item lines="none">
+                  <ion-label position="stacked">Anzahl</ion-label>
+                  <ion-input type="number" clearInput></ion-input>
+                </ion-item>
+              </div>
+
+              <!-- wage -->
+              <ion-item lines="none">
+                <ion-label position="stacked">Honorar</ion-label>
+                <ion-input type="number" clearInput></ion-input>
+              </ion-item>
+
+              <!-- driving license -->
+              <ion-item lines="none">
+                <ion-label position="stacked">Führerschein benötigt?</ion-label>
+                <ion-select cancelText="Abbrechen" okText="Fertig">
+                  <ion-select-option value="NO">Kein Führerschein</ion-select-option>
+                  <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
+                  <ion-select-option value="B">B</ion-select-option>
+                  <ion-select-option value="B1">B1</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- create another "employee-info" just below the first one, the newly created one should have a remove icon so we can delete it if added by mistake -->
+          <div class="add-new container">
+            <ion-icon name="add"></ion-icon>
+            <p>Weitere Einsatzkraft hinzufügen</p>
+          </div>
+
+          <!-- create ad -->
+          <div class="container">
+            <div class="divider"></div>
+            <ion-button color="primary" expand="block" (click)="navigateConfirmation()">Jetzt Stelle erstellen
+            </ion-button>
+          </div>
+
+        </form>
+      </div>
+      <!-- show if dates different (Option 2) is clicked and continuous checkbox is not selected -->
+      <div *ngIf="continousCheck" class="dates-different">
         <ion-slides>
           <!-- show for each date an own form/slide; in last slide the submit button will be to confirm, else it should just go to the next slide -->
           <ion-slide>
             <form>
               <div class="title container">
-                <h2>Einsatz</h2>
+                <h2>Einsatz 3</h2>
 
                 <!-- get data from last slide, if first slide then don't show -->
                 <div class="add-new">
@@ -300,7 +296,7 @@
           </ion-slide>
         </ion-slides>
       </div>
-      
+
     </div>
   </div>
 </ion-content>
