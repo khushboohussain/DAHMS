@@ -18,10 +18,12 @@ export class Step1Page implements OnInit {
       address: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      continoueWork: ['', Validators.required],
-      fastReply: ['', Validators.required]
+      continoueWork: [''],
+      fastReply: ['']
     });
   }
+
+  // Getting Values form form on Submittion 
   submit(form: any) {
     let data = {
       jobTitle: form.value.jobTitle,
@@ -32,7 +34,7 @@ export class Step1Page implements OnInit {
       fastReply: form.value.fastReply,
     };
     this.continueWork = data.continoueWork;
-    console.log(this.continueWork);
+    // console.log(this.continueWork);
     // Put the object into storage
     localStorage.setItem('AdsData', JSON.stringify(data));
     // localStorage.setItem('AdsData', this.data);
@@ -69,14 +71,18 @@ export class Step1Page implements OnInit {
             this.navController.navigateForward("/employer/ads/create/step2");
             localStorage.setItem('actionController', JSON.stringify(this.actionController = true));
           }
-        }, {
-          text: 'Einzelne Termine bearbeiten',
-          handler: () => {
-            this.navController.navigateForward("/employer/ads/create/step2");
-            // this.actionController = false;
-            localStorage.setItem('actionController', JSON.stringify(this.actionController = false));
-          }
-        }, {
+        },
+
+        // {
+        //   text: 'Einzelne Termine bearbeiten',
+        //   handler: () => {
+        //     this.navController.navigateForward("/employer/ads/create/step2");
+        //     // this.actionController = false;
+        //     localStorage.setItem('actionController', JSON.stringify(this.actionController = false));
+        //   }
+        // }, 
+
+        {
           text: 'Abbrechen',
           role: 'cancel',
           handler: () => { }
@@ -100,7 +106,8 @@ export class Step1Page implements OnInit {
             // this.actionController = false;
             localStorage.setItem('actionController', JSON.stringify(this.actionController = false));
           }
-        }, {
+        },
+        {
           text: 'Abbrechen',
           role: 'cancel',
           handler: () => { }

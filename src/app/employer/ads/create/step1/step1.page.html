@@ -1,7 +1,7 @@
 <ion-content>
   <div class="main">
     <div class="header container">
-      <ion-back-button text="" defaultHref="" icon="arrow-round-back" [routerLink]="['/employer/ads']">
+      <ion-back-button text="" defaultHref="" icon="arrow-round-back" routerLink="['/employer/ads']">
       </ion-back-button>
     </div>
 
@@ -70,8 +70,9 @@
             </div>
 
             <!-- go to the ad details; "Alle Termine gleich" = same dates / "Einzelne Termine bearbeiten" = different dates -->
-            <ion-button color="primary" expand="block" [disabled]="form.invalid || form.pristine"
+            <ion-button color="primary" expand="block"
              (click)="submit(form)" > Zu den Einsatzdetails </ion-button>
+             <!-- [disabled]="form.invalid || form.pristine" -->
           </div>
 
         </form>

@@ -81,12 +81,13 @@ export class Step2Page implements OnInit {
         qualification: form.value.qualification,
         wage: form.value.wage,
         wageType: form.value.wageType,
-        drivingLinse: form.value.drivingLicence
+        drivingLinse: form.value.drivingLicence,
+        uid: localStorage.getItem('uid')
         // drivingLicence: form.value.drivingLicence[0].text,
         // licence: form.value.licence
       }
       console.log(record);
-      this.api.createAds(localStorage.getItem('uid'), record)
+      this.api.createAds(record)
         .then(res => {
           this.helper.presentToast('Ad Created Successfuliy!');
           this.navController.navigateRoot("/employer/ads/create/step3");
@@ -106,12 +107,13 @@ export class Step2Page implements OnInit {
         endTime: form.value.endTime,
         qualification: form.value.qualification,
         wage: form.value.wage,
-        drivingLinse: form.value.drivingLicence
+        drivingLinse: form.value.drivingLicence,
+        uid: localStorage.getItem('uid')
         // drivingLicence: form.value.drivingLicence[0].text,
         // licence: form.value.licence
       }
       console.log(record);
-      this.api.createAds(localStorage.getItem('uid'), record)
+      this.api.createAds(record)
         .then(res => {
           this.helper.presentToast('Ad Created Successfuliy!');
           this.navController.navigateRoot("/employer/ads/create/step3");
@@ -120,8 +122,7 @@ export class Step2Page implements OnInit {
         });
     }
     // end Else Bloack
-
-  } // end Submit method
+  } // end SubmitForm method
 
 
 }

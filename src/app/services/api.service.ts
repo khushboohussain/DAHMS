@@ -74,8 +74,8 @@ export class ApiService {
   }
 
   // Job or Ads 
-  createAds(id: any, data: any) {
-    return this.afs.doc('ads/' + id).set(data);
+  createAds(data: any) {
+    return this.afs.collection('ads').add(data);
   }
 
   getAd(id: any) {
