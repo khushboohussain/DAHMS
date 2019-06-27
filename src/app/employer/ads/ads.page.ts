@@ -14,7 +14,7 @@ export class AdsPage {
 
   currentUrl: string;
   userType;
-  getAds: any = {};
+  getAds: any;
   data;
 
   constructor(private navController: NavController, private router: Router, private api: ApiService) {
@@ -47,9 +47,8 @@ export class AdsPage {
   navigateAd(data) {
     // console.log("docID is " + data.did);
 
-    this.api.getAd(data.did).subscribe(res => {
-      localStorage.setItem('adId', data.did);
-      localStorage.setItem('AdData', JSON.stringify(data));
+    this.api.getAd(data.did).subscribe( res => {
+      localStorage.setItem('AdData', JSON.stringify(res));
 
       // console.log("res");
       // console.log(res);

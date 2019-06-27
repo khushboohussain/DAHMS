@@ -10,27 +10,17 @@ import { map } from 'rxjs/operators';
 })
 export class AdPage implements OnInit {
 
-  data: any;
+  data: any = {};
   option: boolean;
   option1: boolean;
 
   constructor(private navController: NavController, private api: ApiService) { }
 
   ngOnInit() {
-    this.getData()
-
-    // this.option = JSON.parse(localStorage.getItem("option"));
-    // console.log("Tyepof " + typeof this.option);
-
-    // this.option2 = JSON.parse(localStorage.getItem("option2"));
-
-
-  }
-
-  getData() {
     this.data = JSON.parse(localStorage.getItem('AdData'));
-    
+    console.log(this.data);
   }
+
 
   navigateApplications() {
     this.navController.navigateForward("/employer/ads/ad/applications");

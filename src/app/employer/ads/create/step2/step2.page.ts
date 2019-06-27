@@ -20,6 +20,10 @@ export class Step2Page implements OnInit {
   actionController: boolean;
 
 
+
+
+  constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, public helper: HelperService) { }
+
   ngOnInit() {
 
     // Retrieve the object from storage
@@ -85,11 +89,8 @@ export class Step2Page implements OnInit {
       })
 
     }
-
-
   }
-
-  constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, public helper: HelperService) { }
+/* ngOnInit end */
 
   // Form Submit Method
   submitForm(form: any) {
@@ -103,7 +104,7 @@ export class Step2Page implements OnInit {
           startDate: this.data.startDate,
           endDate: this.data.endDate,
           fastReply: this.data.fastReply,
-  
+
           startTime: form.value.startTime,
           endTime: form.value.endTime,
           qualification: form.value.qualification,
@@ -112,7 +113,7 @@ export class Step2Page implements OnInit {
           drivingLinse: form.value.drivingLicence,
           uid: localStorage.getItem('uid'),
           condition: true,
-          condition2: true
+          condition2: null
         }
         // console.log(record);
         this.api.createAds(record)
@@ -122,7 +123,7 @@ export class Step2Page implements OnInit {
           }, err => {
             this.helper.presentToast(err.message + 'Error!');
           });
-        
+
       } else {
         let record = {
           jobTitle: this.data.jobTitle,
