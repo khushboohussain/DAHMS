@@ -82,6 +82,10 @@ export class ApiService {
     return this.afs.doc('ads/' + id).valueChanges();
   }
 
+  getEmployeerAds(id: any) {
+    return this.afs.collection('ads', ref => ref.where('uid', '==', id)).snapshotChanges();
+  }
+
   getAllAds() {
     return this.afs.collection('ads').snapshotChanges();
   }

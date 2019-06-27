@@ -29,73 +29,132 @@ export class Step2Page implements OnInit {
     this.actionController = JSON.parse(localStorage.getItem("actionController"));
     // console.log(typeof this.actionController);
     // console.log("actionController check is " + this.actionController);
-    // console.log("option1 is " + this.option1);
+    // console.log("continuous Work is " + this.data.continoueWork);
 
     // checking conditions for showing proper template
-    if (this.actionController == false && (this.data.continoueWork == '' || this.data.continoueWork == false)) {
-      this.continousCheck = true;
-      this.option1 = false;
-      this.option2 = false;
 
-    }
-    if (this.actionController == true && this.data.continoueWork == true) {
-      this.option2 = true;
-      this.option1 = false;
-      this.continousCheck = false;
-      // localStorage.setItem('continousCheck', JSON.stringify(this.continousCheck));
-      // localStorage.setItem('option1', JSON.stringify(this.option1));
-      // localStorage.setItem('actionController', JSON.stringify(this.actionController));
-    }
+    // Template 1 will execute
     if (this.actionController == true && (this.data.continoueWork == '' || this.data.continoueWork == false)) {
       this.option1 = true;
       this.option2 = false;
       this.continousCheck = false;
+      // from builder
+      this.form = this.fb.group({
+        startTime: ['', Validators.required],
+        endTime: ['', Validators.required],
+        qualification: ['', Validators.required],
+        requiredEmployees: ['', Validators.required],
+        wage: ['', Validators.required],
+        wageType: ['', Validators.required],
+        drivingLicence: ['', Validators.required]
+      })
+      // localStorage.setItem('continousCheck', JSON.stringify(this.continousCheck));
+      // localStorage.setItem('option1', JSON.stringify(this.option1));
+      // localStorage.setItem('actionController', JSON.stringify(this.actionController));
+    }
+    // Tempate 2 will execute
+    else if (this.actionController == true && this.data.continoueWork == true) {
+      this.option1 = false;
+      this.option2 = true;
+      this.continousCheck = false;
+      // from builder
+      this.form = this.fb.group({
+        startTime: ['', Validators.required],
+        endTime: ['', Validators.required],
+        qualification: ['', Validators.required],
+        requiredEmployees: ['', Validators.required],
+        wage: ['', Validators.required],
+        // wageType: ['', Validators.required],
+        drivingLicence: ['', Validators.required]
+      })
+    }
+    // Template 3 will execute
+    else if (this.actionController == false && (this.data.continoueWork == '' || this.data.continoueWork == false)) {
+      this.option1 = false;
+      this.option2 = false;
+      this.continousCheck = true;
+      // from builder
+      this.form = this.fb.group({
+        startTime: ['', Validators.required],
+        endTime: ['', Validators.required],
+        qualification: ['', Validators.required],
+        requiredEmployees: ['', Validators.required],
+        wage: ['', Validators.required],
+        wageType: ['', Validators.required],
+        drivingLicence: ['', Validators.required]
+      })
+
     }
 
-    // from builder
-    this.form = this.fb.group({
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required],
-      qualification: ['', Validators.required],
-      requiredEmployees: ['', Validators.required],
-      wage: ['', Validators.required],
-      wageType: ['', Validators.required],
-      drivingLicence: ['', Validators.required]
-    })
 
   }
 
   constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, public helper: HelperService) { }
 
+  // Form Submit Method
   submitForm(form: any) {
-    if (this.option2 === true) {
-      let record = {
-        jobTitle: this.data.jobTitle,
-        location: this.data.address,
-        startDate: this.data.startDate,
-        endDate: this.data.endDate,
-        fastReply: this.data.fastReply,
+    // submit method for template 1 and 3
+    if (this.option2 != true) {
+      // for condition 3
+      if (this.continousCheck === true) {
+        let record = {
+          jobTitle: this.data.jobTitle,
+          location: this.data.address,
+          startDate: this.data.startDate,
+          endDate: this.data.endDate,
+          fastReply: this.data.fastReply,
+  
+          startTime: form.value.startTime,
+          endTime: form.value.endTime,
+          qualification: form.value.qualification,
+          wage: form.value.wage,
+          wageType: form.value.wageType,
+          drivingLinse: form.value.drivingLicence,
+          uid: localStorage.getItem('uid'),
+          condition: true,
+          condition2: true
+        }
+        // console.log(record);
+        this.api.createAds(record)
+          .then(res => {
+            this.helper.presentToast('Ad Created Successfuliy!');
+            this.navController.navigateRoot("/employer/ads/create/step3");
+          }, err => {
+            this.helper.presentToast(err.message + 'Error!');
+          });
+        
+      } else {
+        let record = {
+          jobTitle: this.data.jobTitle,
+          location: this.data.address,
+          startDate: this.data.startDate,
+          endDate: this.data.endDate,
+          fastReply: this.data.fastReply,
 
-        startTime: form.value.startTime,
-        endTime: form.value.endTime,
-        qualification: form.value.qualification,
-        wage: form.value.wage,
-        wageType: form.value.wageType,
-        drivingLinse: form.value.drivingLicence,
-        uid: localStorage.getItem('uid')
-        // drivingLicence: form.value.drivingLicence[0].text,
-        // licence: form.value.licence
+          startTime: form.value.startTime,
+          endTime: form.value.endTime,
+          qualification: form.value.qualification,
+          wage: form.value.wage,
+          drivingLinse: form.value.drivingLicence,
+          uid: localStorage.getItem('uid'),
+          condition: true,
+          condition2: false
+          // drivingLicence: form.value.drivingLicence[0].text,
+          // licence: form.value.licence
+        }
+        // localStorage.setItem('option', JSON.stringify(false));
+        // console.log(record);
+        this.api.createAds(record)
+          .then(res => {
+            this.helper.presentToast(' Ad Created Successfuliy!');
+            this.navController.navigateRoot("/employer/ads/create/step3");
+          }, err => {
+            this.helper.presentToast(err.message + 'Error!');
+          });
       }
-      console.log(record);
-      this.api.createAds(record)
-        .then(res => {
-          this.helper.presentToast('Ad Created Successfuliy!');
-          this.navController.navigateRoot("/employer/ads/create/step3");
-        }, err => {
-          this.helper.presentToast(err.message + 'Error!');
-        });
 
     } else {
+      // for tempate 2
       let record = {
         jobTitle: this.data.jobTitle,
         location: this.data.address,
@@ -108,19 +167,24 @@ export class Step2Page implements OnInit {
         qualification: form.value.qualification,
         wage: form.value.wage,
         drivingLinse: form.value.drivingLicence,
-        uid: localStorage.getItem('uid')
+        uid: localStorage.getItem('uid'),
+        condition: false,
+        condition2: false
         // drivingLicence: form.value.drivingLicence[0].text,
         // licence: form.value.licence
       }
-      console.log(record);
+      // localStorage.setItem('option', JSON.stringify(false));
+      // console.log(record);
       this.api.createAds(record)
         .then(res => {
-          this.helper.presentToast('Ad Created Successfuliy!');
+          this.helper.presentToast(' Ad Created Successfuliy!');
           this.navController.navigateRoot("/employer/ads/create/step3");
         }, err => {
           this.helper.presentToast(err.message + 'Error!');
         });
+
     }
+
     // end Else Bloack
   } // end SubmitForm method
 

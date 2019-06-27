@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,8 +12,8 @@ export class ProfilePage implements OnInit {
 
   currentUrl: string;
   userType;
-  
-  constructor(private navController: NavController, private router: Router) { 
+
+  constructor(private navController: NavController, private router: Router, private auth: AuthService) {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
   }
 
@@ -25,7 +26,13 @@ export class ProfilePage implements OnInit {
   }
 
   navigateStart() {
-    this.navController.navigateRoot("/start");
+    if (confirm("Are you sure to logout!")) {
+      this.auth.logout();
+      localStorage.clear();
+      // this.navController.navigateRoot("/employer/profile");
+      this.navController.navigateRoot("/start");
+    }
+    // this.navController.navigateRoot("/start");
   }
 
   ngOnInit() {

@@ -76,6 +76,8 @@ export class Step1Page implements core.OnInit {
     // console.log(typeof test);
     // console.log(test); 
   }
+
+
   async adOptions() {
     if (this.continueWork === true) {
       const actionSheet = await this.actionSheetController.create({
@@ -85,6 +87,7 @@ export class Step1Page implements core.OnInit {
           handler: () => {
             this.navController.navigateForward("/employer/ads/create/step2");
             localStorage.setItem('actionController', JSON.stringify(this.actionController = true));
+            console.log(this.actionController);
           }
         }, {
           text: 'Abbrechen',
@@ -101,7 +104,7 @@ export class Step1Page implements core.OnInit {
           text: 'Alle Termine gleich',
           handler: () => {
             this.navController.navigateForward("/employer/ads/create/step2");
-            localStorage.setItem('actionController', JSON.stringify(this.actionController = true));
+            localStorage.setItem('actionController', JSON.stringify(this.actionController = false));
           }
         }, {
           text: 'Einzelne Termine bearbeiten',

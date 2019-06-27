@@ -5,25 +5,33 @@
         <p>medApp</p>
       </div>
       <!-- if payment details are not set yet, redirect to /employer/profile/payment-methods -->
-      <ion-icon name="add" (click)="navigateCreateAd()"></ion-icon>
+      <ion-icon class="pointer" name="add" (click)="navigateCreateAd()"></ion-icon>
     </div>
 
     <div class="content">
       <div class="title">
         <h1>Laufende Stellen</h1>
       </div>
-      <div class="ads">
-        <div class="red-card" (click)="navigateAd()">
-          <!-- ad title-->
-          <h2>Einsatzart</h2>
-          <div class="info">
+      <div class="ads" *ngFor="let item of getAds">
+        <div class="red-card">
+          <!--  -->
+          <!-- ad title  -->
+          <h2 class="pointer" (click)="navigateAd(item)"> {{item?.jobTitle}} </h2>
+          <div class=" info">
             <!-- job date; FORMAT: Datum "STARTDATE" - "ENDDATE" -->
-            <p><b>Datum</b><br>01.01.19 - 02.01.19</p>
+            <p>
+              <b>Datum</b>
+              <br>{{item?.startDate}} - {{item?.endDate}}
+            </p>
             <!-- job address; FORMAT: Einsatzort: "CITY" -->
-            <p><b>Einsatzort</b><br>Göppingen</p>
+            <p>
+              <b>Einsatzort</b>
+              <br> {{item?.location}}
+            </p>
           </div>
         </div>
       </div>
+      <!-- Ads end -->
     </div>
   </div>
 </ion-content>
@@ -35,12 +43,14 @@
       <ion-label>Stellenanzeigen</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button [class.active]="currentUrl == '/employer/notifications'" routerLink="/employer/notifications" routerDirection="root">
+    <ion-tab-button [class.active]="currentUrl == '/employer/notifications'" routerLink="/employer/notifications"
+      routerDirection="root">
       <ion-icon name="notifications"></ion-icon>
       <ion-label>Nachrichten</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button [class.active]="currentUrl == '/employer/profile'" routerLink="/employer/profile" routerDirection="root">
+    <ion-tab-button [class.active]="currentUrl == '/employer/profile'" routerLink="/employer/profile"
+      routerDirection="root">
       <ion-icon name="contact"></ion-icon>
       <ion-label>Profil</ion-label>
     </ion-tab-button>
