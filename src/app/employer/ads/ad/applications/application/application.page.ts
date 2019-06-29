@@ -8,7 +8,11 @@ import { ActionSheetController, NavController, ToastController } from '@ionic/an
 })
 export class ApplicationPage implements OnInit {
 
-  constructor(public actionSheetController: ActionSheetController, private toastController: ToastController, private navController: NavController) {}
+  constructor(public actionSheetController: ActionSheetController, private toastController: ToastController, private navController: NavController) { }
+
+  ngOnInit() {
+  }
+
 
   async answerOptions() {
     const actionSheet = await this.actionSheetController.create({
@@ -43,7 +47,6 @@ export class ApplicationPage implements OnInit {
     toast.present();
   }
 
-  ngOnInit() {
-  }
+
 
 }

@@ -19,7 +19,7 @@ export class OnboardingPage implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       role: [''],
-      name: ['', Validators.required],
+      CompanyName: ['', Validators.required],
       address: [''],
       telephone: ['', Validators.required]
     });
@@ -33,7 +33,7 @@ export class OnboardingPage implements OnInit {
   submit(form: any) {
     this.data = {
       role: form.value.role,
-      name: form.value.name,
+      CompanyName: form.value.CompanyName,
       address: form.value.address,
       telephone: form.value.telephone
     };

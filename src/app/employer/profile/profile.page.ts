@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,11 +12,16 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ProfilePage implements OnInit {
 
   currentUrl: string;
-  userType;
 
-  constructor(private navController: NavController, private router: Router, private auth: AuthService) {
+  constructor(private navController: NavController, private router: Router, private auth: AuthService, private api: ApiService) {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
   }
+
+  ngOnInit() {
+    
+
+  }
+
 
   navigateDetails() {
     this.navController.navigateForward("/employer/profile/details");
@@ -32,10 +38,7 @@ export class ProfilePage implements OnInit {
       // this.navController.navigateRoot("/employer/profile");
       this.navController.navigateRoot("/start");
     }
-    // this.navController.navigateRoot("/start");
   }
 
-  ngOnInit() {
-  }
 
 }

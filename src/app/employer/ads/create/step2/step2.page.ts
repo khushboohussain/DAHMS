@@ -90,7 +90,7 @@ export class Step2Page implements OnInit {
 
     }
   }
-/* ngOnInit end */
+  /* ngOnInit end */
 
   // Form Submit Method
   submitForm(form: any) {
@@ -108,12 +108,14 @@ export class Step2Page implements OnInit {
           startTime: form.value.startTime,
           endTime: form.value.endTime,
           qualification: form.value.qualification,
+          requiredEmployees: form.value.requiredEmployees,
           wage: form.value.wage,
           wageType: form.value.wageType,
           drivingLinse: form.value.drivingLicence,
           uid: localStorage.getItem('uid'),
-          condition: true,
-          condition2: null
+          condition1: false,
+          condition2: false,
+          condition3: true
         }
         // console.log(record);
         this.api.createAds(record)
@@ -125,6 +127,7 @@ export class Step2Page implements OnInit {
           });
 
       } else {
+        //  for condition 1 
         let record = {
           jobTitle: this.data.jobTitle,
           location: this.data.address,
@@ -135,11 +138,14 @@ export class Step2Page implements OnInit {
           startTime: form.value.startTime,
           endTime: form.value.endTime,
           qualification: form.value.qualification,
+          requiredEmployees: form.value.requiredEmployees,
           wage: form.value.wage,
+          wageType: form.value.wageType,
           drivingLinse: form.value.drivingLicence,
           uid: localStorage.getItem('uid'),
-          condition: true,
-          condition2: false
+          condition1: true,
+          condition2: false,
+          condition3: false
           // drivingLicence: form.value.drivingLicence[0].text,
           // licence: form.value.licence
         }
@@ -166,11 +172,13 @@ export class Step2Page implements OnInit {
         startTime: form.value.startTime,
         endTime: form.value.endTime,
         qualification: form.value.qualification,
+        requiredEmployees: form.value.requiredEmployees,
         wage: form.value.wage,
         drivingLinse: form.value.drivingLicence,
         uid: localStorage.getItem('uid'),
-        condition: false,
-        condition2: false
+        condition1: false,
+        condition2: true,
+        condition3: false
         // drivingLicence: form.value.drivingLicence[0].text,
         // licence: form.value.licence
       }
