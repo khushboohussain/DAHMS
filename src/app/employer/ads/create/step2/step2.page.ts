@@ -13,6 +13,7 @@ export class Step2Page implements OnInit {
 
   form: FormGroup;
   data: any;
+  newField = [];
   license: string;
   continousCheck: boolean;
   option1: boolean;
@@ -197,5 +198,8 @@ export class Step2Page implements OnInit {
     // end Else Bloack
   } // end SubmitForm method
 
+  // For adding new input field for employee
+  addField() {
 
+  }
 }

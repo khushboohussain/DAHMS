@@ -7,7 +7,7 @@
     <div class="content">
       <!-- show if dates same (option 1) is clicked and continuous checkbox is not selected -->
       <div *ngIf="option1;" class=" dates-same">
-        
+
         <form [formGroup]="form">
           <div class="title container">
             <h2>Einsatz Template 1</h2>
@@ -89,7 +89,7 @@
           </div>
 
           <!-- create another "employee-info" just below the first one, the newly created one should have a remove icon so we can delete it if added by mistake -->
-          <div class="add-new container">
+          <div class="add-new container pointer" (click)="addField()">
             <ion-icon name="add"></ion-icon>
             <p>Weitere Einsatzkraft hinzufügen</p>
           </div>

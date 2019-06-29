@@ -7,6 +7,15 @@
     <div class="content">
       <div class="title container">
         <h2>Daten ändern</h2>
+        <div class="text-danger">
+          <span *ngIf="f.vorname.errors || vorname.value == '' " >vorname is empty</span>
+          <span *ngIf="f.nachname.errors || nachname.value == ''; ">nachname is empty</span>
+          <span *ngIf="f.telephone.errors || telephone.value == ''; ">telephone is empty</span>
+          <span *ngIf="f.CompanyName.errors || CompanyName.value == ''; ">Name der Orga is empty</span>
+          <!-- <span *ngIf="f.role.errors || role.value == ''; "> Ihre Rolle in der Organisation is empty</span>       -->
+          <span *ngIf="f.address.errors || address.value == ''; ">Address field is empty</span>
+
+        </div>
       </div>
       <div class="general">
         <form [formGroup]="form">
@@ -14,50 +23,53 @@
             <div class="grid-2">
               <ion-item lines="none">
                 <ion-label position="stacked">Vorname</ion-label>
-                <ion-input type="text" formControlName="vorname" [ngModel]="userData.vorname" clearInput autocapitalize="word" autocomplete
-                  autocorrect> </ion-input>
+                <ion-input type="text" [ngModel]="userData.vorname" #vorname formControlName="vorname" clearInput
+                  autocapitalize="word" autocomplete autocorrect> </ion-input>
               </ion-item>
               <ion-item lines="none">
                 <ion-label position="stacked">Nachname</ion-label>
-                <ion-input type="text" formControlName="nachname" [ngModel]="userData.nachname" clearInput autocapitalize="word" autocomplete
-                  autocorrect></ion-input>
+                <ion-input type="text" [ngModel]="userData.nachname" #nachname formControlName="nachname"  clearInput
+                  autocapitalize="word" autocomplete autocorrect> </ion-input>
               </ion-item>
             </div>
             <ion-item lines="none">
               <ion-label position="stacked">Telefonnummer</ion-label>
-              <ion-input type="text" formControlName="telephone" [ngModel]="userData.telephone" clearInput autocapitalize="word" autocomplete
-                autocorrect></ion-input>
+              <ion-input type="number" formControlName="telephone" #telephone [ngModel]="userData.telephone" clearInput
+                autocapitalize="word" autocomplete autocorrect></ion-input>
             </ion-item>
             <ion-item lines="none">
-              <ion-label position="stacked">Name der Orga</ion-label>
-              <ion-input type="text" formControlName="CompanyName" [ngModel]="userData.CompanyName" clearInput autocapitalize="word" autocomplete
-                autocorrect></ion-input>
+              <ion-label position="stacked"> Name der Orga</ion-label>
+              <ion-input type="text" formControlName="CompanyName" #CompanyName [ngModel]="userData.CompanyName"
+                clearInput autocapitalize="word" autocomplete autocorrect></ion-input>
             </ion-item>
             <ion-item lines="none">
               <ion-label position="stacked">Adresse</ion-label>
-              <ion-input type="text" formControlName="address" [ngModel]="userData.address" clearInput autocapitalize="word" autocomplete
-                autocorrect></ion-input>
+              <ion-input type="text" formControlName="address" #address [ngModel]="userData.address" clearInput
+                autocapitalize="word" autocomplete autocorrect></ion-input>
             </ion-item>
             <ion-item lines="none">
               <ion-label position="stacked">Ihre Rolle in der Organisation</ion-label>
+
               <ion-select formControlName="role" [ngModel]="userData.role" cancelText="Abbrechen" okText="Fertig">
                 <ion-select-option>Geschäftsinhaber</ion-select-option>
               </ion-select>
             </ion-item>
             <ion-item lines="none">
               <ion-label position="stacked">E-Mail</ion-label>
-              <ion-input type="email" formControlName="email" [ngModel]="userData.email" clearInput></ion-input>
+              <ion-input type="email" formControlName="email" [ngModel]="userData.email" clearInput >
+              </ion-input>
             </ion-item>
             <ion-item lines="none">
               <ion-label position="stacked">Passwort</ion-label>
-              <ion-input type="password" formControlName="password" [ngModel]="userData.password" clearInput></ion-input>
+              <ion-input type="password" formControlName="password" [ngModel]="userData.password" clearInput >
+              </ion-input>
             </ion-item>
           </ion-list>
 
           <div class="divider"></div>
 
           <div class="container">
-            <ion-button color="primary" expand="block" (click)="update()">Aktualisieren</ion-button>
+            <ion-button color="primary" expand="block" [disabled]="!form.valid || form.pristine" (click)="update(form)">Aktualisieren</ion-button>
           </div>
 
         </form>
