@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -13,8 +13,9 @@ export class Step2Page implements OnInit {
 
   form: FormGroup;
   data: any;
-  newField = [];
-  license: string;
+  newField: any = [];
+
+
   continousCheck: boolean;
   option1: boolean;
   option2: boolean;
@@ -26,6 +27,11 @@ export class Step2Page implements OnInit {
   constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, public helper: HelperService) { }
 
   ngOnInit() {
+
+    // this.newField.push({
+    //   qualification: '',
+    //   requiredEmployees: ''
+    // })
 
     // Retrieve the object from storage
     this.data = JSON.parse(localStorage.getItem('AdsData'));
@@ -52,6 +58,7 @@ export class Step2Page implements OnInit {
         wage: ['', Validators.required],
         wageType: ['', Validators.required],
         drivingLicence: ['', Validators.required]
+
       })
       // localStorage.setItem('continousCheck', JSON.stringify(this.continousCheck));
       // localStorage.setItem('option1', JSON.stringify(this.option1));
@@ -138,8 +145,17 @@ export class Step2Page implements OnInit {
 
           startTime: form.value.startTime,
           endTime: form.value.endTime,
+
           qualification: form.value.qualification,
           requiredEmployees: form.value.requiredEmployees,
+
+          // abc: this.newField[0].otherQualification,
+          // xyz: this.newField[0].otherRequiredEmp,
+
+          otherQualification: [],
+          // otherRequiredEmp: [],
+
+
           wage: form.value.wage,
           wageType: form.value.wageType,
           drivingLinse: form.value.drivingLicence,
@@ -152,6 +168,16 @@ export class Step2Page implements OnInit {
         }
         // localStorage.setItem('option', JSON.stringify(false));
         // console.log(record);
+        this.newField.forEach(a => {
+          record.otherQualification.push({
+            qualification: a.otherQualification,
+            requiredEmployees: a.otherRequiredEmp
+          }
+          );
+
+        })
+        // console.log(record);
+
         this.api.createAds(record)
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
@@ -201,5 +227,16 @@ export class Step2Page implements OnInit {
   // For adding new input field for employee
   addField() {
 
+    this.newField.push({
+      qualification: ['', Validators.required],
+      requiredEmployees: ['', Validators.required]
+    })
+  };
+  removeField(index: number) {
+    // console.log('Remove Field is working...');
+    this.newField.splice(index, 1);
+    // console.log('successfuly deleted item number '+ index);
+
   }
+
 }

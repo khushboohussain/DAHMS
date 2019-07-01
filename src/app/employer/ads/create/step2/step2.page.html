@@ -19,7 +19,7 @@
               <ion-item lines="none">
                 <ion-label position="stacked">Startzeit </ion-label>
                 <ion-datetime displayFormat="HH:mm" formControlName="startTime" cancelText="Abbrechen"
-                  doneText="Fertig"></ion-datetime>
+                  doneText="Fertig"> </ion-datetime>
               </ion-item>
 
               <!-- end time -->
@@ -35,8 +35,9 @@
               <h3>Einsatzkraft</h3>
             </div>
             <ion-list>
+
+              <!-- new field will add here -->
               <div class="grid-2-l">
-                <!-- personal qualification -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Einsatzkraft</ion-label>
                   <ion-select formControlName="qualification" cancelText="Abbrechen" okText="Fertig">
@@ -49,7 +50,6 @@
                     <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
                   </ion-select>
                 </ion-item>
-
                 <!-- how many of those employees -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Anzahl</ion-label>
@@ -57,12 +57,49 @@
                 </ion-item>
               </div>
 
+
+              <div *ngFor="let item of newField; let i = index ">
+                <ion-item float-right>
+                  <!-- {{i}} -->
+                  <!-- <ion-icon name="close"  ></ion-icon> -->
+                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeField(i)"></ion-icon>
+                </ion-item>
+
+
+                <div class="grid-2-l">
+                  <!-- personal qualification -->
+                  <ion-item lines="none">
+                    <ion-label position="stacked">Einsatzkraft</ion-label>
+                    <ion-select [(ngModel)]="item.otherQualification" [ngModelOptions]="{standalone: true}"
+                      cancelText="Abbrechen" okText="Fertig" >
+                      <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
+                      <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+                      <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
+                      <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
+                      <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
+                      <ion-select-option value="ARZT">Arzt</ion-select-option>
+                      <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <!-- how many of those employees -->
+                  <ion-item lines="none">
+                    <ion-label position="stacked">Anzahl</ion-label>
+                    <ion-input type="number" [(ngModel)]="item.requiredEmployees" [ngModelOptions]="{standalone: true}"
+                      clearInput></ion-input>
+
+                  </ion-item>
+
+                </div>
+              </div>
+              <!-- new field creation end -->
+
               <!-- wage -->
               <div class="grid-2-l">
                 <!-- money -->
                 <ion-item lines="none">
                   <ion-label position="stacked">Honorar</ion-label>
-                  <ion-input formControlName="wage" type="number" clearInput></ion-input>
+                  <ion-input type="number" formControlName="wage" clearInput></ion-input>
                 </ion-item>
 
                 <!-- money per day or per hour paid -->
@@ -100,6 +137,7 @@
             <ion-button color="primary" expand="block" [disabled]="form.invalid || form.pristine"
               (click)="submitForm(form)">Jetzt Stelle erstellen
             </ion-button>
+            <!--  -->
           </div>
 
         </form>

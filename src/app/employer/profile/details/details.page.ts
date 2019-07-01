@@ -19,16 +19,7 @@ export class DetailsPage implements OnInit {
   constructor(public toastController: ToastController, private navController: NavController, private api: ApiService, private fb: FormBuilder, private helper: HelperService) { }
 
   ngOnInit() {
-    this.api.getUser(localStorage.getItem('uid')).subscribe(res => {
-      this.userData = res;
-      // console.log(this.userData);
-      this.api.getEmployerData(localStorage.getItem('uid')).subscribe(res => {
-        this.userData = { ...this.userData, ...res };
-        // console.log(this.userData);
-      }, err => {
-        // console.log(err.message);
-      });
-    });
+
 
     this.form = this.fb.group({
       vorname: ['', Validators.required],
@@ -41,6 +32,28 @@ export class DetailsPage implements OnInit {
       password: [{ value: '', disabled: true }, Validators.compose([
         Validators.required
       ])],
+    });
+
+    this.api.getUser(localStorage.getItem('uid')).subscribe(res => {
+
+      this.userData = res;
+      // console.log(this.userData);
+      this.api.getEmployerData(localStorage.getItem('uid')).subscribe(res => {
+        this.userData = { ...this.userData, ...res };
+
+        this.form.get('vorname').setValue(this.userData.vorname);
+        this.form.get('nachname').setValue(this.userData.nachname);
+        this.form.get('telephone').setValue(this.userData.telephone);
+        this.form.get('CompanyName').setValue(this.userData.CompanyName);
+        this.form.get('address').setValue(this.userData.address);
+        this.form.get('role').setValue(this.userData.role);
+        this.form.get('email').setValue(this.userData.email);
+        this.form.get('password').setValue(this.userData.password);
+
+        // console.log(this.userData);
+      }, err => {
+        // console.log(err.message);
+      });
     });
 
     /* 
