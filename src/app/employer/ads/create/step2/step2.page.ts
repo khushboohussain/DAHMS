@@ -112,11 +112,14 @@ export class Step2Page implements OnInit {
           startDate: this.data.startDate,
           endDate: this.data.endDate,
           fastReply: this.data.fastReply,
-
+          // getting values from Step2 
           startTime: form.value.startTime,
           endTime: form.value.endTime,
+
           qualification: form.value.qualification,
           requiredEmployees: form.value.requiredEmployees,
+          otherQualification: [],
+
           wage: form.value.wage,
           wageType: form.value.wageType,
           drivingLinse: form.value.drivingLicence,
@@ -126,6 +129,15 @@ export class Step2Page implements OnInit {
           condition3: true
         }
         // console.log(record);
+        this.newField.forEach(a => {
+          record.otherQualification.push({
+            qualification: a.otherQualification,
+            requiredEmployees: a.otherRequiredEmp
+          }
+          );
+        })
+        // console.log(record);
+        
         this.api.createAds(record)
           .then(res => {
             this.helper.presentToast('Ad Created Successfuliy!');
@@ -174,10 +186,8 @@ export class Step2Page implements OnInit {
             requiredEmployees: a.otherRequiredEmp
           }
           );
-
         })
         // console.log(record);
-
         this.api.createAds(record)
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
@@ -198,19 +208,32 @@ export class Step2Page implements OnInit {
 
         startTime: form.value.startTime,
         endTime: form.value.endTime,
+        
         qualification: form.value.qualification,
         requiredEmployees: form.value.requiredEmployees,
+        otherQualification: [],
+
+
         wage: form.value.wage,
         drivingLinse: form.value.drivingLicence,
         uid: localStorage.getItem('uid'),
         condition1: false,
         condition2: true,
         condition3: false
-        // drivingLicence: form.value.drivingLicence[0].text,
-        // licence: form.value.licence
+        
       }
       // localStorage.setItem('option', JSON.stringify(false));
       // console.log(record);
+
+      this.newField.forEach(a => {
+        record.otherQualification.push({
+          qualification: a.otherQualification,
+          requiredEmployees: a.otherRequiredEmp
+        }
+        );
+      })
+      // console.log(record);
+      
       this.api.createAds(record)
         .then(res => {
           this.helper.presentToast(' Ad Created Successfuliy!');
@@ -228,8 +251,8 @@ export class Step2Page implements OnInit {
   addField() {
 
     this.newField.push({
-      qualification: ['', Validators.required],
-      requiredEmployees: ['', Validators.required]
+      qualification: '',
+      requiredEmployees: null
     })
   };
   removeField(index: number) {
