@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-step1',
   templateUrl: './step1.page.html',
   styleUrls: ['./step1.page.scss'],
 })
+
 export class Step1Page implements OnInit {
   form: FormGroup;
   // data: any;
   actionController: boolean;
   continueWork: boolean;
+
+
   constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder) { }
+
   ngOnInit() {
     this.form = this.fb.group({
       jobTitle: ['', Validators.required],
@@ -21,7 +26,20 @@ export class Step1Page implements OnInit {
       continoueWork: [''],
       fastReply: ['']
     });
+    // this.onChanges();
+
   }
+
+  /*  onChanges() {
+     this.form.get('startDate').valueChanges.subscribe(res => {
+       console.log(' Start date is ' + res);
+     });
+     this.form.get('endDate').valueChanges.subscribe(res => {
+       console.log(' end date is ' + res);
+     });
+ 
+   } */
+
 
   // Getting Values form form on Submittion 
   submit(form: any) {
@@ -61,6 +79,7 @@ export class Step1Page implements OnInit {
     // console.log(typeof test);
     // console.log(test); 
   }
+
   async adOptions() {
     if (this.continueWork === true) {
       const actionSheet = await this.actionSheetController.create({
@@ -116,4 +135,47 @@ export class Step1Page implements OnInit {
       await actionSheet.present();
     }
   }
+
+  get f() {
+    return this.form.controls;
+  }
+
+  startDate(event) {
+    if (event.value.startDate != '') {
+      console.log("Start Date is ..." + event.value.startDate);
+      let startDate = event.value.startDate.split('-');
+      console.log('Getted Splitted Date ' + startDate);
+      let month = startDate.splice(1, 1);
+      console.log("Month " + month);
+      let day = startDate.splice(1, 2);
+      console.log("DAY is " + day);
+
+
+    } else {
+      console.log("waiting for Start Date ");
+
+    }
+    if (event.value.endDate != '') {
+      console.log("end Date is ..." + event.value.endDate);
+      let startDate = event.value.startDate.split('-');
+      console.log('Getted Splitted Date ' + startDate);
+      let month = startDate.splice(1, 1);
+      console.log("Month " + month);
+      let day = startDate.splice(1, 2);
+      console.log("DAY is " + day);
+    } else {
+      console.log("waiting for end Date ");
+    }
+
+    // Checking both Start Date and End Date 
+    if (event.value.startDate != '' && event.value.endDate != '') {
+
+      // Dates are same or not than take decision on that base
+
+      // dates are differents 
+
+    }
+
+  }
+
 }

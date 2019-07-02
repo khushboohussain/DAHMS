@@ -137,7 +137,7 @@ export class Step2Page implements OnInit {
           );
         })
         // console.log(record);
-        
+
         this.api.createAds(record)
           .then(res => {
             this.helper.presentToast('Ad Created Successfuliy!');
@@ -208,7 +208,7 @@ export class Step2Page implements OnInit {
 
         startTime: form.value.startTime,
         endTime: form.value.endTime,
-        
+
         qualification: form.value.qualification,
         requiredEmployees: form.value.requiredEmployees,
         otherQualification: [],
@@ -220,7 +220,7 @@ export class Step2Page implements OnInit {
         condition1: false,
         condition2: true,
         condition3: false
-        
+
       }
       // localStorage.setItem('option', JSON.stringify(false));
       // console.log(record);
@@ -233,7 +233,7 @@ export class Step2Page implements OnInit {
         );
       })
       // console.log(record);
-      
+
       this.api.createAds(record)
         .then(res => {
           this.helper.presentToast(' Ad Created Successfuliy!');
@@ -259,7 +259,8 @@ export class Step2Page implements OnInit {
     // console.log('Remove Field is working...');
     this.newField.splice(index, 1);
     // console.log('successfuly deleted item number '+ index);
-
   }
+
+ 
 
 }

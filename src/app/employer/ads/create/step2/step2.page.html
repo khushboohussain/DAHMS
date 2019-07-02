@@ -269,12 +269,11 @@
 
 
       <!-- show if dates different (Option 2) is clicked and continuous checkbox is not selected -->
-      
+
       <div *ngIf="continousCheck" class="dates-different">
         <ion-slides>
           <!-- show for each date an own form/slide; in last slide the submit button will be to confirm, else it should just go to the next slide -->
           <ion-slide>
-
             <form [formGroup]="form">
               <div class="title container">
                 <h2>Einsatz Template 3</h2>

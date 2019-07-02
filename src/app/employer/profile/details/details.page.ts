@@ -41,14 +41,26 @@ export class DetailsPage implements OnInit {
       this.api.getEmployerData(localStorage.getItem('uid')).subscribe(res => {
         this.userData = { ...this.userData, ...res };
 
-        this.form.get('vorname').setValue(this.userData.vorname);
-        this.form.get('nachname').setValue(this.userData.nachname);
-        this.form.get('telephone').setValue(this.userData.telephone);
-        this.form.get('CompanyName').setValue(this.userData.CompanyName);
-        this.form.get('address').setValue(this.userData.address);
-        this.form.get('role').setValue(this.userData.role);
-        this.form.get('email').setValue(this.userData.email);
-        this.form.get('password').setValue(this.userData.password);
+        this.form.patchValue({
+          'vorname': this.userData.vorname,
+          'nachname': this.userData.nachname,
+          'telephone': this.userData.telephone,
+          'CompanyName': this.userData.CompanyName,
+          'address': this.userData.address,
+          'role': this.userData.role,
+          'email': this.userData.email,
+          'password': this.userData.password
+       });
+        // console.log("this is working..." + this.form.get('vorname').value);
+
+        // this.form.get('vorname').setValue(this.userData.vorname);
+        // this.form.get('nachname').setValue(this.userData.nachname);
+        // this.form.get('telephone').setValue(this.userData.telephone);
+        // this.form.get('CompanyName').setValue(this.userData.CompanyName);
+        // this.form.get('address').setValue(this.userData.address);
+        // this.form.get('role').setValue(this.userData.role);
+        // this.form.get('email').setValue(this.userData.email);
+        // this.form.get('password').setValue(this.userData.password);
 
         // console.log(this.userData);
       }, err => {
