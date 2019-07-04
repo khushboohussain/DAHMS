@@ -54,7 +54,7 @@
 
           <div class="container">
             <div class="box">
-              <!-- continuous work -->
+              <!-- continuous work   [attr.disabled]="continueWork" -->
               <ion-item lines="none">
                 <ion-checkbox formControlName="continoueWork"  value="CONTINUOUS" checked='false'></ion-checkbox>
                 <ion-label>&nbsp; Durchgehende Schicht?</ion-label>
@@ -70,7 +70,7 @@
             </div>
 
             <!-- go to the ad details; "Alle Termine gleich" = same dates / "Einzelne Termine bearbeiten" = different dates -->
-            <ion-button color="primary" expand="block" [disabled]="form.invalid || form.pristine"
+            <ion-button color="primary" expand="block" [disabled]="!form.valid || form.pristine"
               (click)="submit(form)"> Zu den Einsatzdetails </ion-button>
 
           </div>

@@ -22,6 +22,7 @@ export class AdsPage {
   }
 
   ngOnInit() {
+    localStorage.removeItem('AdsData');
     // console.log(localStorage.getItem('uid'))
     this.api.getEmployeerAds(localStorage.getItem('uid'))
       .pipe(map(actions => actions.map(a => {
@@ -47,8 +48,8 @@ export class AdsPage {
   navigateAd(data) {
     // console.log("docID is " + data.did);
 
-    this.api.getAd(data.did).subscribe( res => {
-      localStorage.setItem('AdData', JSON.stringify(res));
+    this.api.getAd(data.did).subscribe(res => {
+      localStorage.setItem('adDetail', JSON.stringify(res));
 
       // console.log("res");
       // console.log(res);
@@ -60,6 +61,7 @@ export class AdsPage {
 
   navigateCreateAd() {
     this.navController.navigateForward("/employer/ads/create/step1");
+
   }
 
 }

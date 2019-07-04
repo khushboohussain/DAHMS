@@ -20,7 +20,7 @@ export class AdPage implements OnInit {
   constructor(private navController: NavController, private api: ApiService) { }
 
   ngOnInit() {
-    this.data = JSON.parse(localStorage.getItem('AdData'));
+    this.data = JSON.parse(localStorage.getItem('adDetail'));
     console.log(this.data);
     this.option1 = this.data.condition1;
     // console.log(this.option1 + " " + this.option2 + " " + this.option3 + " ")
@@ -35,9 +35,9 @@ export class AdPage implements OnInit {
       this.formatType = 'Stunde';
       // console.log("wageFormat "+this.formatType);
     }
-    
+
     // if (this.data.requiredEmployees ) {
-      
+
     // }
 
 

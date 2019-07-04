@@ -16,10 +16,13 @@ export class Step2Page implements OnInit {
   newField: any = [];
 
 
-  continousCheck: boolean;
+  option3: boolean;
   option1: boolean;
   option2: boolean;
   actionController: boolean;
+  differDates: boolean;
+  continuoueCheck: boolean;
+
 
 
 
@@ -35,20 +38,26 @@ export class Step2Page implements OnInit {
 
     // Retrieve the object from storage
     this.data = JSON.parse(localStorage.getItem('AdsData'));
-    // console.log('retrievedObject: \n', this.data);
+    console.log('retrievedObject: \n', this.data);
 
     this.actionController = JSON.parse(localStorage.getItem("actionController"));
+    console.log("actionController check is " + this.actionController);
+
+    this.differDates = JSON.parse(localStorage.getItem("differDates"));
+    // this.differDates = JSON.parse(localStorage.getItem("differDates"));
+    console.log("differDates check is " + this.differDates);
+
+    // this.continuoueCheck = JSON.parse(localStorage.getItem("continuoueCheck"));
     // console.log(typeof this.actionController);
-    // console.log("actionController check is " + this.actionController);
-    // console.log("continuous Work is " + this.data.continoueWork);
+
 
     // checking conditions for showing proper template
 
     // Template 1 will execute
-    if (this.actionController == true && (this.data.continoueWork == '' || this.data.continoueWork == false)) {
+    if (this.differDates == false && (this.data.continoueWork == '' || this.data.continoueWork == false)) {
       this.option1 = true;
       this.option2 = false;
-      this.continousCheck = false;
+      this.option3 = false;
       // from builder
       this.form = this.fb.group({
         startTime: ['', Validators.required],
@@ -60,15 +69,15 @@ export class Step2Page implements OnInit {
         drivingLicence: ['', Validators.required]
 
       })
-      // localStorage.setItem('continousCheck', JSON.stringify(this.continousCheck));
+      // localStorage.setItem('option3', JSON.stringify(this.option3));
       // localStorage.setItem('option1', JSON.stringify(this.option1));
       // localStorage.setItem('actionController', JSON.stringify(this.actionController));
     }
     // Tempate 2 will execute
-    else if (this.actionController == true && this.data.continoueWork == true) {
+    else if (this.differDates == false && this.data.continoueWork == true) {
       this.option1 = false;
       this.option2 = true;
-      this.continousCheck = false;
+      this.option3 = false;
       // from builder
       this.form = this.fb.group({
         startTime: ['', Validators.required],
@@ -81,10 +90,10 @@ export class Step2Page implements OnInit {
       })
     }
     // Template 3 will execute
-    else if (this.actionController == false && (this.data.continoueWork == '' || this.data.continoueWork == false)) {
+    else if (this.differDates == true && this.actionController === false) {
       this.option1 = false;
       this.option2 = false;
-      this.continousCheck = true;
+      this.option3 = true;
       // from builder
       this.form = this.fb.group({
         startTime: ['', Validators.required],
@@ -105,7 +114,7 @@ export class Step2Page implements OnInit {
     // submit method for template 1 and 3
     if (this.option2 != true) {
       // for condition 3
-      if (this.continousCheck === true) {
+      if (this.option3 === true) {
         let record = {
           jobTitle: this.data.jobTitle,
           location: this.data.address,
@@ -261,6 +270,6 @@ export class Step2Page implements OnInit {
     // console.log('successfuly deleted item number '+ index);
   }
 
- 
+
 
 }

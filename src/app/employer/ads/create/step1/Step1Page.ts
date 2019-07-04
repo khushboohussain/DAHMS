@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-step1',
   templateUrl: './step1.page.html',
@@ -10,9 +11,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class Step1Page implements OnInit {
   form: FormGroup;
-  // data: any;
-  actionController: boolean;
-  continueWork: boolean;
+  data: any;
+  differDates: boolean;
+  continuoueCheck: boolean;
+  // will get values from Start Date and End Date 
+  startMonth: string = '';
+  startDay: string = '';
+  endDay: string = '';
+  endMonth: string = '';
+
+
 
 
   constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder) { }
@@ -23,22 +31,42 @@ export class Step1Page implements OnInit {
       address: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      continoueWork: [''],
+      continoueWork: ['', {disable: false}],
       fastReply: ['']
     });
+
     // this.onChanges();
+    
+    this.data = JSON.parse(localStorage.getItem('AdsData'));
+
+    if (this.data) {
+      this.form.patchValue({
+        'jobTitle': this.data.jobTitle,
+        'address': this.data.address,
+        // 'startDate': this.data.startDate,
+        // 'endDate': this.data.endDate,
+        'continoueWork': this.data.continoueWork,
+        'role': this.data.role,
+        'fastReply': this.data.fastReply
+      });
+
+
+    } else {
+
+    }
 
   }
 
-  /*  onChanges() {
-     this.form.get('startDate').valueChanges.subscribe(res => {
-       console.log(' Start date is ' + res);
-     });
+  /* onChanges() {
+    this.form.get('continoueWork').valueChanges.subscribe(res => {
+      this.continuoueCheck = res;
+      console.log(' Continuous Check is ' + this.continuoueCheck);
+    });
      this.form.get('endDate').valueChanges.subscribe(res => {
-       console.log(' end date is ' + res);
-     });
+        console.log(' end date is ' + res);
+      });
  
-   } */
+  } */
 
 
   // Getting Values form form on Submittion 
@@ -51,7 +79,7 @@ export class Step1Page implements OnInit {
       continoueWork: form.value.continoueWork,
       fastReply: form.value.fastReply,
     };
-    this.continueWork = data.continoueWork;
+    // this.continueWork = data.continoueWork;
     // console.log(this.continueWork);
     // Put the object into storage
     localStorage.setItem('AdsData', JSON.stringify(data));
@@ -81,14 +109,20 @@ export class Step1Page implements OnInit {
   }
 
   async adOptions() {
-    if (this.continueWork === true) {
+    // template 3 will run
+    if (this.differDates === true && this.continuoueCheck === false) {
+
       const actionSheet = await this.actionSheetController.create({
         header: 'Stelleneinstellung',
         buttons: [{
-          text: 'Alle Termine gleich',
+          text: 'Einzelne Termine bearbeiten',
           handler: () => {
+            // this.actionController = false;
+            localStorage.setItem('actionController', JSON.stringify(false));
             this.navController.navigateForward("/employer/ads/create/step2");
-            localStorage.setItem('actionController', JSON.stringify(this.actionController = true));
+
+            // localStorage.setItem('differDates', JSON.stringify(this.differDates));
+            // localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
           }
         },
 
@@ -115,15 +149,16 @@ export class Step1Page implements OnInit {
         buttons: [{
           text: 'Alle Termine gleich',
           handler: () => {
+            localStorage.setItem('actionController', JSON.stringify(true));
             this.navController.navigateForward("/employer/ads/create/step2");
-            localStorage.setItem('actionController', JSON.stringify(this.actionController = true));
           }
         }, {
           text: 'Einzelne Termine bearbeiten',
           handler: () => {
-            this.navController.navigateForward("/employer/ads/create/step2");
             // this.actionController = false;
-            localStorage.setItem('actionController', JSON.stringify(this.actionController = false));
+            localStorage.setItem('actionController', JSON.stringify(false));
+            this.navController.navigateForward("/employer/ads/create/step2");
+
           }
         },
         {
@@ -142,13 +177,14 @@ export class Step1Page implements OnInit {
 
   startDate(event) {
     if (event.value.startDate != '') {
-      console.log("Start Date is ..." + event.value.startDate);
+
+      // console.log("Start Date is ..." + event.value.startDate);
       let startDate = event.value.startDate.split('-');
-      console.log('Getted Splitted Date ' + startDate);
-      let month = startDate.splice(1, 1);
-      console.log("Month " + month);
-      let day = startDate.splice(1, 2);
-      console.log("DAY is " + day);
+      // console.log('Getted Splitted Date ' + startDate);
+      this.startMonth = startDate.splice(1, 1).toString();
+      // console.log("Month " + this.startMonth);
+      this.startDay = startDate.splice(1, 2).toString();
+      // console.log("DAY is " + this.startDay);
 
 
     } else {
@@ -156,23 +192,54 @@ export class Step1Page implements OnInit {
 
     }
     if (event.value.endDate != '') {
-      console.log("end Date is ..." + event.value.endDate);
-      let startDate = event.value.startDate.split('-');
-      console.log('Getted Splitted Date ' + startDate);
-      let month = startDate.splice(1, 1);
-      console.log("Month " + month);
-      let day = startDate.splice(1, 2);
-      console.log("DAY is " + day);
+
+      // console.log("end Date is ..." + event.value.endDate);
+      let endDate = event.value.endDate.split('-');
+      // console.log('Getted Splitted Date ' + endDate);
+      this.endMonth = endDate.splice(1, 1).toString();
+      // console.log("Month " + this.endMonth);
+      this.endDay = endDate.splice(1, 2).toString();
+      // console.log("DAY is " + this.endDay);
+
+
     } else {
       console.log("waiting for end Date ");
     }
 
-    // Checking both Start Date and End Date 
+    // Checking both Start Date and End Date are not empty; must have value 
+
     if (event.value.startDate != '' && event.value.endDate != '') {
 
-      // Dates are same or not than take decision on that base
+      // console.log(this.startDay + " " + this.endDay);
+
+      if (this.startDay === this.endDay) {
+        console.log("equal");
+        this.form.get('continoueWork').enable();
+        this.differDates = false;
+        console.log(" Differ date ", this.differDates);
+        localStorage.setItem('differDates', JSON.stringify(false));
+
+      }
+      else {
+        console.log("not equals ");
+        this.form.get('continoueWork').setValue(false);
+        this.form.get('continoueWork').disable();
+        this.differDates = true;
+        localStorage.setItem('differDates', JSON.stringify(true));
+        console.log(" Differ date ", this.differDates);
+
+        this.continuoueCheck = false;
+        //  console.log("continuous Check ", this.continuoueCheck);
+        // console.log("value", this.);
+
+
+      }
+
 
       // dates are differents 
+
+    } else {
+      console.log('problem!');
 
     }
 
