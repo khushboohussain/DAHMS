@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -16,12 +16,11 @@ export class Step2Page implements OnInit {
   newField: any = [];
 
 
-  option3: boolean;
   option1: boolean;
   option2: boolean;
-  actionController: boolean;
+  option3: boolean;
+
   differDates: boolean;
-  continuoueCheck: boolean;
 
 
 
@@ -39,9 +38,6 @@ export class Step2Page implements OnInit {
     // Retrieve the object from storage
     this.data = JSON.parse(localStorage.getItem('AdsData'));
     console.log('retrievedObject: \n', this.data);
-
-    this.actionController = JSON.parse(localStorage.getItem("actionController"));
-    console.log("actionController check is " + this.actionController);
 
     this.differDates = JSON.parse(localStorage.getItem("differDates"));
     // this.differDates = JSON.parse(localStorage.getItem("differDates"));
@@ -90,7 +86,7 @@ export class Step2Page implements OnInit {
       })
     }
     // Template 3 will execute
-    else if (this.differDates == true && this.actionController === false) {
+    else if (this.differDates == true) {
       this.option1 = false;
       this.option2 = false;
       this.option3 = true;
