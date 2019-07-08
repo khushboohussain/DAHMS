@@ -58,7 +58,8 @@ export class AdsPage {
       console.log(err.message);
     })
   }
-
+  
+  // check payment method is integrated or not 
   navigateCreateAd() {
     this.navController.navigateForward("/employer/ads/create/step1");
 

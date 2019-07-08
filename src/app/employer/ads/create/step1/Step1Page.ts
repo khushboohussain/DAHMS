@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HelperService } from 'src/app/services/helper.service';
@@ -102,7 +103,7 @@ export class Step1Page implements OnInit {
       continoueWork: form.value.continoueWork,
       fastReply: form.value.fastReply
     };
-    console.log(data);
+    // console.log(data);
 
     // this.continueWork = data.continoueWork;
     // console.log(this.continueWork);
@@ -191,7 +192,15 @@ export class Step1Page implements OnInit {
 
     if (event.value.startDate !== '') {
       //  StartDate = event.value.start;
+      // console.log("moment().date() getting day ..",moment(event.value.startDate).date());
+
+      // console.log("moment()", moment(event.value.startDate));
+      // console.log('local', moment(event.value.startDate).local());
+      // console.log("moment(startDate) ",moment(event.value.startDate));
+      // console.log("moment. format", moment().format());
+      // console.log('moment.fromNow()', moment().fromNow());
       // console.log("Start Date is ..." + event.value.startDate);
+
       if (event.value.startDate < this.today) {
         this.helper.presentToast(`Please select valid date for Start Date! \n not lessthan ${this.today}`);
         this.form.get('startDate').setValue(this.today);
@@ -208,7 +217,7 @@ export class Step1Page implements OnInit {
     }
 
     if (event.value.endDate !== '') {
-      console.log("end Date is ..." + event.value.endDate);
+      // console.log("end Date is ..." + event.value.endDate);
 
       if (event.value.endDate < this.today) {
         this.helper.presentToast('Please select valid date for end Date! \n not lessthan ' + this.today);
@@ -246,20 +255,35 @@ export class Step1Page implements OnInit {
           this.differDates = false;
           console.log(" Differ date ", this.differDates);
           localStorage.setItem('differDates', JSON.stringify(false));
-        }
-        else {
+        } else {
           this.form.get('continoueWork').setValue(false);
           this.form.get('continoueWork').disable();
           this.differDates = true;
           localStorage.setItem('differDates', JSON.stringify(true));
           console.log(" Differ date ", this.differDates);
-          // console.log('difference is ', Number(event.value.endDate) - Number(event.value.startDate));
+
+          // var dateC = moment(event.value.startDate);
+          // var dateB = moment(event.value.endDate);
+          // console.log('Difference is ', dateB.diff(moment(event.value.startDate), 'days'), 'days');
+          let DifferenceOfDate = moment(event.value.endDate).diff(moment(event.value.startDate), 'days');
+          this.helper.presentToast(`You have selected '${DifferenceOfDate} days' `);
+          // console.log('Difference is ', moment(event.value.endDate).diff(moment(event.value.startDate), 'days'), 'days');
+          localStorage.setItem('days', JSON.stringify(DifferenceOfDate));
+          if (DifferenceOfDate > 20) {
+            this.helper.presentToast(`You have selected '${DifferenceOfDate} days' but enter first 20 days`);
+          }
+          // console.log("Substracting... Days...", moment(event.value.startDate).subtract('days', event.value.endDate));
+
+
+
+          // console.log(new Date(event.value.endDate).getDate() - new Date(event.value.startDate).getDate());
+
         }
 
 
       } // Normal Dates
 
-      
+
 
 
     }  // dates are not empty  closed

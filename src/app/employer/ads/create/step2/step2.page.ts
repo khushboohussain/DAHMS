@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, IonSlides } from '@ionic/angular';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { HelperService } from 'src/app/services/helper.service';
+import * as moment from 'moment';
+import { ViewChild } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-step2',
@@ -11,9 +15,13 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class Step2Page implements OnInit {
 
+  @ViewChild('slides') slides: IonSlides;
+
   form: FormGroup;
+  form2: Array<FormGroup> = [];
   data: any;
   newField: any = [];
+  days: number;
 
 
   option1: boolean;
@@ -29,11 +37,6 @@ export class Step2Page implements OnInit {
   constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, public helper: HelperService) { }
 
   ngOnInit() {
-
-    // this.newField.push({
-    //   qualification: '',
-    //   requiredEmployees: ''
-    // })
 
     // Retrieve the object from storage
     this.data = JSON.parse(localStorage.getItem('AdsData'));
@@ -98,8 +101,37 @@ export class Step2Page implements OnInit {
         requiredEmployees: ['', Validators.required],
         wage: ['', Validators.required],
         wageType: ['', Validators.required],
+
         drivingLicence: ['', Validators.required]
-      })
+      });
+      // console.log(JSON.parse(localStorage.getItem('day')));
+      this.days = JSON.parse(localStorage.getItem('days'));
+      if (this.days > 20) {
+        this.days = 20;
+        console.log('if condition ', this.days);
+      }
+
+      console.log('Days are:  ', this.days);
+      console.log(typeof this.days);
+
+
+      for (let i = 0; i < this.days; i++) {
+        this.form2.push(
+          this.form = this.fb.group({
+            startTime: ['', Validators.required],
+            endTime: ['', Validators.required],
+            qualification: ['', Validators.required],
+            requiredEmployees: ['', Validators.required],
+            otherQualification: [], 
+            wage: ['', Validators.required],
+            wageType: ['', Validators.required],
+            drivingLicence: ['', Validators.required]
+          })
+        )
+      }
+      setTimeout(() => {
+        this.slides.lockSwipes(true);
+      }, 1000);
 
     }
   }
@@ -108,6 +140,7 @@ export class Step2Page implements OnInit {
   // Form Submit Method
   submitForm(form: any) {
     // submit method for template 1 and 3
+    console.log(form);
     if (this.option2 != true) {
       // for condition 3
       if (this.option3 === true) {
@@ -117,23 +150,30 @@ export class Step2Page implements OnInit {
           startDate: this.data.startDate,
           endDate: this.data.endDate,
           fastReply: this.data.fastReply,
-          // getting values from Step2 
-          startTime: form.value.startTime,
-          endTime: form.value.endTime,
 
-          qualification: form.value.qualification,
-          requiredEmployees: form.value.requiredEmployees,
+          step2: [],
           otherQualification: [],
-
-          wage: form.value.wage,
-          wageType: form.value.wageType,
-          drivingLinse: form.value.drivingLicence,
           uid: localStorage.getItem('uid'),
           condition1: false,
           condition2: false,
           condition3: true
-        }
-        // console.log(record);
+        };
+
+        form.forEach(a => {
+          record.step2.push(a.value);
+        });
+        // getting values from Step2 
+        //  startTime: form.value.startTime,
+        //  endTime: form.value.endTime,
+
+        //  qualification: form.value.qualification,
+        //  requiredEmployees: form.value.requiredEmployees,
+        //  otherQualification: [],
+
+        //  wage: form.value.wage,
+        //  wageType: form.value.wageType,
+        //  drivingLinse: form.value.drivingLicence,
+        console.log(record);
         this.newField.forEach(a => {
           record.otherQualification.push({
             qualification: a.otherQualification,
@@ -141,6 +181,7 @@ export class Step2Page implements OnInit {
           }
           );
         })
+        // this.adDetail.push(record)
         // console.log(record);
 
         this.api.createAds(record)
@@ -254,18 +295,35 @@ export class Step2Page implements OnInit {
 
   // For adding new input field for employee
   addField() {
-
     this.newField.push({
       qualification: '',
       requiredEmployees: null
     })
   };
+  GetValue(data) {
+    console.log('running ionChange() ');
+    console.log(data.value);
+    // console.log(data.value);
+    
+    // console.log(value.otherRequiredEmp);
+
+  }
   removeField(index: number) {
     // console.log('Remove Field is working...');
     this.newField.splice(index, 1);
     // console.log('successfuly deleted item number '+ index);
   }
 
+
+  nextSlide() {
+    this.slides.lockSwipes(false);
+    this.slides.slideNext().then(() => { this.slides.lockSwipes(true) });
+  }
+
+  goBack() {
+    this.slides.lockSwipes(false);
+    this.slides.slidePrev().then(() => { this.slides.lockSwipes(true) });
+  }
 
 
 }

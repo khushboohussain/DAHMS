@@ -271,15 +271,16 @@
       <!-- show if dates different (Option 2) is clicked and continuous checkbox is not selected -->
 
       <div *ngIf="option3" class="dates-different">
-        <ion-slides>
+        <ion-slides #slides>
           <!-- show for each date an own form/slide; in last slide the submit button will be to confirm, else it should just go to the next slide -->
-          <ion-slide>
-            <form [formGroup]="form">
+          <ion-slide *ngFor="let item of form2; let i = index;">
+            <form [formGroup]="form2[i]">
               <div class="title container">
-                <h2>Einsatz Template 3</h2>
+                <h2>Einsatz</h2>
+                Data for day {{i+1}} <br>
 
                 <!-- get data from last slide, if first slide then don't show -->
-                <div class="add-new">
+                <div class="add-new" *ngIf="i > 0" (click)="goBack()">
                   <ion-icon name="add"></ion-icon>
                   <p>Voherige Daten übernehmen </p>
                 </div>
@@ -342,8 +343,7 @@
                       <!-- personal qualification -->
                       <ion-item lines="none">
                         <ion-label position="stacked">Einsatzkraft</ion-label>
-                        <ion-select [(ngModel)]="item.otherQualification" [ngModelOptions]="{standalone: true}"
-                          cancelText="Abbrechen" okText="Fertig">
+                        <ion-select #otherQualification formControlName="otherQualification" (ionChange)=" GetValue(otherQualification)" cancelText="Abbrechen" okText="Fertig">
                           <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
                           <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                           <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
@@ -357,8 +357,8 @@
                       <!-- how many of those employees -->
                       <ion-item lines="none">
                         <ion-label position="stacked">Anzahl</ion-label>
-                        <ion-input type="number" [(ngModel)]="item.otherRequiredEmp"
-                          [ngModelOptions]="{standalone: true}" clearInput></ion-input>
+                        <ion-input type="number" #requiredEmployees
+                          (ionChange)=" GetValue(requiredEmployees)" clearInput></ion-input>
 
                       </ion-item>
 
@@ -406,12 +406,16 @@
               <!-- create ad -->
               <div class="container">
                 <div class="divider"></div>
-                <ion-button color="primary" expand="block" [disabled]="form.invalid || form.pristine"
-                  (click)="submitForm(form)">Jetzt Stelle erstellen
+                <ion-button color="primary" expand="block" *ngIf="i < days-1"
+                  [disabled]="form2[i].invalid || form2[i].pristine" (click)="nextSlide()">Next Slide
+                </ion-button>
+                <ion-button color="primary" expand="block" *ngIf="i == days-1 "
+                  [disabled]="form2[i].invalid || form2[i].pristine" (click)="submitForm(form2)">Jetzt Stelle erstellen
                 </ion-button>
               </div>
             </form>
           </ion-slide>
+
         </ion-slides>
       </div>
 

@@ -16,6 +16,9 @@ export class AdPage implements OnInit {
   option3: boolean;
   formatType: string;
 
+  getAllEmployees: boolean;
+  acceptedEmploye: boolean;
+
 
   constructor(private navController: NavController, private api: ApiService) { }
 
@@ -39,6 +42,8 @@ export class AdPage implements OnInit {
     // if (this.data.requiredEmployees ) {
 
     // }
+    this.getAllEmployees = false;
+    this.acceptedEmploye = true;
 
 
   }
