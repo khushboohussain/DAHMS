@@ -20,9 +20,12 @@ export class Step2Page implements OnInit {
   form: FormGroup;
   form2: Array<FormGroup> = [];
   data: any;
+  record;
+
   newField: any = [];
   days: number;
-
+  otherQualification = '';
+  otherRequiredEmployees = null;
 
   option1: boolean;
   option2: boolean;
@@ -42,9 +45,9 @@ export class Step2Page implements OnInit {
     this.data = JSON.parse(localStorage.getItem('AdsData'));
     console.log('retrievedObject: \n', this.data);
 
-    this.differDates = JSON.parse(localStorage.getItem("differDates"));
+    this.differDates = JSON.parse(localStorage.getItem('differDates'));
     // this.differDates = JSON.parse(localStorage.getItem("differDates"));
-    console.log("differDates check is " + this.differDates);
+    console.log('differDates check is ' + this.differDates);
 
     // this.continuoueCheck = JSON.parse(localStorage.getItem("continuoueCheck"));
     // console.log(typeof this.actionController);
@@ -53,7 +56,7 @@ export class Step2Page implements OnInit {
     // checking conditions for showing proper template
 
     // Template 1 will execute
-    if (this.differDates == false && (this.data.continoueWork == '' || this.data.continoueWork == false)) {
+    if (this.differDates === false && (this.data.continoueWork === '' || this.data.continoueWork === false)) {
       this.option1 = true;
       this.option2 = false;
       this.option3 = false;
@@ -67,13 +70,11 @@ export class Step2Page implements OnInit {
         wageType: ['', Validators.required],
         drivingLicence: ['', Validators.required]
 
-      })
+      });
       // localStorage.setItem('option3', JSON.stringify(this.option3));
       // localStorage.setItem('option1', JSON.stringify(this.option1));
       // localStorage.setItem('actionController', JSON.stringify(this.actionController));
-    }
-    // Tempate 2 will execute
-    else if (this.differDates == false && this.data.continoueWork == true) {
+    } else if (this.differDates === false && this.data.continoueWork === true) {
       this.option1 = false;
       this.option2 = true;
       this.option3 = false;
@@ -86,10 +87,9 @@ export class Step2Page implements OnInit {
         wage: ['', Validators.required],
         // wageType: ['', Validators.required],
         drivingLicence: ['', Validators.required]
-      })
-    }
-    // Template 3 will execute
-    else if (this.differDates == true) {
+      });
+      // Template 3
+    } else if (this.differDates === true) {
       this.option1 = false;
       this.option2 = false;
       this.option3 = true;
@@ -122,12 +122,12 @@ export class Step2Page implements OnInit {
             endTime: ['', Validators.required],
             qualification: ['', Validators.required],
             requiredEmployees: ['', Validators.required],
-            otherQualification: [], 
+            otherQualification: [],
             wage: ['', Validators.required],
             wageType: ['', Validators.required],
             drivingLicence: ['', Validators.required]
           })
-        )
+        );
       }
       setTimeout(() => {
         this.slides.lockSwipes(true);
@@ -140,11 +140,11 @@ export class Step2Page implements OnInit {
   // Form Submit Method
   submitForm(form: any) {
     // submit method for template 1 and 3
-    console.log(form);
-    if (this.option2 != true) {
+    console.log('form values ', form);
+    if (this.option2 !== true) {
       // for condition 3
       if (this.option3 === true) {
-        let record = {
+        this.record = {
           jobTitle: this.data.jobTitle,
           location: this.data.address,
           startDate: this.data.startDate,
@@ -160,9 +160,17 @@ export class Step2Page implements OnInit {
         };
 
         form.forEach(a => {
-          record.step2.push(a.value);
+          this.record.step2.push(a.value);
         });
-        // getting values from Step2 
+        this.newField.forEach(a => {
+          this.record.otherQualification.push({
+            qualification: a.otherQualification,
+            requiredEmployees: a.otherRequiredEmployees
+          });
+        });
+        console.log('other Qualification', this.record.otherQualification);
+
+        // getting values from Step2
         //  startTime: form.value.startTime,
         //  endTime: form.value.endTime,
 
@@ -173,28 +181,23 @@ export class Step2Page implements OnInit {
         //  wage: form.value.wage,
         //  wageType: form.value.wageType,
         //  drivingLinse: form.value.drivingLicence,
-        console.log(record);
-        this.newField.forEach(a => {
-          record.otherQualification.push({
-            qualification: a.otherQualification,
-            requiredEmployees: a.otherRequiredEmp
-          }
-          );
-        })
+        console.log('Record ', this.record);
+        // this.newField.forEach(a => {
+        // });
         // this.adDetail.push(record)
         // console.log(record);
 
-        this.api.createAds(record)
-          .then(res => {
-            this.helper.presentToast('Ad Created Successfuliy!');
-            this.navController.navigateRoot("/employer/ads/create/step3");
-          }, err => {
-            this.helper.presentToast(err.message + 'Error!');
-          });
+        // this.api.createAds(record)
+        //   .then(res => {
+        //     this.helper.presentToast('Ad Created Successfuliy!');
+        //     this.navController.navigateRoot('/employer/ads/create/step3');
+        //   }, err => {
+        //     this.helper.presentToast(err.message + 'Error!');
+        //   });
 
       } else {
-        //  for condition 1 
-        let record = {
+        //  for condition 1
+        const record = {
           jobTitle: this.data.jobTitle,
           location: this.data.address,
           startDate: this.data.startDate,
@@ -223,7 +226,7 @@ export class Step2Page implements OnInit {
           condition3: false
           // drivingLicence: form.value.drivingLicence[0].text,
           // licence: form.value.licence
-        }
+        };
         // localStorage.setItem('option', JSON.stringify(false));
         // console.log(record);
         this.newField.forEach(a => {
@@ -232,12 +235,12 @@ export class Step2Page implements OnInit {
             requiredEmployees: a.otherRequiredEmp
           }
           );
-        })
+        });
         // console.log(record);
         this.api.createAds(record)
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
-            this.navController.navigateRoot("/employer/ads/create/step3");
+            this.navController.navigateRoot('/employer/ads/create/step3');
           }, err => {
             this.helper.presentToast(err.message + 'Error!');
           });
@@ -245,7 +248,7 @@ export class Step2Page implements OnInit {
 
     } else {
       // for tempate 2
-      let record = {
+      const record = {
         jobTitle: this.data.jobTitle,
         location: this.data.address,
         startDate: this.data.startDate,
@@ -267,7 +270,7 @@ export class Step2Page implements OnInit {
         condition2: true,
         condition3: false
 
-      }
+      };
       // localStorage.setItem('option', JSON.stringify(false));
       // console.log(record);
 
@@ -277,13 +280,13 @@ export class Step2Page implements OnInit {
           requiredEmployees: a.otherRequiredEmp
         }
         );
-      })
+      });
       // console.log(record);
 
       this.api.createAds(record)
         .then(res => {
           this.helper.presentToast(' Ad Created Successfuliy!');
-          this.navController.navigateRoot("/employer/ads/create/step3");
+          this.navController.navigateRoot('/employer/ads/create/step3');
         }, err => {
           this.helper.presentToast(err.message + 'Error!');
         });
@@ -295,34 +298,49 @@ export class Step2Page implements OnInit {
 
   // For adding new input field for employee
   addField() {
+    this.otherQualification = '';
+    this.otherRequiredEmployees = null;
     this.newField.push({
       qualification: '',
       requiredEmployees: null
-    })
-  };
-  GetValue(data) {
-    console.log('running ionChange() ');
-    console.log(data.value);
-    // console.log(data.value);
-    
-    // console.log(value.otherRequiredEmp);
-
+    });
   }
   removeField(index: number) {
     // console.log('Remove Field is working...');
+    this.otherQualification = '';
+    this.otherRequiredEmployees = null;
     this.newField.splice(index, 1);
     // console.log('successfuly deleted item number '+ index);
   }
+  // getQulalifications(data) {
+  //   console.log('Qualification is ', data);
+  //   console.log('Qualification is ', data.value);
+  //   this.otherQualification = data.value;
+  //   console.log('getQulalifications()', this.otherQualification);
+
+  // }
+  // getRegEmp(data) {
+  //   console.log('Required Emp is ', data.value);
+  //   this.otherRequiredEmployees = data.value;
+  //   console.log('getReqEmp()', this.otherRequiredEmployees);
+  // }
+  getValues() {
+    console.log('onBlur is working...');
+    if (this.otherQualification !== '' && this.otherRequiredEmployees !== null) {
+
+      console.log('finish onBlur ', this.data.otherQualification[0]);
+    }
 
 
+  }
   nextSlide() {
     this.slides.lockSwipes(false);
-    this.slides.slideNext().then(() => { this.slides.lockSwipes(true) });
+    this.slides.slideNext().then(() => { this.slides.lockSwipes(true); });
   }
 
   goBack() {
     this.slides.lockSwipes(false);
-    this.slides.slidePrev().then(() => { this.slides.lockSwipes(true) });
+    this.slides.slidePrev().then(() => { this.slides.lockSwipes(true); });
   }
 
 

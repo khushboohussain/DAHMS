@@ -12,27 +12,30 @@
       <div class="application">
         <!-- employee profile image -->
         <div class="profile-image container">
-          <img src="../../../../../../assets/IMG_9577.JPG">
+          <img [src]=" userDetail.imageURL " alt="Employee's Image">
+          <!-- <img src="../../../../../../assets/IMG_9577.JPG"> -->
         </div>
 
         <div class="info">
           <div class="general">
             <p class="small-title container">Allgemeine Informationen</p>
             <div class="list-items">
-              
+
               <!-- FIRST NAME LAST NAME of employee -->
               <div class="item-no-icon container">
-                <p>Max Mustermann</p>
+                <p> {{ userDetail.vorname }} {{ userDetail.nachname }} </p>
+                <!-- <p>Max Mustermann</p> -->
               </div>
 
               <!-- phone number, show only if the applicant has an approval from employer -->
-              <div class="item-no-icon container">
+              <!-- <div class="item-no-icon container">
                 <p>+92 334 872 2424</p>
-              </div>
+              </div> -->
 
               <!-- personal qualification -->
               <div class="item-no-icon container">
-                <p>Sanitätshelfer</p>
+                <p> {{ userDetail.qualifikation }} </p>
+                <!-- <p>Sanitätshelfer</p> -->
               </div>
 
               <!-- Is driving license necessary? 
@@ -40,7 +43,8 @@
               else if no - FORMAT: Es wird kein Führerschein benötigt, 
               else if beneficial - FORMAT: Führerschein wäre vorteilhaft, kein Muss. -->
               <div class="item-no-icon container">
-                <p>Führerscheinklasse B vorteilhaft</p>
+                <p> {{licenseType}} </p>
+                <!-- <p>Führerscheinklasse B vorteilhaft</p> -->
               </div>
             </div>
           </div>

@@ -13,7 +13,7 @@
       <div class="card-list container">
         <!-- dont show this one once the employer got all his employees -->
         <div *ngIf="!getAllEmployees" class="small-red-card pointer" (click)="navigateApplications()">
-          <h2>Bewerbungen (<span>2</span>)</h2>
+          <h2>Bewerbungen (<span>{{data.apply.length -1}}</span>)</h2>
         </div>
         <!-- show this one only if the employer accepted at least one employee -->
         <div *ngIf="acceptedEmploye" class="small-red-card pointer" (click)="navigateConfirmedApplications()">

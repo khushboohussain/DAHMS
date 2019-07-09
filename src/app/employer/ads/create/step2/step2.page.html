@@ -331,11 +331,12 @@
                       <ion-input formControlName="requiredEmployees" type="number" clearInput></ion-input>
                     </ion-item>
                   </div>
-                  <div *ngFor="let item of newField; let i = index ">
+
+                  <div *ngFor="let item of newField; let i = index" (focusout)='getValues()' >
                     <ion-item float-right>
                       <!-- {{i}} -->
                       <!-- <ion-icon name="close"  ></ion-icon> -->
-                      <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeField(i)">
+                      <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeField(i)" >
                       </ion-icon>
                     </ion-item>
 
@@ -343,7 +344,8 @@
                       <!-- personal qualification -->
                       <ion-item lines="none">
                         <ion-label position="stacked">Einsatzkraft</ion-label>
-                        <ion-select #otherQualification formControlName="otherQualification" (ionChange)=" GetValue(otherQualification)" cancelText="Abbrechen" okText="Fertig">
+                        <ion-select #otherQualification (ionChange)="getQulalifications(otherQualification)"
+                          cancelText="Abbrechen" okText="Fertig">
                           <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
                           <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                           <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
@@ -357,8 +359,8 @@
                       <!-- how many of those employees -->
                       <ion-item lines="none">
                         <ion-label position="stacked">Anzahl</ion-label>
-                        <ion-input type="number" #requiredEmployees
-                          (ionChange)=" GetValue(requiredEmployees)" clearInput></ion-input>
+                        <ion-input type="number" #otherRequiredEmployees
+                          (ionChange)="getRegEmp(otherRequiredEmployees)" clearInput></ion-input>
 
                       </ion-item>
 
