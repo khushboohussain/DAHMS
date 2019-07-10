@@ -12,7 +12,7 @@
       <div class="application">
         <!-- employee profile image -->
         <div class="profile-image container">
-          <img [src]=" userDetail.imageURL " alt="Employee's Image">
+          <img *ngIf="userDetail.imageURL" [src]=" userDetail.imageURL " alt="Employee's Image">
           <!-- <img src="../../../../../../assets/IMG_9577.JPG"> -->
         </div>
 
@@ -28,9 +28,9 @@
               </div>
 
               <!-- phone number, show only if the applicant has an approval from employer -->
-              <!-- <div class="item-no-icon container">
+              <div class="item-no-icon container" *ngIf="isConfirmApp">
                 <p>+92 334 872 2424</p>
-              </div> -->
+              </div>
 
               <!-- personal qualification -->
               <div class="item-no-icon container">
@@ -50,12 +50,13 @@
           </div>
 
           <!-- show other qualifications -->
-          <div class="others">
+          <div class="others" *ngIf="otherQualifications" >
             <p class="small-title container">Sonstige Qualifikationen</p>
-            <div class="list-items">
+            <div class="list-items" *ngFor="let item of otherQual">
               <!-- name of qualification -->
               <div class="item-no-icon container">
-                <p>Qualifikation</p>
+                <p> {{item.qualification}} </p>
+                <!-- <p>Qualifikation</p> -->
               </div>
             </div>
           </div>

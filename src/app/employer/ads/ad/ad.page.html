@@ -11,13 +11,13 @@
       </div>
 
       <div class="card-list container">
-        <!-- dont show this one once the employer got all his employees -->
+        <!-- dont show this one => once the employer got all his employees -->
         <div *ngIf="!getAllEmployees" class="small-red-card pointer" (click)="navigateApplications()">
-          <h2>Bewerbungen (<span>{{data.apply.length -1}}</span>)</h2>
+          <h2>Bewerbungen (<span>{{ totalApp }}</span>)</h2>
         </div>
         <!-- show this one only if the employer accepted at least one employee -->
         <div *ngIf="acceptedEmploye" class="small-red-card pointer" (click)="navigateConfirmedApplications()">
-          <h2>Zusagen (<span>2</span>)</h2>
+          <h2>Zusagen ( <span>{{ totalConfirm }} </span>)</h2>
         </div>
       </div>
 
@@ -58,7 +58,7 @@
               <!-- FORMAT: "AMOUNT PERSONAL QUALIFICATION" - "DRIVING LICENSE" - "WAGE MONEY" / "If DAILY then Tag, if HOURLY then Stunde" -->
               <div class="item-no-icon container">
                 <!-- <p>5 Sanitätshelfer - B1 - 100,00€/Tag</p> -->
-                <p>{{data.qualification}} - {{data.drivingLinse}} - {{data.wage}}€/{{formatType}} </p>
+                <p>{{data.qualification}} - {{data.drivingLinse}} - {{data.wage}} {{formatType}} </p>
               </div>
             </div>
           </div>
@@ -85,7 +85,7 @@
               <!-- FORMAT: "AMOUNT PERSONAL QUALIFICATION" - "DRIVING LICENSE" - "WAGE MONEY" / "If DAILY then Tag, if HOURLY then Stunde" -->
               <div class="item-no-icon container">
                 <!-- <p>5 Sanitätshelfer - B1 - 100,00€/Tag</p> -->
-                <p>{{data.qualification}} - {{data.drivingLinse}} - {{data.wage}}€</p>
+                <p>{{data.qualification}} - {{data.drivingLinse}} - {{data.wage}}</p>
                 <!-- {{formatType}}  -->
               </div>
             </div>
@@ -106,7 +106,7 @@
               <!-- FORMAT: "AMOUNT PERSONAL QUALIFICATION" - "DRIVING LICENSE" - "WAGE MONEY" / "If DAILY then Tag, if HOURLY then Stunde" -->
               <div class="item-no-icon container">
                 <!-- <p>5 Sanitätshelfer - B1 - 100,00€/Tag</p> -->
-                <p>{{data.qualification}} - {{data.drivingLinse}} - {{data.wage}}€/{{formatType}} </p>
+                <p>{{data.qualification}} - {{data.drivingLinse}} - {{data.wage }} {{formatType}} </p>
               </div>
             </div>
           </div>

@@ -15,7 +15,8 @@ export class AdPage implements OnInit {
   option2: boolean;
   option3: boolean;
   formatType: string;
-
+  totalApp = 0;
+  totalConfirm = 0;
   getAllEmployees: boolean;
   acceptedEmploye: boolean;
 
@@ -24,8 +25,22 @@ export class AdPage implements OnInit {
 
   ngOnInit() {
     this.data = JSON.parse(localStorage.getItem('adDetail'));
-    console.log(this.data);
-    console.log('Applications length', this.data.apply.length);
+    console.log('Ad data ', this.data);
+    // console.log('Applications length', this.data.apply.length);
+    if (this.data.apply) {
+      this.totalApp = this.data.apply.length;
+    }
+    if (this.data.confirmEmployee) {
+      if (this.data.confirmEmployee.length === this.data.requiredEmployees) {
+        this.getAllEmployees = true;
+      }
+      this.acceptedEmploye = true;
+      this.totalConfirm = this.data.confirmEmployee.length;
+    } else {
+      this.acceptedEmploye = false;
+    }
+
+    // console.log('Applications length', this.data.apply.length);
     // console.log('Confirmation length', this.data.confirmation.length);
 
     this.option1 = this.data.condition1;
@@ -44,14 +59,14 @@ export class AdPage implements OnInit {
     // if (this.data.requiredEmployees ) {
 
     // }
-    this.getAllEmployees = false;
-    this.acceptedEmploye = true;
 
 
   }
 
   // <!-- dont show this one, =>  once the employer got all his employees -->
   navigateApplications() {
+    localStorage.setItem('AdId', this.data.id);
+    console.log('Doc id is ', localStorage.getItem('AdId'));
     this.navController.navigateForward('/employer/ads/ad/applications');
   }
 

@@ -23,7 +23,11 @@ export class AdsPage {
 
 // tslint:disable-next-line: use-life-cycle-interface
   ngOnInit() {
+
     localStorage.removeItem('AdsData');
+    localStorage.removeItem('confirm');
+    localStorage.removeItem('appliedId');
+
     // console.log(localStorage.getItem('uid'))
     this.api.getEmployeerAds(localStorage.getItem('uid'))
       .pipe(map(actions => actions.map(a => {
