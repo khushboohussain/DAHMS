@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { ApiService } from 'src/app/services/api.service';
-import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-ad',
@@ -21,11 +20,13 @@ export class AdPage implements OnInit {
   acceptedEmploye: boolean;
 
 
-  constructor(private navController: NavController, private api: ApiService) { }
+  constructor(private navController: NavController) { }
 
   ngOnInit() {
+    localStorage.removeItem('confirm');
+
     this.data = JSON.parse(localStorage.getItem('adDetail'));
-    console.log('Ad data ', this.data);
+    // console.log('Ad data ', this.data);
     // console.log('Applications length', this.data.apply.length);
     if (this.data.apply) {
       this.totalApp = this.data.apply.length;
@@ -65,9 +66,15 @@ export class AdPage implements OnInit {
 
   // <!-- dont show this one, =>  once the employer got all his employees -->
   navigateApplications() {
-    localStorage.setItem('AdId', this.data.id);
-    console.log('Doc id is ', localStorage.getItem('AdId'));
-    this.navController.navigateForward('/employer/ads/ad/applications');
+    if (this.data.id === undefined) {
+      alert('Sorry! You have not any application');
+      // this.navController.navigateForward('/employer/ads/ad/applications');
+    } else {
+      // console.log('Doc id is ', localStorage.getItem('AdId'));
+      localStorage.setItem('AdId', this.data.id);
+      this.navController.navigateForward('/employer/ads/ad/applications');
+
+    }
   }
 
   // <!-- show this one only if the employer accepted at least one employee -->

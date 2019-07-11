@@ -14,18 +14,20 @@ export class ApplicationPage implements OnInit {
   // name: string;
   licenseType = '';
   otherQualifications: boolean;
-  otherQual = [];
+  otherQual: any;
   isConfirmApp: boolean;
 
   // tslint:disable-next-line: max-line-length
   constructor(public actionSheetController: ActionSheetController, private toastController: ToastController, private navController: NavController, public api: ApiService,
-    private ngzone: NgZone) { }
+    private ngzone: NgZone, private helper: HelperService) { }
 
   ngOnInit() {
     // console.log(localStorage.getItem('appliedId'));
     this.api.getEmployeeData(localStorage.getItem('appliedId')).subscribe(res => {
       this.userDetail = res;
-      // console.log('Received Data ', this.userDetail);
+      this.otherQual = this.userDetail.qualification;
+      // console.log('Qualification Data ', this.userDetail.qualification);
+      // console.log('otherQyal Data ', this.otherQual);
     }, err => {
       console.log('errors!', err.message);
     });
@@ -40,14 +42,16 @@ export class ApplicationPage implements OnInit {
     }
 
     this.isConfirmApp = JSON.parse(localStorage.getItem('confirm'));
-    console.log(this.isConfirmApp);
+    // console.log(this.isConfirmApp);
 
-    if (this.userDetail.qualification !== undefined) {
-      this.otherQualifications = true;
-      // console.log('Other Qualification ', this.userDetail.qualification);
-      // console.log('Other Qualification ', this.userDetail.qualification.length);
-    } else {
+    if (this.otherQual !== '' || this.otherQual !== undefined) {
       this.otherQualifications = false;
+      // this.otherQual = this.userDetail.qualification;
+      // console.log('Other Qualifications ', this.otherQualifications);
+      // console.log('Other Qual ', this.userDetail.qualification.length);
+    } else {
+      this.otherQualifications = true;
+      // console.log('Other Qualifications ', this.otherQualifications);
       // console.log('Other Qualification ', this.otherQualifications);
     }
 
@@ -55,6 +59,7 @@ export class ApplicationPage implements OnInit {
 
 
   async answerOptions() {
+
     const actionSheet = await this.actionSheetController.create({
       header: 'Geben Sie Ihrem Bewerber eine Rückmeldung.',
       buttons: [{
@@ -76,11 +81,13 @@ export class ApplicationPage implements OnInit {
             });
           }
           // console.log('detail is ', ad);
-          let index = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+          const index = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
           if (index > -1) {
             ad.apply.splice(index, 1);
+            delete ad.id;
             this.api.UpdateAds(localStorage.getItem('AdId'), ad).then(res => {
-              this.confirmation('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
+              this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
+              // this.confirmation('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
               this.navController.pop();
             });
           }
@@ -104,11 +111,13 @@ export class ApplicationPage implements OnInit {
               name: this.userDetail.vorname + '' + this.userDetail.nachname,
               uid: localStorage.getItem('appliedId')
             });
-            let index = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+            const index = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
             if (index > -1) {
               ad.apply.splice(index, 1);
+              delete ad.id;
               this.api.UpdateAds(localStorage.getItem('AdId'), ad).then(res => {
-                this.confirmation('Sie haben erfolgreich dem Bewerber eine Absage gesendet.');
+                // this.confirmation('Sie haben erfolgreich dem Bewerber eine Absage gesendet.');
+                this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Absage gesendet.');
                 this.navController.navigateBack('/employer/ads/ad/applications');
               });
             }
@@ -125,14 +134,14 @@ export class ApplicationPage implements OnInit {
     await actionSheet.present();
   }
 
-  async confirmation(message) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 1500,
-      position: 'top'
-    });
-    toast.present();
-  }
+  // async confirmation(message) {
+  //   const toast = await this.toastController.create({
+  //     message: message,
+  //     duration: 1500,
+  //     position: 'top'
+  //   });
+  //   toast.present();
+  // }
 
 
 

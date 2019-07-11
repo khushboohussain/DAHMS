@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HelperService } from 'src/app/services/helper.service';
+import { LocationService } from 'src/app/services/location.service';
 
 
 
@@ -18,7 +19,7 @@ export class Step1Page implements OnInit {
   form: FormGroup;
   data: any;
   differDates: boolean;
-  // will get values from Start Date and End Date 
+  // will get values from Start Date and End Date
   nowDate = new Date();
   today;
   // minDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
@@ -26,16 +27,24 @@ export class Step1Page implements OnInit {
   startMonth = '';
   startDay = '';
   endDay = '';
-  endMonth = ''
+  endMonth = '';
   // start date minimum and maximum values
   minDate = new Date().toISOString();
   // maxDate: any = new Date(this.nowDate.Date().setFullDate(this.nowDate Date().getFullDate() + 2)).toISOString();
   maxDate = new Date(this.nowDate.getFullYear() + 2, 11, 31).toISOString().slice(0, 10);
   // new Date(new Date().setDate(new Date().getDate() + 2)).toISOString();
-  // end Date minimum and maximum values 
+  // end Date minimum and maximum values
 
 
-  constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder, public helper: HelperService) { }
+  // tslint:disable-next-line: max-line-length
+  constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder, public helper: HelperService, private location: LocationService) {
+
+    this.location.addressAutocompleteItems = [];
+    this.location.addressAutocomplete = {
+      query: ''
+    };
+
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -48,6 +57,7 @@ export class Step1Page implements OnInit {
     });
 
 
+    // tslint:disable-next-line: max-line-length
     this.today = `${this.nowDate.getFullYear()}-${(this.nowDate.getMonth() + 1) < 10 ? ('0' + (this.nowDate.getMonth() + 1)) : (this.nowDate.getMonth() + 1)}-${(this.nowDate.getDate() < 10) ? ('0' + (this.nowDate.getDate())) : this.nowDate.getDate()}`;
 
     // this.time = this.nowDate.toTimeString().split(' ')[0].substring(0,5);
@@ -79,7 +89,7 @@ export class Step1Page implements OnInit {
 
     }
 
-  } //end Of ngOnInIt()
+  } // end Of ngOnInIt()
 
   onChanges() {
     /* this.form.get('continoueWork').valueChanges.subscribe(res => {
@@ -93,9 +103,9 @@ export class Step1Page implements OnInit {
   }
 
 
-  // Getting Values form form on Submittion 
+  // Getting Values form form on Submittion
   submit(form: any) {
-    let data = {
+    const data = {
       jobTitle: form.value.jobTitle,
       address: form.value.address,
       startDate: form.value.startDate,
@@ -131,7 +141,7 @@ export class Step1Page implements OnInit {
     // });
     // var test = JSON.parse(localStorage.getItem("continousCheck"));
     // console.log(typeof test);
-    // console.log(test); 
+    // console.log(test);
   }
 
   async adOptions() {
@@ -143,7 +153,7 @@ export class Step1Page implements OnInit {
         buttons: [{
           text: 'Einzelne Termine bearbeiten',
           handler: () => {
-            this.navController.navigateForward("/employer/ads/create/step2");
+            this.navController.navigateForward('/employer/ads/create/step2');
           }
         },
         {
@@ -153,15 +163,14 @@ export class Step1Page implements OnInit {
         }]
       });
       await actionSheet.present();
-    }
-    else {
+    } else {
       const actionSheet = await this.actionSheetController.create({
         header: 'Stelleneinstellung',
         buttons: [{
           text: 'Alle Termine gleich',
           handler: () => {
             // localStorage.setItem('actionController', JSON.stringify(true));
-            this.navController.navigateForward("/employer/ads/create/step2");
+            this.navController.navigateForward('/employer/ads/create/step2');
           }
         }
           // , {
@@ -187,7 +196,7 @@ export class Step1Page implements OnInit {
     return this.form.controls;
   }
 
-  // Getting dates on changes ... 
+  // Getting dates on changes ...
   gettingDate(event) {
 
     if (event.value.startDate !== '') {
@@ -207,7 +216,7 @@ export class Step1Page implements OnInit {
         // console.log("start date after clean ", event.value.startDate);
         // alert('Please select valid date for Start Date! \n not lessthan ' + this.today);
       } else {
-        let startDateX = event.value.startDate.split('-');
+        const startDateX = event.value.startDate.split('-');
         // console.log('Getted Splitted Date ' + startDate);
         this.startMonth = startDateX.splice(1, 1).toString();
         // console.log("Month " + this.startMonth);
@@ -226,7 +235,7 @@ export class Step1Page implements OnInit {
         // this.testFuction(false)
         // event.value.endDate = '';
       } else {
-        let endDate = event.value.endDate.split('-');
+        const endDate = event.value.endDate.split('-');
         // console.log('Getted Splitted Date ' + endDate);
         this.endMonth = endDate.splice(1, 1).toString();
         // console.log("Month " + this.endMonth);
@@ -239,7 +248,7 @@ export class Step1Page implements OnInit {
     /*  Checking both Start Date and End Date are not empty;
     and first date is not bigger than last date */
 
-    if (event.value.startDate != '' && event.value.endDate != '') {
+    if (event.value.startDate !== '' && event.value.endDate !== '') {
 
       // console.log(this.startDay + " " + this.endDay);
       if (event.value.startDate > event.value.endDate) {
@@ -250,22 +259,22 @@ export class Step1Page implements OnInit {
       } else {
         console.log('normal');
         if (this.startDay === this.endDay) {
-          console.log("equal");
+          console.log('equal');
           this.form.get('continoueWork').enable();
           this.differDates = false;
-          console.log(" Differ date ", this.differDates);
+          console.log(' Differ date ', this.differDates);
           localStorage.setItem('differDates', JSON.stringify(false));
         } else {
           this.form.get('continoueWork').setValue(false);
           this.form.get('continoueWork').disable();
           this.differDates = true;
           localStorage.setItem('differDates', JSON.stringify(true));
-          console.log(" Differ date ", this.differDates);
+          console.log(' Differ date ', this.differDates);
 
           // var dateC = moment(event.value.startDate);
           // var dateB = moment(event.value.endDate);
           // console.log('Difference is ', dateB.diff(moment(event.value.startDate), 'days'), 'days');
-          let DifferenceOfDate = moment(event.value.endDate).diff(moment(event.value.startDate), 'days');
+          const DifferenceOfDate = moment(event.value.endDate).diff(moment(event.value.startDate), 'days');
           this.helper.presentToast(`You have selected '${DifferenceOfDate} days' `);
           // console.log('Difference is ', moment(event.value.endDate).diff(moment(event.value.startDate), 'days'), 'days');
           localStorage.setItem('days', JSON.stringify(DifferenceOfDate));

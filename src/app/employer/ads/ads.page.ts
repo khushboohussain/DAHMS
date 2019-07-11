@@ -25,6 +25,7 @@ export class AdsPage {
   ngOnInit() {
 
     localStorage.removeItem('AdsData');
+    localStorage.removeItem('AdId');
     localStorage.removeItem('confirm');
     localStorage.removeItem('appliedId');
 
@@ -55,7 +56,6 @@ export class AdsPage {
 
     this.api.getAd(data.did).subscribe(res => {
       localStorage.setItem('adDetail', JSON.stringify(res));
-
       // console.log("res");
       // console.log(res);
       this.navController.navigateForward('/employer/ads/ad');

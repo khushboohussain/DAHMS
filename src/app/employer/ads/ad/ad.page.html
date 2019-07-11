@@ -12,7 +12,8 @@
 
       <div class="card-list container">
         <!-- dont show this one => once the employer got all his employees -->
-        <div *ngIf="!getAllEmployees" class="small-red-card pointer" (click)="navigateApplications()">
+        <div *ngIf="!getAllEmployees" class="small-red-card pointer"
+          (click)="navigateApplications()">
           <h2>Bewerbungen (<span>{{ totalApp }}</span>)</h2>
         </div>
         <!-- show this one only if the employer accepted at least one employee -->

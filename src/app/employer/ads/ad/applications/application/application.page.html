@@ -29,7 +29,8 @@
 
               <!-- phone number, show only if the applicant has an approval from employer -->
               <div class="item-no-icon container" *ngIf="isConfirmApp">
-                <p>+92 334 872 2424</p>
+                <p>{{userDetail.telefonnumer}} </p>
+                <!-- <p>+92 334 872 2424</p> -->
               </div>
 
               <!-- personal qualification -->
@@ -50,12 +51,12 @@
           </div>
 
           <!-- show other qualifications -->
-          <div class="others" *ngIf="otherQualifications" >
+          <div class="others" *ngIf="!otherQualifications" >
             <p class="small-title container">Sonstige Qualifikationen</p>
-            <div class="list-items" *ngFor="let item of otherQual">
+            <div class="list-items" *ngFor="let x of otherQual; let in = index">
               <!-- name of qualification -->
               <div class="item-no-icon container">
-                <p> {{item.qualification}} </p>
+                <p> {{otherQual[in] }} </p>
                 <!-- <p>Qualifikation</p> -->
               </div>
             </div>
@@ -64,7 +65,7 @@
       </div>
 
       <!-- if a confirmation was sent, don't show the following button -->
-      <div class="container">
+      <div class="container" *ngIf="!isConfirmApp">
         <ion-button color="primary" expand="block" (click)="answerOptions()">Zusage / Absage</ion-button>
       </div>
 

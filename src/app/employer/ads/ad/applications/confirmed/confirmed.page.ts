@@ -15,7 +15,7 @@ export class ConfirmedPage implements OnInit {
 
   ngOnInit() {
     this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
-    console.log('data', this.getAllAds.confirmEmployee);
+    // console.log('data', this.getAllAds.confirmEmployee);
     this.data = this.getAllAds.confirmEmployee;
   }
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { ApiService } from 'src/app/services/api.service';
-import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-applications',
@@ -13,11 +12,13 @@ export class ApplicationsPage implements OnInit {
   getAllAds: any;
   data: any = {};
 
-  constructor(private navController: NavController, public api: ApiService) { }
+  constructor(private navController: NavController) { }
 
   ngOnInit() {
+    localStorage.removeItem('confirm');
+
     this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
-    console.log('data', this.getAllAds.apply);
+    // console.log('data', this.getAllAds.apply);
     this.data = this.getAllAds.apply;
 
     // this.api.getEmployeerAds(localStorage.getItem('uid'))
