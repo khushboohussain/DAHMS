@@ -52,8 +52,8 @@ export class AdsPage {
   }
 
   navigateAd(data) {
-    // console.log("docID is " + data.did);
-
+    // console.log('docID is ', data.did);
+    localStorage.setItem('AdId', data.id);
     this.api.getAd(data.did).subscribe(res => {
       localStorage.setItem('adDetail', JSON.stringify(res));
       // console.log("res");

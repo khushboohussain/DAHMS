@@ -73,18 +73,22 @@ export class ApplicationPage implements OnInit {
               name: this.userDetail.vorname + '' + this.userDetail.nachname,
               uid: localStorage.getItem('appliedId')
             });
+            ad.confirmEmployeeIds.push(localStorage.getItem('appliedId'));
           } else {
             ad.confirmEmployee = [];
+            ad.confirmEmployeeIds = [];
             ad.confirmEmployee.push({
               name: this.userDetail.vorname + '' + this.userDetail.nachname,
               uid: localStorage.getItem('appliedId')
             });
+            ad.confirmEmployeeIds.push(localStorage.getItem('appliedId'));
           }
           // console.log('detail is ', ad);
-          const index = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
-          if (index > -1) {
-            ad.apply.splice(index, 1);
+          const x = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+          if (x > -1) {
+            ad.apply.splice(x, 1);
             delete ad.id;
+            // console.log(ad);
             this.api.UpdateAds(localStorage.getItem('AdId'), ad).then(res => {
               this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
               // this.confirmation('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
@@ -111,9 +115,9 @@ export class ApplicationPage implements OnInit {
               name: this.userDetail.vorname + '' + this.userDetail.nachname,
               uid: localStorage.getItem('appliedId')
             });
-            const index = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
-            if (index > -1) {
-              ad.apply.splice(index, 1);
+            const x = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+            if (x > -1) {
+              ad.apply.splice(x, 1);
               delete ad.id;
               this.api.UpdateAds(localStorage.getItem('AdId'), ad).then(res => {
                 // this.confirmation('Sie haben erfolgreich dem Bewerber eine Absage gesendet.');

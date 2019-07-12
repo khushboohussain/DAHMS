@@ -5,7 +5,6 @@ import { ApiService } from 'src/app/services/api.service';
 import { HelperService } from 'src/app/services/helper.service';
 import * as moment from 'moment';
 import { ViewChild } from '@angular/core';
-import { JsonPipe } from '@angular/common';
 
 
 @Component({
@@ -31,7 +30,8 @@ export class Step2Page implements OnInit {
   option2: boolean;
   option3: boolean;
 
-  differDates: boolean;
+  actionController: boolean;
+  continuoueCheck: boolean;
 
 
 
@@ -43,20 +43,26 @@ export class Step2Page implements OnInit {
 
     // Retrieve the object from storage
     this.data = JSON.parse(localStorage.getItem('AdsData'));
-    console.log('retrievedObject: \n', this.data);
+    console.log('retrieved Object: \n', this.data);
 
-    this.differDates = JSON.parse(localStorage.getItem('differDates'));
+    this.actionController = JSON.parse(localStorage.getItem('actionController'));
+    this.continuoueCheck = JSON.parse(localStorage.getItem('continuoueCheck'));
+    // this.continuoueCheck = JSON.parse(localStorage.getItem('continuoueCheck'));
     // this.differDates = JSON.parse(localStorage.getItem("differDates"));
-    console.log('differDates check is ' + this.differDates);
+    // console.log('differDates check is ' + this.differDates);
 
     // this.continuoueCheck = JSON.parse(localStorage.getItem("continuoueCheck"));
-    // console.log(typeof this.actionController);
+
+    console.log('actionController ', this.actionController);
+    console.log(typeof this.actionController);
+    console.log('continuoueCheck ', this.continuoueCheck);
+    console.log(typeof this.continuoueCheck);
 
 
     // checking conditions for showing proper template
 
     // Template 1 will execute
-    if (this.differDates === false && (this.data.continoueWork === '' || this.data.continoueWork === false)) {
+    if (this.actionController === true && this.continuoueCheck === false) {
       this.option1 = true;
       this.option2 = false;
       this.option3 = false;
@@ -74,7 +80,7 @@ export class Step2Page implements OnInit {
       // localStorage.setItem('option3', JSON.stringify(this.option3));
       // localStorage.setItem('option1', JSON.stringify(this.option1));
       // localStorage.setItem('actionController', JSON.stringify(this.actionController));
-    } else if (this.differDates === false && this.data.continoueWork === true) {
+    } else if (this.actionController === true && this.continuoueCheck === true) {
       this.option1 = false;
       this.option2 = true;
       this.option3 = false;
@@ -85,11 +91,11 @@ export class Step2Page implements OnInit {
         qualification: ['', Validators.required],
         requiredEmployees: ['', Validators.required],
         wage: ['', Validators.required],
-        // wageType: ['', Validators.required],
+        wageType: ['', Validators.required],
         drivingLicence: ['', Validators.required]
       });
       // Template 3
-    } else if (this.differDates === true) {
+    } else if (this.actionController === false && this.continuoueCheck === false) {
       this.option1 = false;
       this.option2 = false;
       this.option3 = true;
@@ -112,8 +118,10 @@ export class Step2Page implements OnInit {
       }
 
       console.log('Days are:  ', this.days);
-      console.log(typeof this.days);
+      // console.log(typeof this.days);
 
+      // console.log(moment(this.data.startDate).format());
+      // console.log(moment(this.data.endDate).format());
 
       for (let i = 0; i < this.days; i++) {
         this.form2.push(
@@ -264,6 +272,7 @@ export class Step2Page implements OnInit {
 
 
         wage: form.value.wage,
+        wageType: form.value.wageType,
         drivingLinse: form.value.drivingLicence,
         uid: localStorage.getItem('uid'),
         condition1: false,

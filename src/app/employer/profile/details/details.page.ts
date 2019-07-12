@@ -38,8 +38,8 @@ export class DetailsPage implements OnInit {
 
       this.userData = res;
       // console.log(this.userData);
-      this.api.getEmployerData(localStorage.getItem('uid')).subscribe(res => {
-        this.userData = { ...this.userData, ...res };
+      this.api.getEmployerData(localStorage.getItem('uid')).subscribe(resy => {
+        this.userData = { ...this.userData, ...resy };
 
         this.form.patchValue({
           'vorname': this.userData.vorname,
@@ -50,7 +50,7 @@ export class DetailsPage implements OnInit {
           'role': this.userData.role,
           'email': this.userData.email,
           'password': this.userData.password
-       });
+        });
         // console.log("this is working..." + this.form.get('vorname').value);
 
         // this.form.get('vorname').setValue(this.userData.vorname);
@@ -68,7 +68,7 @@ export class DetailsPage implements OnInit {
       });
     });
 
-    /* 
+    /*
       name: [{ value: '', disabled: true }, Validators.required],
       name: [{ value: '', disabled: this.variable }, Validators.required]
       this.form.controls['name'].disable();
@@ -79,7 +79,7 @@ export class DetailsPage implements OnInit {
 
   update(data) {
 
-    let formData = {
+    const formData = {
       vorname: data.value.vorname,
       nachname: data.value.nachname,
       telephone: data.value.telephone,
@@ -88,7 +88,7 @@ export class DetailsPage implements OnInit {
       role: data.value.role,
       email: data.value.email,
       password: data.value.password
-    }
+    };
     // console.log(formData);
     this.api.updateEmployerData(localStorage.getItem('uid'), {
       vorname: formData.vorname,
@@ -99,11 +99,11 @@ export class DetailsPage implements OnInit {
       role: formData.role,
     }).then(() => {
       this.helper.presentToast('Erfolgreich aktualisiert.');
-      this.navController.navigateBack("/employer/profile");
+      this.navController.navigateBack('/employer/profile');
 
     }, err => {
       this.helper.presentToast(err.message);
-    })
+    });
 
 
 

@@ -27,7 +27,7 @@ export class AdPage implements OnInit {
 
     this.data = JSON.parse(localStorage.getItem('adDetail'));
     // console.log('Ad data ', this.data);
-    // console.log('Applications length', this.data.apply.length);
+    // console.log('Applications length', this.data.did);
     if (this.data.apply) {
       this.totalApp = this.data.apply.length;
     }
@@ -66,12 +66,11 @@ export class AdPage implements OnInit {
 
   // <!-- dont show this one, =>  once the employer got all his employees -->
   navigateApplications() {
-    if (this.data.id === undefined) {
+    if (localStorage.getItem('AdId') === undefined ) {
       alert('Sorry! You have not any application');
       // this.navController.navigateForward('/employer/ads/ad/applications');
     } else {
       // console.log('Doc id is ', localStorage.getItem('AdId'));
-      localStorage.setItem('AdId', this.data.id);
       this.navController.navigateForward('/employer/ads/ad/applications');
 
     }

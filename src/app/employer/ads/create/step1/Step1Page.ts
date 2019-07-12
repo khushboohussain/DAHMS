@@ -18,10 +18,12 @@ export class Step1Page implements OnInit {
 
   form: FormGroup;
   data: any;
+  continuoueCheck: boolean;
   differDates: boolean;
   // will get values from Start Date and End Date
   nowDate = new Date();
   today;
+  disableaddress: boolean;
   // minDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
   // maxDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
   startMonth = '';
@@ -101,6 +103,28 @@ export class Step1Page implements OnInit {
       }); */
 
   }
+  getLocations() {
+    this.location.addressUpdateSearch();
+  }
+
+  // addressItem(item) {
+  //   this.disableaddress = true;
+  //   this.location.addressAutocomplete.query = item;
+  //   this.location.addressChooseItem(item);
+  // }
+
+  // disableaddress = true;
+
+  pickupBlur() {
+    if (this.location.addressAutocomplete.query.length === 0) {
+      this.disableaddress = true;
+    }
+  }
+
+  pickupFocus() {
+    this.disableaddress = false;
+  }
+
 
 
   // Getting Values form form on Submittion
@@ -119,7 +143,6 @@ export class Step1Page implements OnInit {
     // console.log(this.continueWork);
     // Put the object into storage
     localStorage.setItem('AdsData', JSON.stringify(data));
-    // localStorage.setItem('AdsData', this.data);
     // let id = localStorage.getItem('uid');
     // console.log('Current User Id is' + localStorage.getItem('uid'));
     this.adOptions();
@@ -145,51 +168,99 @@ export class Step1Page implements OnInit {
   }
 
   async adOptions() {
-    // template 3 will run
-    if (this.differDates === true) {
-
+    if (this.differDates === false && this.continuoueCheck === false) {
       const actionSheet = await this.actionSheetController.create({
         header: 'Stelleneinstellung',
-        buttons: [{
-          text: 'Einzelne Termine bearbeiten',
-          handler: () => {
-            this.navController.navigateForward('/employer/ads/create/step2');
-          }
-        },
-        {
-          text: 'Abbrechen',
-          role: 'cancel',
-          handler: () => { }
-        }]
+        buttons: [
+          {
+            text: 'Alle Termine gleich',
+            handler: () => {
+              localStorage.setItem('actionController', JSON.stringify(true));
+
+              localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+
+              this.navController.navigateForward('/employer/ads/create/step2');
+            }
+          },
+          {
+            text: 'Einzelne Termine bearbeiten',
+            handler: () => {
+              localStorage.setItem('actionController', JSON.stringify(false));
+
+              localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+              this.navController.navigateForward('/employer/ads/create/step2');
+            }
+          }, {
+            text: 'Abbrechen',
+            role: 'cancel',
+            handler: () => { }
+          }]
       });
       await actionSheet.present();
+    } else if (this.differDates === false && this.continuoueCheck === true) {
+      {
+        const actionSheet = await this.actionSheetController.create({
+          header: 'Stelleneinstellung',
+          buttons: [
+            {
+              text: 'Alle Termine gleich',
+              handler: () => {
+                localStorage.setItem('actionController', JSON.stringify(true));
+                localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+                this.navController.navigateForward('/employer/ads/create/step2');
+              }
+            },
+            // {
+            //   text: 'Einzelne Termine bearbeiten',
+            //   handler: () => {
+            //     localStorage.setItem('actionController', JSON.stringify(false));
+
+
+            //     localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+
+            //     this.navController.navigateForward('/employer/ads/create/step2');
+            //   }
+            // },
+            {
+              text: 'Abbrechen',
+              role: 'cancel',
+              handler: () => { }
+            }]
+        });
+        await actionSheet.present();
+
+      }
     } else {
       const actionSheet = await this.actionSheetController.create({
         header: 'Stelleneinstellung',
-        buttons: [{
-          text: 'Alle Termine gleich',
-          handler: () => {
-            // localStorage.setItem('actionController', JSON.stringify(true));
-            this.navController.navigateForward('/employer/ads/create/step2');
-          }
-        }
-          // , {
-          //   text: 'Einzelne Termine bearbeiten',
+        buttons: [
+          //   {
+          //   text: 'Alle Termine gleich',
           //   handler: () => {
-          //     // this.actionController = false;
-          //     localStorage.setItem('actionController', JSON.stringify(false));
-          //     this.navController.navigateForward("/employer/ads/create/step2");
-
+          //     localStorage.setItem('actionController', JSON.stringify(true));
+          //     this.navController.navigateForward('/employer/ads/create/step2');
           //   }
-          // }
-          , {
-          text: 'Abbrechen',
-          role: 'cancel',
-          handler: () => { }
-        }]
+          // },
+          {
+            text: 'Einzelne Termine bearbeiten',
+            handler: () => {
+              localStorage.setItem('actionController', JSON.stringify(false));
+
+
+              localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+
+              this.navController.navigateForward('/employer/ads/create/step2');
+            }
+          }, {
+            text: 'Abbrechen',
+            role: 'cancel',
+            handler: () => { }
+          }]
       });
       await actionSheet.present();
+
     }
+
   }
 
   get f() {
@@ -250,56 +321,86 @@ export class Step1Page implements OnInit {
 
     if (event.value.startDate !== '' && event.value.endDate !== '') {
 
-      // console.log(this.startDay + " " + this.endDay);
       if (event.value.startDate > event.value.endDate) {
-        console.log('bigger');
+        // console.log('bigger');
         this.helper.presentToast(`First Date ${event.value.startDate} is greater than end date ${event.value.startDate} `);
         this.form.get('startDate').setValue('');
         this.form.get('endDate').setValue('');
       } else {
-        console.log('normal');
-        if (this.startDay === this.endDay) {
-          console.log('equal');
-          this.form.get('continoueWork').enable();
-          this.differDates = false;
-          console.log(' Differ date ', this.differDates);
-          localStorage.setItem('differDates', JSON.stringify(false));
-        } else {
-          this.form.get('continoueWork').setValue(false);
-          this.form.get('continoueWork').disable();
+        if (event.value.startDate === event.value.endDate) {
+          this.helper.presentToast(`First Date ${event.value.startDate} is eqauals to end date ${event.value.startDate} `);
+          this.continuoueCheck = false;
           this.differDates = true;
-          localStorage.setItem('differDates', JSON.stringify(true));
-          console.log(' Differ date ', this.differDates);
+        }
+        // console.log('normal');
+        this.form.get('continoueWork').setValue(false);
+        this.form.get('continoueWork').disable();
+        this.continuoueCheck = false;
 
-          // var dateC = moment(event.value.startDate);
-          // var dateB = moment(event.value.endDate);
-          // console.log('Difference is ', dateB.diff(moment(event.value.startDate), 'days'), 'days');
-          const DifferenceOfDate = moment(event.value.endDate).diff(moment(event.value.startDate), 'days');
-          this.helper.presentToast(`You have selected '${DifferenceOfDate} days' `);
+        if (this.startDay === this.endDay) {
+          this.differDates = false;
+          this.continuoueCheck = true;
+        } else {
+          // this.differDates = true;
+          this.continuoueCheck = false;
+
+          // console.log(moment(event.value.endDate).subtract('days', event.value.startDate).date());
           // console.log('Difference is ', moment(event.value.endDate).diff(moment(event.value.startDate), 'days'), 'days');
-          localStorage.setItem('days', JSON.stringify(DifferenceOfDate));
+
+          const DifferenceOfDate = moment(event.value.endDate).diff(moment(event.value.startDate), 'days') + 1;
+          console.log(DifferenceOfDate);
+
+          console.log(DifferenceOfDate);
+
+          if (DifferenceOfDate === 1) {
+            this.form.get('continoueWork').enable();
+            this.form.get('continoueWork').valueChanges.subscribe(res => {
+              this.continuoueCheck = res;
+              // this.differDates = true;
+
+              // localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+              console.log(' Continuous Check is ' + this.continuoueCheck);
+            });
+            if (this.continuoueCheck === false) {
+              this.differDates = false;
+              console.log('abc', this.differDates);
+            } else {
+              this.differDates = false;
+              console.log('xyz', this.differDates);
+            }
+            // this.differDates = false;
+            // this.differDates = false;
+            console.log(' Differ date ', this.differDates);
+            // localStorage.setItem('differDates', JSON.stringify(false));
+
+          } // difference 1 day
           if (DifferenceOfDate > 20) {
             this.helper.presentToast(`You have selected '${DifferenceOfDate} days' but enter first 20 days`);
+            localStorage.setItem('days', JSON.stringify(20));
+          } else {
+            localStorage.setItem('days', JSON.stringify(DifferenceOfDate));
           }
-          // console.log("Substracting... Days...", moment(event.value.startDate).subtract('days', event.value.endDate));
-
-
-
-          // console.log(new Date(event.value.endDate).getDate() - new Date(event.value.startDate).getDate());
-
         }
+        // this.differDates = true;
+        // localStorage.setItem('differDates', JSON.stringify(true));
+        // console.log(' Differ date ', this.differDates);
 
+        // var dateC = moment(event.value.startDate);
+        // var dateB = moment(event.value.endDate);
+        // console.log('Difference is ', dateB.diff(moment(event.value.startDate), 'days'), 'days');
+        // this.helper.presentToast(`You have selected '${DifferenceOfDate} days' `);
+        // console.log('Difference is ', moment(event.value.endDate).diff(moment(event.value.startDate), 'days'), 'days');
+        // console.log("Substracting... Days...", moment(event.value.startDate).subtract('days', event.value.endDate));
+
+        // console.log(new Date(event.value.endDate).getDate() - new Date(event.value.startDate).getDate());
 
       } // Normal Dates
 
-
-
-
     }  // dates are not empty  closed
 
-
-  }
+  } // end Function
 
 
 
 }
+

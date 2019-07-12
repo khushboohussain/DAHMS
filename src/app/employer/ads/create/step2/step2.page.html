@@ -226,17 +226,27 @@
                       clearInput></ion-input>
 
                   </ion-item>
-
                 </div>
               </div>
               <!-- new field creation end -->
 
-              <!-- wage -->
+             <!-- wage -->
+             <div class="grid-2-l">
+              <!-- money -->
               <ion-item lines="none">
                 <ion-label position="stacked">Honorar</ion-label>
                 <ion-input type="number" formControlName="wage" clearInput></ion-input>
               </ion-item>
 
+              <!-- money per day or per hour paid -->
+              <ion-item lines="none">
+                <ion-label position="stacked">Tag/Std.</ion-label>
+                <ion-select formControlName="wageType" cancelText="Abbrechen" okText="Fertig">
+                  <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
+                  <ion-select-option value="DAILY">pro Tag</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
               <!-- driving license -->
               <ion-item lines="none">
                 <ion-label position="stacked">Führerschein benötigt?</ion-label>
