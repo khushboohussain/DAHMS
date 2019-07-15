@@ -161,6 +161,7 @@ export class Step2Page implements OnInit {
 
           confirmEmployee: [],
           confirmEmployeeIds: [],
+
           step2: [],
           otherQualification: [],
           uid: localStorage.getItem('uid'),

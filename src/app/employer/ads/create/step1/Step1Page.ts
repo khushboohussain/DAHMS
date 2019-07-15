@@ -24,15 +24,18 @@ export class Step1Page implements OnInit {
   nowDate = new Date();
   today;
   disableaddress: boolean;
+  // minDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
+  // maxDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
   startMonth = '';
   startDay = '';
   endDay = '';
   endMonth = '';
   // start date minimum and maximum values
   minDate = new Date().toISOString();
-  
+  // maxDate: any = new Date(this.nowDate.Date().setFullDate(this.nowDate Date().getFullDate() + 2)).toISOString();
   maxDate = new Date(this.nowDate.getFullYear() + 2, 11, 31).toISOString().slice(0, 10);
-
+  // new Date(new Date().setDate(new Date().getDate() + 2)).toISOString();
+  // end Date minimum and maximum values
 
 
   // tslint:disable-next-line: max-line-length
@@ -51,13 +54,22 @@ export class Step1Page implements OnInit {
       address: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      continoueWork: ['',],
-      fastReply: ['',]
+      continoueWork: ['', ],
+      fastReply: ['', ]
     });
 
 
     // tslint:disable-next-line: max-line-length
     this.today = `${this.nowDate.getFullYear()}-${(this.nowDate.getMonth() + 1) < 10 ? ('0' + (this.nowDate.getMonth() + 1)) : (this.nowDate.getMonth() + 1)}-${(this.nowDate.getDate() < 10) ? ('0' + (this.nowDate.getDate())) : this.nowDate.getDate()}`;
+
+    // this.time = this.nowDate.toTimeString().split(' ')[0].substring(0,5);
+    // console.log(" Today ", this.today);
+    // console.log(this.minDate);
+    // console.log(this.maxDate);
+    // console.log(new Date(this.nowDate.getFullYear() + 2, 0, 1).toISOString());
+    // console.log("maxDate", new Date(this.nowDate.getFullYear() + 2, 0, 1).toISOString().slice(0, 10));
+    // console.log(new Date(this.nowDate.getFullYear() + 2, 11, 31).toISOString().slice(0, 10));
+    // console.log("20 days added in current date", new Date(new Date().setDate(new Date().getDate() + 20)).toISOString().slice(0, 10));
 
 
 
@@ -332,6 +344,7 @@ export class Step1Page implements OnInit {
         // console.log('normal');
       } else {
         // console.log(moment(event.value.startDate).format('LL'), '\n', moment(event.value.endDate).format('LL'));
+        // console.log(event.value.startDate, '\n', event.value.endDate);
 
         if (moment(event.value.startDate).format('LL') === moment(event.value.endDate).format('LL')) {
           this.form.get('continoueWork').setValue(false);
@@ -339,6 +352,10 @@ export class Step1Page implements OnInit {
           this.differDates = false;
           this.continuoueCheck = false;
         } else {
+          this.form.get('continoueWork').setValue(false);
+          this.form.get('continoueWork').disable();
+          this.differDates = false;
+          this.differDates = true;
           const DifferenceOfDate = moment(event.value.endDate).diff(moment(event.value.startDate), 'days');
           console.log(DifferenceOfDate);
 

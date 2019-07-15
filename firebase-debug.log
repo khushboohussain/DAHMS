@@ -1,0 +1,13 @@
+[debug] [2019-06-29T20:46:40.255Z] ----------------------------------------------------------------------
+[debug] [2019-06-29T20:46:40.257Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khush\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2019-06-29T20:46:40.258Z] CLI Version:   7.0.2
+[debug] [2019-06-29T20:46:40.258Z] Platform:      win32
+[debug] [2019-06-29T20:46:40.258Z] Node Version:  v10.15.3
+[debug] [2019-06-29T20:46:40.259Z] Time:          Sun Jun 30 2019 01:46:40 GMT+0500 (Pakistan Standard Time)
+[debug] [2019-06-29T20:46:40.259Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-06-29T20:46:40.278Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-06-29T20:46:40.279Z] > authorizing via signed-in user
+[debug] [2019-06-29T20:46:40.280Z] [iam] checking project medapp-e3698 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-06-29T20:46:40.282Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/medapp-e3698:testIamPermissions  
+
