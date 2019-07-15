@@ -97,4 +97,7 @@ export class ApiService {
   deleteAds(id: any) {
     return this.afs.doc('ads/' + id).delete();
   }
+  // getApplyAds() {
+  //   return this.afs.collection('ads', ref => ref.where('did', '==', 'did')).snapshotChanges();
+  // }
 }

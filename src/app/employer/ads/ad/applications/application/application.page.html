@@ -12,27 +12,31 @@
       <div class="application">
         <!-- employee profile image -->
         <div class="profile-image container">
-          <img src="../../../../../../assets/IMG_9577.JPG">
+          <img *ngIf="userDetail.imageURL" [src]=" userDetail.imageURL " alt="Employee's Image">
+          <!-- <img src="../../../../../../assets/IMG_9577.JPG"> -->
         </div>
 
         <div class="info">
           <div class="general">
             <p class="small-title container">Allgemeine Informationen</p>
             <div class="list-items">
-              
+
               <!-- FIRST NAME LAST NAME of employee -->
               <div class="item-no-icon container">
-                <p>Max Mustermann</p>
+                <p> {{ userDetail.vorname }} {{ userDetail.nachname }} </p>
+                <!-- <p>Max Mustermann</p> -->
               </div>
 
               <!-- phone number, show only if the applicant has an approval from employer -->
-              <div class="item-no-icon container">
-                <p>+92 334 872 2424</p>
+              <div class="item-no-icon container" *ngIf="isConfirmApp">
+                <p>{{userDetail.telefonnumer}} </p>
+                <!-- <p>+92 334 872 2424</p> -->
               </div>
 
               <!-- personal qualification -->
               <div class="item-no-icon container">
-                <p>Sanitätshelfer</p>
+                <p> {{ userDetail.qualifikation }} </p>
+                <!-- <p>Sanitätshelfer</p> -->
               </div>
 
               <!-- Is driving license necessary? 
@@ -40,18 +44,20 @@
               else if no - FORMAT: Es wird kein Führerschein benötigt, 
               else if beneficial - FORMAT: Führerschein wäre vorteilhaft, kein Muss. -->
               <div class="item-no-icon container">
-                <p>Führerscheinklasse B vorteilhaft</p>
+                <p> {{licenseType}} </p>
+                <!-- <p>Führerscheinklasse B vorteilhaft</p> -->
               </div>
             </div>
           </div>
 
           <!-- show other qualifications -->
-          <div class="others">
+          <div class="others" *ngIf="!otherQualifications" >
             <p class="small-title container">Sonstige Qualifikationen</p>
-            <div class="list-items">
+            <div class="list-items" *ngFor="let x of otherQual; let in = index">
               <!-- name of qualification -->
               <div class="item-no-icon container">
-                <p>Qualifikation</p>
+                <p> {{otherQual[in] }} </p>
+                <!-- <p>Qualifikation</p> -->
               </div>
             </div>
           </div>
@@ -59,7 +65,7 @@
       </div>
 
       <!-- if a confirmation was sent, don't show the following button -->
-      <div class="container">
+      <div class="container" *ngIf="!isConfirmApp">
         <ion-button color="primary" expand="block" (click)="answerOptions()">Zusage / Absage</ion-button>
       </div>
 

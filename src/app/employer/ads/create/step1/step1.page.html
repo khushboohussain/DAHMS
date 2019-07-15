@@ -1,7 +1,7 @@
 <ion-content>
   <div class="main">
     <div class="header container">
-      <ion-back-button text="" defaultHref="" icon="arrow-round-back" routerLink="['/employer/ads']">
+      <ion-back-button text="" defaultHref="" icon="arrow-round-back" routerLink="/employer/ads">
       </ion-back-button>
     </div>
 
@@ -12,6 +12,8 @@
           <p></p>
         </div>
       </div>
+      <!-- {{minDate}}
+      {{maxDate}} -->
 
       <div class="general">
         <form [formGroup]="form">
@@ -29,7 +31,7 @@
             <ion-item lines="none">
               <ion-label position="stacked">Wo?</ion-label>
               <ion-input type="text" formControlName="address" clearInput autocapitalize="word" autocomplete autocorrect
-                required></ion-input>
+                required (ionInput)="getLocations()" (ionBlur)="pickupBlur()" (ionFocus)="pickupFocus()" ></ion-input>
             </ion-item>
 
             <!-- when? -->
@@ -37,16 +39,16 @@
               <!-- start date -->
               <ion-item lines="none">
                 <ion-label position="stacked">Startdatum</ion-label>
-                <ion-datetime formControlName="startDate" displayFormat="DD.MM.YYYY" cancelText="Abbrechen"
-                  doneText="Fertig" required>
+                <ion-datetime #stratDate formControlName="startDate" displayFormat="DD.MM.YYYY"
+                  (ionChange)="gettingDate(form)" [min]="minDate" [max]="maxDate" cancelText="Abbrechen" doneText="Fertig" required>
                 </ion-datetime>
               </ion-item>
 
               <!-- last date -->
               <ion-item lines="none">
                 <ion-label position="stacked">Enddatum</ion-label>
-                <ion-datetime formControlName="endDate" displayFormat="DD.MM.YYYY" cancelText="Abbrechen"
-                  doneText="Fertig" required>
+                <ion-datetime #endDate formControlName="endDate" displayFormat="DD.MM.YYYY"
+                  (ionChange)="gettingDate(form)" [min]="minDate" [max]="maxDate" cancelText="Abbrechen" doneText="Fertig" required>
                 </ion-datetime>
               </ion-item>
             </div>
@@ -54,7 +56,7 @@
 
           <div class="container">
             <div class="box">
-              <!-- continuous work -->
+              <!-- continuous work   [attr.disabled]="continueWork" -->
               <ion-item lines="none">
                 <ion-checkbox formControlName="continoueWork" value="CONTINUOUS" checked='false'></ion-checkbox>
                 <ion-label>&nbsp; Durchgehende Schicht?</ion-label>
@@ -70,8 +72,8 @@
             </div>
 
             <!-- go to the ad details; "Alle Termine gleich" = same dates / "Einzelne Termine bearbeiten" = different dates -->
-            <ion-button color="primary" expand="block" [disabled]="form.invalid || form.pristine"
-              (click)="submit(form)"> Zu den Einsatzdetails </ion-button>
+            <ion-button color="primary" expand="block" [disabled]="!form.valid || form.pristine" (click)="submit(form)">
+              Zu den Einsatzdetails </ion-button>
 
           </div>
 

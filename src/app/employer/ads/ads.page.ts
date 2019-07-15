@@ -21,7 +21,14 @@ export class AdsPage {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
   }
 
+// tslint:disable-next-line: use-life-cycle-interface
   ngOnInit() {
+
+    localStorage.removeItem('AdsData');
+    localStorage.removeItem('AdId');
+    localStorage.removeItem('confirm');
+    localStorage.removeItem('appliedId');
+
     // console.log(localStorage.getItem('uid'))
     this.api.getEmployeerAds(localStorage.getItem('uid'))
       .pipe(map(actions => actions.map(a => {
@@ -33,33 +40,34 @@ export class AdsPage {
       .subscribe(res => {
         this.getAds = res;
         // console.log('data \n');
-        // console.log(res);
+        // console.log(res.length);
         // console.log('did \n');
         // console.log(this.getAds.did);
       }, err => {
         console.log(err.message);
-      })
+      });
 
 
 
   }
 
   navigateAd(data) {
-    // console.log("docID is " + data.did);
-
-    this.api.getAd(data.did).subscribe( res => {
-      localStorage.setItem('AdData', JSON.stringify(res));
-
+    // console.log('docID is ', data.did);
+    localStorage.setItem('AdId', data.id);
+    this.api.getAd(data.did).subscribe(res => {
+      localStorage.setItem('adDetail', JSON.stringify(res));
       // console.log("res");
       // console.log(res);
-      this.navController.navigateForward("/employer/ads/ad");
+      this.navController.navigateForward('/employer/ads/ad');
     }, err => {
       console.log(err.message);
-    })
+    });
   }
 
+  // check payment method is integrated or not
   navigateCreateAd() {
-    this.navController.navigateForward("/employer/ads/create/step1");
+    this.navController.navigateForward('/employer/ads/create/step1');
+
   }
 
 }

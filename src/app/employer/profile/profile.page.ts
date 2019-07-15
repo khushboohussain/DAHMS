@@ -18,26 +18,27 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    
+
 
   }
 
 
   navigateDetails() {
-    this.navController.navigateForward("/employer/profile/details");
+    this.navController.navigateForward('/employer/profile/details');
   }
 
   navigatePaymentMethods() {
-    this.navController.navigateForward("/employer/profile/payment-methods");
+    this.navController.navigateForward('/employer/profile/payment-methods');
   }
 
   navigateStart() {
-    if (confirm("Are you sure to logout!")) {
-      this.auth.logout();
+    // if (confirm('Are you sure to logout!')) {
+    // }
+    this.auth.logout().then(res => {
       localStorage.clear();
-      // this.navController.navigateRoot("/employer/profile");
-      this.navController.navigateRoot("/start");
-    }
+      this.navController.navigateRoot('/start');
+    });
+    // this.navController.navigateRoot("/employer/profile");
   }
 
 
