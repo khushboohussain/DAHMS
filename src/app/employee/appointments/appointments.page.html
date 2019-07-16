@@ -15,16 +15,16 @@
       </div>
 
       <!-- list of appointments -->
-      <div class="appointments">
+      <div class="appointments" *ngFor="let item of getads">
         <!-- appointment-->
-        <div class="red-card" (click)="navigateAppointment()">
+        <div class="red-card" (click)="navigateAppointment(item)">
           <!-- ad title-->
-          <h2>Einsatzart</h2>
+          <h2>{{item?.jobTitle}}</h2>
           <div class="info">
             <!-- job date; FORMAT: Datum "STARTDATE" - "ENDDATE" -->
-            <p><b>Datum</b><br>01.01.19 - 02.01.19</p>
+            <p><b>Datum</b><br>{{item?.startDate}} - {{item?.endDate}}</p>
             <!-- job address; FORMAT: Einsatzort: "CITY" -->
-            <p><b>Einsatzort</b><br>Göppingen</p>
+            <p><b>Einsatzort</b><br>{{item?.location}}</p>
           </div>
         </div>
       </div>

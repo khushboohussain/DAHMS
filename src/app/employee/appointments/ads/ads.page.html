@@ -10,13 +10,13 @@
       </div>
 
       <!-- all ads received  -->
-      <div class="ads">
+      <div class="ads" *ngFor="let item of getAllads">
         <div class="list-items">
           <!-- single ad -->
-          <div class="item" (click)="navigateAd()">
+          <div class="item" (click)="navigateAd(item)">
             <!-- ad title -->
             <div class="item-text text container">
-              <p>Einsatzart</p>
+              <p>{{item?.jobTitle}}</p>
             </div>
             <div class="item-icon">
               <ion-icon name="arrow-forward"></ion-icon>

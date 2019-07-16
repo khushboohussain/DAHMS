@@ -23,7 +23,6 @@ export class Step1Page implements OnInit {
   // will get values from Start Date and End Date
   nowDate = new Date();
   today;
-  disableaddress: boolean;
   // minDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
   // maxDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
   startMonth = '';
@@ -37,6 +36,8 @@ export class Step1Page implements OnInit {
   // new Date(new Date().setDate(new Date().getDate() + 2)).toISOString();
   // end Date minimum and maximum values
 
+  disableaddress = true;
+  myLocation: string;
 
   // tslint:disable-next-line: max-line-length
   constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder, public helper: HelperService, private location: LocationService) {
@@ -51,7 +52,7 @@ export class Step1Page implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       jobTitle: ['', Validators.required],
-      address: ['', Validators.required],
+      address: ['',],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       continoueWork: ['', ],
@@ -71,9 +72,6 @@ export class Step1Page implements OnInit {
     // console.log(new Date(this.nowDate.getFullYear() + 2, 11, 31).toISOString().slice(0, 10));
     // console.log("20 days added in current date", new Date(new Date().setDate(new Date().getDate() + 20)).toISOString().slice(0, 10));
 
-
-
-
     // this.onChanges();
 
     this.data = JSON.parse(localStorage.getItem('AdsData'));
@@ -81,19 +79,22 @@ export class Step1Page implements OnInit {
     if (this.data) {
       this.form.patchValue({
         'jobTitle': this.data.jobTitle,
-        'address': this.data.address,
+        // 'address': this.data.address,
         // 'startDate': this.data.startDate,
         // 'endDate': this.data.endDate,
         'continoueWork': this.data.continoueWork,
         'fastReply': this.data.fastReply
       });
+      this.location.addressAutocomplete = {
+        query: this.data.address
+      };
 
 
     }
 
   } // end Of ngOnInIt()
 
-  onChanges() {
+  // onChanges() {
     /* this.form.get('continoueWork').valueChanges.subscribe(res => {
       this.continuoueCheck = res;
       console.log(' Continuous Check is ' + this.continuoueCheck);
@@ -101,19 +102,20 @@ export class Step1Page implements OnInit {
      this.form.get('endDate').valueChanges.subscribe(res => {
         console.log(' end date is ' + res);
       }); */
+  // }
 
-  }
   getLocations() {
     this.location.addressUpdateSearch();
   }
 
-  // addressItem(item) {
-  //   this.disableaddress = true;
-  //   this.location.addressAutocomplete.query = item;
-  //   this.location.addressChooseItem(item);
-  // }
-
-  // disableaddress = true;
+  addressItem(item) {
+    this.disableaddress = true;
+    this.location.addressAutocomplete.query = item;
+    this.form.controls['address'].setValue(item);
+    this.myLocation = item;
+    // console.log('MY ITEM ', this.myLocation);
+    this.location.addressChooseItem(item);
+  }
 
   pickupBlur() {
     if (this.location.addressAutocomplete.query.length === 0) {
@@ -125,8 +127,7 @@ export class Step1Page implements OnInit {
     this.disableaddress = false;
   }
 
-
-
+  
   // Getting Values form form on Submittion
   submit(form: any) {
     const data = {
@@ -146,7 +147,7 @@ export class Step1Page implements OnInit {
     // let id = localStorage.getItem('uid');
     // console.log('Current User Id is' + localStorage.getItem('uid'));
 
-    console.log(this.differDates, this.continuoueCheck);
+    // console.log(this.differDates, this.continuoueCheck);
 
     if (this.differDates === true && this.continuoueCheck === true) {
 
@@ -161,7 +162,7 @@ export class Step1Page implements OnInit {
       this.navController.navigateForward('/employer/ads/create/step2');
 
     } else {
-      console.log('woorrkkkinnnggg.....');
+      // console.log('woorrkkkinnnggg.....');
 
       this.adOptions();
     }
@@ -187,7 +188,7 @@ export class Step1Page implements OnInit {
   }
 
   async adOptions() {
-    if (this.differDates === true && this.continuoueCheck === false) {
+    // if (this.differDates === true && this.continuoueCheck === false) {
       const actionSheet = await this.actionSheetController.create({
         header: 'Stelleneinstellung',
         buttons: [
@@ -213,7 +214,7 @@ export class Step1Page implements OnInit {
           }]
       });
       await actionSheet.present();
-    }
+    // }
     // else if (this.differDates === false && this.continuoueCheck === true) {
     //   {
     //     const actionSheet = await this.actionSheetController.create({
@@ -247,36 +248,7 @@ export class Step1Page implements OnInit {
     //     await actionSheet.present();
 
     //   }
-    // } 
-    else {
-      const actionSheet = await this.actionSheetController.create({
-        header: 'Stelleneinstellung',
-        buttons: [
-          //   {
-          //   text: 'Alle Termine gleich',
-          //   handler: () => {
-          //     localStorage.setItem('actionController', JSON.stringify(true));
-          //     this.navController.navigateForward('/employer/ads/create/step2');
-          //   }
-          // },
-          {
-            text: 'Einzelne Termine bearbeiten',
-            handler: () => {
-              localStorage.setItem('actionController', JSON.stringify(false));
-
-              localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-
-              this.navController.navigateForward('/employer/ads/create/step2');
-            }
-          }, {
-            text: 'Abbrechen',
-            role: 'cancel',
-            handler: () => { }
-          }]
-      });
-      await actionSheet.present();
-
-    }
+    // }
 
   }
 
@@ -357,16 +329,18 @@ export class Step1Page implements OnInit {
           this.differDates = false;
           this.differDates = true;
           const DifferenceOfDate = moment(event.value.endDate).diff(moment(event.value.startDate), 'days');
-          console.log(DifferenceOfDate);
+          // console.log(DifferenceOfDate);
 
           if (DifferenceOfDate === 1) {
             localStorage.setItem('days', JSON.stringify(DifferenceOfDate + 1));
-
+            this.differDates = true;
+            this.continuoueCheck = false;
+            this.form.controls['continoueWork'].setValue(false);
             this.form.get('continoueWork').enable();
             this.form.get('continoueWork').valueChanges.subscribe(res => {
               this.continuoueCheck = res;
+              // this.differDates = true;
             });
-            this.differDates = true;
           } else if (DifferenceOfDate > 20) {
             this.helper.presentToast(`You have selected '${DifferenceOfDate} days' but enter first 20 days`);
             localStorage.setItem('days', JSON.stringify(20));

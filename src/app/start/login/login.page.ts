@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
 export class LoginPage implements OnInit {
 
   form: FormGroup;
-  companyData: any = " ";
+  companyData: any = ' ';
 
   // tslint:disable-next-line: max-line-length
   constructor(private navController: NavController, private api: ApiService, private fb: FormBuilder, private auth: AuthService, private helper: HelperService) { }
@@ -39,8 +39,8 @@ export class LoginPage implements OnInit {
   // Strar of Login method
   login(form) {
     // console.log('Login starts');
-    let email = form.value.email;
-    let password = form.value.password;
+    const email = form.value.email;
+    const password = form.value.password;
 
     this.auth.login(email, password)
       .then(res => {
@@ -49,11 +49,11 @@ export class LoginPage implements OnInit {
             if (user.type === 'ADMIN ') {
               // this.router.navigate(['admin/companies']);
               localStorage.setItem('uid', res.user.uid);
-              localStorage.setItem('type', 'admin');
+              // localStorage.setItem('type', 'admin');
             } else
-              if (user.type === 'employer') {
+            if (user.type === 'employer') {
                 localStorage.setItem('uid', res.user.uid);
-                localStorage.setItem('type', 'employer');
+                // localStorage.setItem('type', 'employer');
                 this.api.getEmployerData(res.user.uid)
                   .subscribe(res => {
                     this.companyData = res;
@@ -63,7 +63,7 @@ export class LoginPage implements OnInit {
                     if (this.companyData.telephone === '' || this.companyData.telephone == null) {
                       this.navController.navigateRoot('/employer/onboarding');
                     } else {
-                      this.navController.navigateRoot("/employer/ads");
+                      this.navController.navigateRoot('/employer/ads');
                     }
                   });
 
@@ -76,17 +76,17 @@ export class LoginPage implements OnInit {
               } else
                 if (user.type === 'employee') {
                   localStorage.setItem('uid', res.user.uid);
-                  localStorage.setItem('type', ' employee');
+                  // localStorage.setItem('type', ' employee');
                   this.api.getEmployeeData(res.user.uid)
-                    .subscribe(res => {
+                    .subscribe( res => {
                       this.companyData = res;
                       // console.log(res);
                       // localStorage.setItem('userName', this.userData.fname);
                       // this.helper.setuserName(this.userData.fname);
-                      if (this.companyData.telephone === '' || this.companyData.telephone == null) {
+                      if (this.companyData.telefonnumer === '' || this.companyData.telefonnumer == null) {
                         this.navController.navigateRoot('/employee/onboarding');
                       } else {
-                        this.navController.navigateRoot("/employee/appointments");
+                        this.navController.navigateRoot('/employee/appointments');
                       }
                     });
                   // if(!user.firmenname)

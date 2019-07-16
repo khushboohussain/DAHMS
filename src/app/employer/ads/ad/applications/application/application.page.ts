@@ -89,7 +89,7 @@ export class ApplicationPage implements OnInit {
             ad.apply.splice(x, 1);
             delete ad.id;
             // console.log(ad);
-            this.api.UpdateAds(localStorage.getItem('AdId'), ad).then(res => {
+            this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
               this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
               // this.confirmation('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
               this.navController.pop();
@@ -119,7 +119,7 @@ export class ApplicationPage implements OnInit {
             if (x > -1) {
               ad.apply.splice(x, 1);
               delete ad.id;
-              this.api.UpdateAds(localStorage.getItem('AdId'), ad).then(res => {
+              this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
                 // this.confirmation('Sie haben erfolgreich dem Bewerber eine Absage gesendet.');
                 this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Absage gesendet.');
                 this.navController.navigateBack('/employer/ads/ad/applications');

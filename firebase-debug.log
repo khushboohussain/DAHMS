@@ -11,3 +11,28 @@
 [debug] [2019-06-29T20:46:40.280Z] [iam] checking project medapp-e3698 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
 [debug] [2019-06-29T20:46:40.282Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/medapp-e3698:testIamPermissions  
 
+[debug] [2019-07-16T20:18:50.310Z] ----------------------------------------------------------------------
+[debug] [2019-07-16T20:18:50.323Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\khush\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2019-07-16T20:18:50.323Z] CLI Version:   7.1.0
+[debug] [2019-07-16T20:18:50.323Z] Platform:      win32
+[debug] [2019-07-16T20:18:50.324Z] Node Version:  v10.15.3
+[debug] [2019-07-16T20:18:50.326Z] Time:          Wed Jul 17 2019 01:18:50 GMT+0500 (Pakistan Standard Time)
+[debug] [2019-07-16T20:18:50.326Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-07-16T20:18:50.431Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-07-16T20:18:50.434Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\KodeAlpha\Workspace\Projects\DAHMS\Test\Saad
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+

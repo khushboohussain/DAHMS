@@ -8,6 +8,7 @@
       <!-- show if dates same (option 1) is clicked and continuous checkbox is not selected -->
       <div *ngIf="option1;" class=" dates-same">
 
+
         <form [formGroup]="form">
           <div class="title container">
             <h2>Einsatz Template 1</h2>
@@ -62,7 +63,7 @@
                 <ion-item float-right>
                   <!-- {{i}} -->
                   <!-- <ion-icon name="close"  ></ion-icon> -->
-                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeField(i)"></ion-icon>
+                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeFieldx(i)"></ion-icon>
                 </ion-item>
 
 
@@ -126,7 +127,7 @@
           </div>
 
           <!-- create another "employee-info" just below the first one, the newly created one should have a remove icon so we can delete it if added by mistake -->
-          <div class="add-new container pointer" (click)="addField()">
+          <div class="add-new container pointer" (click)="addFieldx()">
             <ion-icon name="add"></ion-icon>
             <p>Weitere Einsatzkraft hinzufügen</p>
           </div>
@@ -141,6 +142,10 @@
           </div>
 
         </form>
+
+
+
+
       </div>
       <!-- show if dates same (Option 1) is clicked and continuous checkbox is selected -->
       <div *ngIf="option2;" class=" dates-same-continuous">
@@ -199,7 +204,7 @@
                 <ion-item float-right>
                   <!-- {{i}} -->
                   <!-- <ion-icon name="close"  ></ion-icon> -->
-                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeField(i)"></ion-icon>
+                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeFieldx(i)"></ion-icon>
                 </ion-item>
 
 
@@ -261,7 +266,7 @@
           </div>
 
           <!-- create another "employee-info" just below the first one, the newly created one should have a remove icon so we can delete it if added by mistake -->
-          <div class="add-new container pointer" (click)="addField()">
+          <div class="add-new container pointer" (click)="addFieldx()">
             <ion-icon name="add"></ion-icon>
             <p>Weitere Einsatzkraft hinzufügen</p>
           </div>
@@ -287,8 +292,8 @@
             <form [formGroup]="form2[i]">
               <div class="title container">
                 <h2>Einsatz</h2>
-                Data for day {{i+1}} <br>
-                {{dateStart | date}}
+                <!-- Data for day {{i+1}} <br> -->
+                <!-- {{dateStart | date}} -->
                 <!-- {{dateEnd | date}} -->
 
                 <!-- get data from last slide, if first slide then don't show -->
@@ -344,19 +349,19 @@
                     </ion-item>
                   </div>
 
-                  <div *ngFor="let item of newField; let i = index" (focusout)='getValues()'>
-                    <ion-item float-right>
+                  <div *ngFor="let extra of extraWorkforce; let j = index">
+                    <ion-item float-right *ngIf="extra.index === i">
                       <!-- {{i}} -->
                       <!-- <ion-icon name="close"  ></ion-icon> -->
-                      <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeField(i)">
+                      <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeField(j)">
                       </ion-icon>
                     </ion-item>
 
-                    <div class="grid-2-l">
+                    <div class="grid-2-l" *ngIf="extra.index === i">
                       <!-- personal qualification -->
                       <ion-item lines="none">
                         <ion-label position="stacked">Einsatzkraft</ion-label>
-                        <ion-select #otherQualification (ionChange)="getQulalifications(otherQualification)"
+                        <ion-select [(ngModel)]="extra.qualification" [ngModelOptions]="{standalone: true}"
                           cancelText="Abbrechen" okText="Fertig">
                           <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
                           <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
@@ -371,8 +376,8 @@
                       <!-- how many of those employees -->
                       <ion-item lines="none">
                         <ion-label position="stacked">Anzahl</ion-label>
-                        <ion-input type="number" #otherRequiredEmployees (ionChange)="getRegEmp(otherRequiredEmployees)"
-                          clearInput></ion-input>
+                        <ion-input type="number" [(ngModel)]="extra.requiredEmployees"
+                          [ngModelOptions]="{standalone: true}" clearInput></ion-input>
 
                       </ion-item>
 
@@ -412,7 +417,7 @@
               </div>
 
               <!-- create another "employee-info" just below the first one, the newly created one should have a remove icon so we can delete it if added by mistake -->
-              <div class="add-new container pointer" (click)="addField()">
+              <div class="add-new container pointer" (click)="addField(i)">
                 <ion-icon name="add"></ion-icon>
                 <p>Weitere Einsatzkraft hinzufügen</p>
               </div>

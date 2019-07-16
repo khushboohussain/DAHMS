@@ -3,6 +3,7 @@ import { ToastController, NavController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HelperService } from 'src/app/services/helper.service';
+import { LocationService } from 'src/app/services/location.service';
 
 @Component({
   selector: 'app-details',
@@ -13,20 +14,28 @@ export class DetailsPage implements OnInit {
 
   form: FormGroup;
   userData: any;
+  disableaddress = true;
+  myLocation: string;
 
 
 
-  constructor(public toastController: ToastController, private navController: NavController, private api: ApiService, private fb: FormBuilder, private helper: HelperService) { }
+  // tslint:disable-next-line: max-line-length
+  constructor(public toastController: ToastController, private navController: NavController, private api: ApiService, private fb: FormBuilder, private helper: HelperService, private location: LocationService) {
+    this.location.addressAutocompleteItems = [];
+    this.location.addressAutocomplete = {
+      query: ''
+    };
+    // console.log('this query', this.location.addressAutocomplete.query);
+
+  }
 
   ngOnInit() {
-
-
     this.form = this.fb.group({
       vorname: ['', Validators.required],
       nachname: ['', Validators.required],
       telephone: ['', Validators.required],
       CompanyName: ['', Validators.required],
-      address: ['', Validators.required],
+      // address: ['', Validators.required],
       role: [''],
       email: [{ value: '', disabled: true }, Validators.required],
       password: [{ value: '', disabled: true }, Validators.compose([
@@ -41,12 +50,20 @@ export class DetailsPage implements OnInit {
       this.api.getEmployerData(localStorage.getItem('uid')).subscribe(resy => {
         this.userData = { ...this.userData, ...resy };
 
+        this.myLocation = this.userData.address;
+        console.log('my Location is ', this.myLocation);
+
+        this.location.addressAutocomplete = {
+          query: this.myLocation
+        };
+        console.log('this query', this.location.addressAutocomplete.query);
+
         this.form.patchValue({
           'vorname': this.userData.vorname,
           'nachname': this.userData.nachname,
           'telephone': this.userData.telephone,
           'CompanyName': this.userData.CompanyName,
-          'address': this.userData.address,
+          // 'location.addressAutocomplete.query': this.myLocation,
           'role': this.userData.role,
           'email': this.userData.email,
           'password': this.userData.password
@@ -78,32 +95,34 @@ export class DetailsPage implements OnInit {
   // end ngOnInit
 
   update(data) {
+    if (this.myLocation === '') {
+      alert('Please file the address field');
+    } else {
+      const formData = {
+        vorname: data.value.vorname,
+        nachname: data.value.nachname,
+        telephone: data.value.telephone,
+        CompanyName: data.value.CompanyName,
+        role: data.value.role,
+        email: data.value.email,
+        password: data.value.password
+      };
+      // console.log(formData);
+      this.api.updateEmployerData(localStorage.getItem('uid'), {
+        vorname: formData.vorname,
+        nachname: formData.nachname,
+        telephone: formData.telephone,
+        CompanyName: formData.CompanyName,
+        address: this.myLocation,
+        role: formData.role,
+      }).then(() => {
+        this.helper.presentToast('Erfolgreich aktualisiert.');
+        this.navController.navigateBack('/employer/profile');
 
-    const formData = {
-      vorname: data.value.vorname,
-      nachname: data.value.nachname,
-      telephone: data.value.telephone,
-      CompanyName: data.value.CompanyName,
-      address: data.value.address,
-      role: data.value.role,
-      email: data.value.email,
-      password: data.value.password
-    };
-    // console.log(formData);
-    this.api.updateEmployerData(localStorage.getItem('uid'), {
-      vorname: formData.vorname,
-      nachname: formData.nachname,
-      telephone: formData.telephone,
-      CompanyName: formData.CompanyName,
-      address: formData.address,
-      role: formData.role,
-    }).then(() => {
-      this.helper.presentToast('Erfolgreich aktualisiert.');
-      this.navController.navigateBack('/employer/profile');
-
-    }, err => {
-      this.helper.presentToast(err.message);
-    });
+      }, err => {
+        this.helper.presentToast(err.message);
+      });
+    } // else ended
 
 
 
@@ -124,6 +143,30 @@ export class DetailsPage implements OnInit {
 
   get f() {
     return this.form.controls;
+  }
+
+  getLocations() {
+    this.location.addressUpdateSearch();
+  }
+
+  addressItem(item) {
+    this.disableaddress = true;
+    this.location.addressAutocomplete.query = item;
+    // this.form.controls['address'].setValue(item);
+    this.myLocation = item;
+    console.log('MY ITEM ', this.myLocation);
+
+    this.location.addressChooseItem(item);
+  }
+
+  pickupBlur() {
+    if (this.location.addressAutocomplete.query.length === 0) {
+      this.disableaddress = true;
+    }
+  }
+
+  pickupFocus() {
+    this.disableaddress = false;
   }
 
 

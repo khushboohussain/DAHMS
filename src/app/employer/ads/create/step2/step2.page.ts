@@ -34,17 +34,16 @@ export class Step2Page implements OnInit {
   continuoueCheck: boolean;
   dateStart;
   dateEnd: Date;
-
+  extraWorkforce = [];
 
 
 
   constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, public helper: HelperService) { }
 
   ngOnInit() {
-
     // Retrieve the object from storage
     this.data = JSON.parse(localStorage.getItem('AdsData'));
-    console.log('retrieved Object: \n', this.data);
+    // console.log('retrieved Object: \n', this.data);
 
     this.dateStart = this.data.startDate;
 
@@ -117,7 +116,7 @@ export class Step2Page implements OnInit {
 
       this.days = JSON.parse(localStorage.getItem('days'));
 
-      console.log('Days are:  ', this.days);
+      // console.log('Days are:  ', this.days);
       // console.log(typeof this.days);
 
       // console.log(moment(this.data.startDate).format());
@@ -136,6 +135,8 @@ export class Step2Page implements OnInit {
             drivingLicence: ['', Validators.required]
           })
         );
+        // this.dateStart = moment(this.dateStart).add(i, 'days').format();
+        // console.log('Adding 1', this.dateStart);
       }
       setTimeout(() => {
         this.slides.lockSwipes(true);
@@ -145,10 +146,82 @@ export class Step2Page implements OnInit {
   }
   /* ngOnInit end */
 
+
+
+  // For adding new input field for template 1 and 2
+  addFieldx() {
+    this.otherQualification = '';
+    this.otherRequiredEmployees = null;
+    this.newField.push({
+      qualification: '',
+      requiredEmployees: null
+    });
+  }
+  removeFieldx(index: number) {
+    // console.log('Remove Field is working...');
+    // this.otherQualification = '';
+    // this.otherRequiredEmployees = null;
+    this.newField.splice(index, 1);
+    // console.log('successfuly deleted item number '+ index);
+  }
+
+  // For adding new input field for template 3
+  addField(i) {
+    // jd logic only for Template 3
+    // console.log(i)
+    if (i >= 0) {
+      this.extraWorkforce.push({
+        qualification: '',
+        requiredEmployees: 0,
+        index: i
+      });
+    } else {
+      this.extraWorkforce.push({
+        qualification: '',
+        requiredEmployees: 0
+      });
+    }
+
+    // console.log(this.extraWorkforce)
+
+  }
+  removeField(index) {
+    // console.log('Remove Field is working...');
+    // this.otherQualification = '';
+    // this.otherRequiredEmployees = null;
+    this.extraWorkforce.splice(index, 1);
+    // console.log('successfuly deleted item number '+ index);
+  }
+
+  nextSlide() {
+    // console.log('Actual Date ', this.dateStart);
+    this.slides.lockSwipes(false);
+    this.slides.slideNext().then(() => { this.slides.lockSwipes(true); });
+    // this.dateStart = moment(this.dateStart).add(1, 'days').format();
+    // console.log('Adding 1', this.dateStart);
+
+  }
+
+  goBack() {
+    this.slides.lockSwipes(false);
+    // this.dateStart = moment(this.dateStart).subtract(1, 'days').format();
+    // console.log('Minus 1 ', this.dateStart);
+    // this.slides.slidePrev().then(() => { this.slides.lockSwipes(true); });
+  }
+  // getQulalifications(item) {
+  //   console.log(item.value);
+
+
+  // }
+  // getRegEmp(item) {
+  //   console.log(item.value);
+
+  // }
+
   // Form Submit Method
   submitForm(form: any) {
     // submit method for template 1 and 3
-    console.log('form values ', form);
+    // console.log('form values ', form);
     if (this.option2 !== true) {
       // for condition 3
       if (this.option3 === true) {
@@ -163,7 +236,7 @@ export class Step2Page implements OnInit {
           confirmEmployeeIds: [],
 
           step2: [],
-          otherQualification: [],
+          // otherQualification: [],
           uid: localStorage.getItem('uid'),
           condition1: false,
           condition2: false,
@@ -173,13 +246,30 @@ export class Step2Page implements OnInit {
         form.forEach(a => {
           this.record.step2.push(a.value);
         });
-        this.newField.forEach(a => {
-          this.record.otherQualification.push({
-            qualification: a.otherQualification,
-            requiredEmployees: a.otherRequiredEmployees
+
+        if (this.extraWorkforce.length > 0) {
+          this.extraWorkforce.forEach(a => {
+            if (a.index >= 0) {
+              if (this.record.step2[a.index].otherQualification === null) {
+                this.record.step2[a.index].otherQualification = [];
+              } else {
+                this.record.step2[a.index].otherQualification.push({
+                  qualification: a.qualification,
+                  requiredEmployees: a.requiredEmployees
+                });
+              }
+
+            }
           });
-        });
-        console.log('other Qualification', this.record.otherQualification);
+        }
+
+        // this.newField.forEach(a => {
+        //   this.record.otherQualification.push({
+        //     qualification: a.otherQualification,
+        //     requiredEmployees: a.otherRequiredEmployees
+        //   });
+        // });
+        // console.log(this.record);
 
         // getting values from Step2
         //  startTime: form.value.startTime,
@@ -192,20 +282,20 @@ export class Step2Page implements OnInit {
         //  wage: form.value.wage,
         //  wageType: form.value.wageType,
         //  drivingLinse: form.value.drivingLicence,
-        console.log('Record ', this.record);
+        // console.log('Record ', this.record);
         // this.newField.forEach(a => {
         // });
         // this.adDetail.push(record)
         // console.log(record);
 
-        // this.api.createAds(record)
-        //   .then(res => {
-        //     this.helper.presentToast('Ad Created Successfuliy!');
-        //     this.navController.navigateRoot('/employer/ads/create/step3');
-        //   }, err => {
-        //     this.helper.presentToast(err.message + 'Error!');
-        //   });
-
+        this.api.createAds(this.record)
+          .then(res => {
+            this.helper.presentToast(' Ad Created Successfuliy!');
+            this.navController.navigateRoot('/employer/ads/create/step3');
+          }, err => {
+            this.helper.presentToast(err.message + 'Error!');
+          });
+        // end of template 3
       } else {
         //  for condition 1
         const record = {
@@ -313,56 +403,7 @@ export class Step2Page implements OnInit {
     // end Else Bloack
   } // end SubmitForm method
 
-  // For adding new input field for employee
-  addField() {
-    this.otherQualification = '';
-    this.otherRequiredEmployees = null;
-    this.newField.push({
-      qualification: '',
-      requiredEmployees: null
-    });
-  }
-  removeField(index: number) {
-    // console.log('Remove Field is working...');
-    this.otherQualification = '';
-    this.otherRequiredEmployees = null;
-    this.newField.splice(index, 1);
-    // console.log('successfuly deleted item number '+ index);
-  }
-  // getQulalifications(data) {
-  //   console.log('Qualification is ', data);
-  //   console.log('Qualification is ', data.value);
-  //   this.otherQualification = data.value;
-  //   console.log('getQulalifications()', this.otherQualification);
 
-  // }
-  // getRegEmp(data) {
-  //   console.log('Required Emp is ', data.value);
-  //   this.otherRequiredEmployees = data.value;
-  //   console.log('getReqEmp()', this.otherRequiredEmployees);
-  // }
-  getValues() {
-    console.log('onBlur is working...');
-    if (this.otherQualification !== '' && this.otherRequiredEmployees !== null) {
-
-      console.log('finish onBlur ', this.data.otherQualification[0]);
-    }
-
-
-  }
-  nextSlide() {
-    console.log('working...', this.dateStart);
-    this.slides.lockSwipes(false);
-    this.slides.slideNext().then(() => { this.slides.lockSwipes(true); });
-    this.dateStart = moment(this.dateStart).add(1, 'days').format();
-    console.log('working...', this.dateStart);
-
-  }
-
-  goBack() {
-    this.slides.lockSwipes(false);
-    this.slides.slidePrev().then(() => { this.slides.lockSwipes(true); });
-  }
 
 
 }

@@ -30,9 +30,18 @@
             <!-- where? (address) -->
             <ion-item lines="none">
               <ion-label position="stacked">Wo?</ion-label>
-              <ion-input type="text" formControlName="address" clearInput autocapitalize="word" autocomplete autocorrect
-                required (ionInput)="getLocations()" (ionBlur)="pickupBlur()" (ionFocus)="pickupFocus()" ></ion-input>
+              <ion-input type="text" clearInput autocapitalize="word" [(ngModel)]="location.addressAutocomplete.query"
+                [ngModelOptions]="{standalone: true}" (ionInput)="getLocations()" (ionBlur)="pickupBlur()"
+                (ionFocus)="pickupFocus()" requierd></ion-input>
             </ion-item>
+
+            <ion-list
+              [hidden]="location.addressAutocompleteItems.length === 0 || disableaddress === true || location.addressAutocomplete.query.length === 0 ">
+              <ion-item *ngFor="let item of location.addressAutocompleteItems" tappable (click)="addressItem(item)">
+                {{ item }}
+              </ion-item>
+            </ion-list>
+
 
             <!-- when? -->
             <div class="grid-2">
@@ -40,7 +49,8 @@
               <ion-item lines="none">
                 <ion-label position="stacked">Startdatum</ion-label>
                 <ion-datetime #stratDate formControlName="startDate" displayFormat="DD.MM.YYYY"
-                  (ionChange)="gettingDate(form)" [min]="minDate" [max]="maxDate" cancelText="Abbrechen" doneText="Fertig" required>
+                  (ionChange)="gettingDate(form)" [min]="minDate" [max]="maxDate" cancelText="Abbrechen"
+                  doneText="Fertig" required>
                 </ion-datetime>
               </ion-item>
 
@@ -48,7 +58,8 @@
               <ion-item lines="none">
                 <ion-label position="stacked">Enddatum</ion-label>
                 <ion-datetime #endDate formControlName="endDate" displayFormat="DD.MM.YYYY"
-                  (ionChange)="gettingDate(form)" [min]="minDate" [max]="maxDate" cancelText="Abbrechen" doneText="Fertig" required>
+                  (ionChange)="gettingDate(form)" [min]="minDate" [max]="maxDate" cancelText="Abbrechen"
+                  doneText="Fertig" required>
                 </ion-datetime>
               </ion-item>
             </div>
@@ -72,7 +83,7 @@
             </div>
 
             <!-- go to the ad details; "Alle Termine gleich" = same dates / "Einzelne Termine bearbeiten" = different dates -->
-            <ion-button color="primary" expand="block" [disabled]="!form.valid || form.pristine" (click)="submit(form)">
+            <ion-button color="primary" expand="block" [disabled]="!form.valid " (click)="submit(form)">
               Zu den Einsatzdetails </ion-button>
 
           </div>

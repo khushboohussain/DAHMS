@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { LocationService } from 'src/app/services/location.service';
 
 @Component({
   selector: 'app-onboarding',
@@ -13,8 +14,15 @@ export class OnboardingPage implements OnInit {
 
   form: FormGroup;
   data: any;
-  
-  constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, private helper: HelperService) { }
+  disableaddress: boolean;
+
+  // tslint:disable-next-line: max-line-length
+  constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, private helper: HelperService, private location: LocationService) {
+    this.location.addressAutocompleteItems = [];
+    this.location.addressAutocomplete = {
+      query: ''
+    };
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -23,12 +31,30 @@ export class OnboardingPage implements OnInit {
       address: [''],
       telephone: ['', Validators.required]
     });
-    
+
   }
 
-  navigateHome() {
-    this.navController.navigateRoot("/employer/ads");
+  getLocations() {
+    this.location.addressUpdateSearch();
   }
+
+  addressItem(item) {
+    this.disableaddress = true;
+    this.location.addressAutocomplete.query = item;
+    this.form.controls['address'].setValue(item);
+    this.location.addressChooseItem(item);
+  }
+
+  pickupBlur() {
+    if (this.location.addressAutocomplete.query.length === 0) {
+      this.disableaddress = true;
+    }
+  }
+
+  pickupFocus() {
+    this.disableaddress = false;
+  }
+
 
   submit(form: any) {
     this.data = {
@@ -37,19 +63,20 @@ export class OnboardingPage implements OnInit {
       address: form.value.address,
       telephone: form.value.telephone
     };
+    // console.log(this.form.value);
+    // console.log(this.data);
+
     // console.log(this.data.role + " " + this.data.name + " " + this.data.address + " \n" + this.data.telephone);
     // let userId = localStorage.getItem('uid');
     // console.log(localStorage.getItem('uid'));
 
-    this.api.updateEmployerData(localStorage.getItem('uid'), this.data).then( res => {
-      
+    this.api.updateEmployerData(localStorage.getItem('uid'), this.data).then(res => {
+
       this.helper.presentToast('Company record save successfully!');
-      this.navController.navigateRoot("/employer/ads");
+      this.navController.navigateRoot('/employer/ads');
 
     }, err => {
       this.helper.presentToast(err.message);
-    })
-
-
+    });
   }
 }

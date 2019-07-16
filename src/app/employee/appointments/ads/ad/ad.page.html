@@ -17,7 +17,7 @@
             <!-- show all personal qualification which are searched for -->
             <div class="item" (click)="navigateAdDetails()">
               <div class="item-text text container">
-                <p>Sanitätshelfer</p>
+                <p>{{AdData.qualification}}</p>
               </div>
               <div class="item-icon">
                 <ion-icon name="arrow-forward"></ion-icon>
@@ -31,46 +31,46 @@
           <p class="small-title container">Wo?</p>
           <div class="list-items">
             <div class="item-no-icon container">
-              <p>Musterstr. 10, 10000 Musterhausen</p>
+              <p>{{AdData.location}}</p>
             </div>
           </div>
         </div>
 
-        <!-- show if the ad is set as same dates and continuous is not selected-->
-        <div class="same-dates">
+        <!-- show if the ad is set as same dates and continuous is not selected condition 1-->
+        <div class="same-dates" *ngIf="AdData.condition1">
           <div class="when">
             <p class="small-title container">Wann?</p>
             <div class="list-items">
               <div class="item-no-icon container">
                 <!-- FORMAT: Am "FIRST DATE" - "LAST DATE" zwischen "START TIME" - "END TIME" Uhr -->
-                <p>Am 01.01.19 - 02.01.19 zwischen 09.00 - 18.00 Uhr</p>
+                <p>Am {{AdData.startDate}} - {{AdData.endDate}} zwischen {{AdData.startTime}} - {{AdData.endTime}} Uhr</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- show if the ad is set as same dates and continuous is selected-->
-        <div class="same-dates-continuous">
+        <!-- show if the ad is set as same dates and continuous is selected condition 2-->
+        <div class="same-dates-continuous" *ngIf="AdData.condition2">
           <div class="when">
             <p class="small-title container">Wann?</p>
             <div class="list-items">
               <div class="item-no-icon container">
                 <!-- FORMAT: Am "FIRST DATE" um "START TIME" Uhr bis zum "LAST DATE" um "END TIME" Uhr -->
-                <p>Am 01.01.19 um 09.00 Uhr bis zum 02.01.19 um 09.00 Uhr</p>
+                <p>Am {{AdData.startDate}} - {{AdData.endDate}} zwischen {{AdData.startTime}} - {{AdData.endTime}} Uhr</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- show if the ad is set as different dates and continuous is not selected-->
-        <div class="different-dates">
+        <!-- show if the ad is set as different dates and continuous is not selected condition 3-->
+        <div class="different-dates" *ngIf="AdData.condition3">
           <div class="when">
             <p class="small-title container">Wann?</p>
             <div class="list-items">
               <!-- Show for each date -->
               <div class="item-no-icon container">
                 <!-- FORMAT: Am "FIRST DATE" zwischen "START TIME" - "END TIME" Uhr -->
-                <p>Am 01.01.19 zwischen 09.00 - 18.00 Uhr</p>
+                <p>Am {{AdData.startDate}} - {{AdData.endDate}} zwischen {{AdData.startTime}} - {{AdData.endTime}} Uhr</p>
               </div>
             </div>
           </div>

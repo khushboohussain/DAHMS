@@ -73,7 +73,7 @@ export class ApiService {
     return this.afs.doc('employees/' + id).delete();
   }
 
-  // Job or Ads 
+  // Job or Ads
   createAds(data: any) {
     return this.afs.collection('ads').add(data);
   }
@@ -82,21 +82,22 @@ export class ApiService {
     return this.afs.doc('ads/' + id).valueChanges();
   }
 
-  getEmployeerAds(id: any) {
-    return this.afs.collection('ads', ref => ref.where('uid', '==', id)).snapshotChanges();
-  }
-
   getAllAds() {
     return this.afs.collection('ads').snapshotChanges();
   }
 
-  UpdateAds(id: any, data: any) {
+  updateAds(id: any, data: any) {
     return this.afs.doc('ads/' + id).update(data);
   }
 
   deleteAds(id: any) {
     return this.afs.doc('ads/' + id).delete();
   }
+
+  getEmployeerAds(id: any) {
+    return this.afs.collection('ads', ref => ref.where('uid', '==', id)).snapshotChanges();
+  }
+
   // getApplyAds() {
   //   return this.afs.collection('ads', ref => ref.where('did', '==', 'did')).snapshotChanges();
   // }

@@ -45,7 +45,7 @@ addressGeoCode(address: any) {
   }
 
   addressUpdateSearch() {
-    if (this.addressAutocomplete.query == '') {
+    if (this.addressAutocomplete.query === '') {
       this.addressAutocompleteItems = [];
       return;
     }

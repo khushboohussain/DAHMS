@@ -16,6 +16,7 @@ export class RegisterPage implements OnInit {
   public getType = '';
   data: any;
 
+  // tslint:disable-next-line: max-line-length
   constructor(private navController: NavController, private fb: FormBuilder, private auth: AuthService, private api: ApiService, public helper: HelperService) { }
 
   ngOnInit() {
@@ -64,7 +65,7 @@ export class RegisterPage implements OnInit {
         })
           .then(ress => {
             if (this.data.type === 'employer') {
-              console.log("Start" + this.data.type);
+              // console.log('Start' + this.data.type);
               this.createEmployer(res.user.uid).then(after => {
                 this.helper.presentToast('EMPLOYER Account Created successfully!');
                 // console.log('Creating new user ' + res);
@@ -91,12 +92,12 @@ export class RegisterPage implements OnInit {
           }, err => {
             this.helper.presentToast(err.message + 'Error!');
             // this.toastr.error(err.message,'Error!');
-            console.log(err.message);
+            // console.log(err.message);
           });
       }, err => {
         this.helper.presentToast(err.message + 'Error!');
         // this.toastr.error(err.message,'Error!');
-        console.log(err.message);
+        // console.log(err.message);
       });
 
     // if (this.getType === 'EMPLOYEE') {
@@ -114,7 +115,8 @@ export class RegisterPage implements OnInit {
   createEmployee(id: string) {
     return this.api.createEmployee(id, {
       vorname: this.data.vorname,
-      nachname: this.data.nachname
+      nachname: this.data.nachname,
+      email: this.data.email
     });
   }
   createEmployer(id: string) {

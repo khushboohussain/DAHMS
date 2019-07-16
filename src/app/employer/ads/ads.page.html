@@ -21,7 +21,7 @@
             <!-- job date; FORMAT: Datum "STARTDATE" - "ENDDATE" -->
             <p>
               <b>Datum</b>
-              <br>{{item?.startDate}} - {{item?.endDate}}
+              <br>{{item?.startDate  | date}} - {{item?.endDate  | date}}
             </p>
             <!-- job address; FORMAT: Einsatzort: "CITY" -->
             <p>
