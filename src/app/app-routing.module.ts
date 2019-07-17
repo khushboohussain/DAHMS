@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: 'login', loadChildren: './start/login/login.module#LoginPageModule' },
   { path: 'login/password-reset', loadChildren: './start/login/password-reset/password-reset.module#PasswordResetPageModule' },
   { path: 'register', loadChildren: './start/register/register.module#RegisterPageModule' },
-  
+
   { path: 'admin/employees', loadChildren: './admin/employees/employees.module#EmployeesPageModule' },
   { path: 'admin/employees/employee', loadChildren: './admin/employees/employee/employee.module#EmployeePageModule' },
   { path: 'admin/employers', loadChildren: './admin/employers/employers.module#EmployersPageModule' },

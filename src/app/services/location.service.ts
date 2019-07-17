@@ -40,7 +40,7 @@ addressGeoCode(address: any) {
         };
       }
 
-      console.log('pickup : ', this.company);
+      // console.log('pickup : ', this.company);
     });
   }
 

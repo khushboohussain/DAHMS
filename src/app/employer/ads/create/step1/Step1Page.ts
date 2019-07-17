@@ -55,8 +55,8 @@ export class Step1Page implements OnInit {
       address: ['',],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      continoueWork: ['', ],
-      fastReply: ['', ]
+      continoueWork: ['',],
+      fastReply: ['',]
     });
 
 
@@ -95,13 +95,13 @@ export class Step1Page implements OnInit {
   } // end Of ngOnInIt()
 
   // onChanges() {
-    /* this.form.get('continoueWork').valueChanges.subscribe(res => {
-      this.continuoueCheck = res;
-      console.log(' Continuous Check is ' + this.continuoueCheck);
-    });
-     this.form.get('endDate').valueChanges.subscribe(res => {
-        console.log(' end date is ' + res);
-      }); */
+  /* this.form.get('continoueWork').valueChanges.subscribe(res => {
+    this.continuoueCheck = res;
+    console.log(' Continuous Check is ' + this.continuoueCheck);
+  });
+   this.form.get('endDate').valueChanges.subscribe(res => {
+      console.log(' end date is ' + res);
+    }); */
   // }
 
   getLocations() {
@@ -127,19 +127,18 @@ export class Step1Page implements OnInit {
     this.disableaddress = false;
   }
 
-  
+
   // Getting Values form form on Submittion
   submit(form: any) {
     const data = {
       jobTitle: form.value.jobTitle,
       address: form.value.address,
-      startDate: form.value.startDate,
-      endDate: form.value.endDate,
+      startDate: moment(form.value.startDate).format('DD-MM-YYYY'),
+      endDate: moment(form.value.endDate).format('DD-MM-YYYY'),
       continoueWork: form.value.continoueWork,
       fastReply: form.value.fastReply
     };
     // console.log(data);
-
     // this.continueWork = data.continoueWork;
     // console.log(this.continueWork);
     // Put the object into storage
@@ -189,31 +188,31 @@ export class Step1Page implements OnInit {
 
   async adOptions() {
     // if (this.differDates === true && this.continuoueCheck === false) {
-      const actionSheet = await this.actionSheetController.create({
-        header: 'Stelleneinstellung',
-        buttons: [
-          {
-            text: 'Alle Termine gleich',
-            handler: () => {
-              localStorage.setItem('actionController', JSON.stringify(true));
-              localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-              this.navController.navigateForward('/employer/ads/create/step2');
-            }
-          },
-          {
-            text: 'Einzelne Termine bearbeiten',
-            handler: () => {
-              localStorage.setItem('actionController', JSON.stringify(false));
-              localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-              this.navController.navigateForward('/employer/ads/create/step2');
-            }
-          }, {
-            text: 'Abbrechen',
-            role: 'cancel',
-            handler: () => { }
-          }]
-      });
-      await actionSheet.present();
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Stelleneinstellung',
+      buttons: [
+        {
+          text: 'Alle Termine gleich',
+          handler: () => {
+            localStorage.setItem('actionController', JSON.stringify(true));
+            localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+            this.navController.navigateForward('/employer/ads/create/step2');
+          }
+        },
+        {
+          text: 'Einzelne Termine bearbeiten',
+          handler: () => {
+            localStorage.setItem('actionController', JSON.stringify(false));
+            localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+            this.navController.navigateForward('/employer/ads/create/step2');
+          }
+        }, {
+          text: 'Abbrechen',
+          role: 'cancel',
+          handler: () => { }
+        }]
+    });
+    await actionSheet.present();
     // }
     // else if (this.differDates === false && this.continuoueCheck === true) {
     //   {
@@ -262,11 +261,17 @@ export class Step1Page implements OnInit {
     if (event.value.startDate !== '') {
       //  StartDate = event.value.start;
       // console.log("moment().date() getting day ..",moment(event.value.startDate).date());
+      // console.log(moment(event.value.startDate).format('HH:mm'));
+      // console.log(moment(event.value.startDate).format('HH:MM'));
+      // console.log(moment(event.value.startDate).format('HH:mm'));
 
       // console.log("moment()", moment(event.value.startDate));
       // console.log('local', moment(event.value.startDate).local());
       // console.log("moment(startDate) ",moment(event.value.startDate));
-      // console.log("moment. format", moment().format());
+      // console.log('moment. format', moment().format('LL'));
+      // console.log('moment. format', moment().format('L'));
+      // console.log('moment. format', moment().format('DD-MM-YYYY'));
+
       // console.log('moment.fromNow()', moment().fromNow());
       // console.log("Start Date is ..." + event.value.startDate);
 
@@ -315,6 +320,8 @@ export class Step1Page implements OnInit {
         this.form.get('endDate').setValue('');
         // console.log('normal');
       } else {
+        this.differDates = true;
+        this.continuoueCheck = false;
         // console.log(moment(event.value.startDate).format('LL'), '\n', moment(event.value.endDate).format('LL'));
         // console.log(event.value.startDate, '\n', event.value.endDate);
 
@@ -326,7 +333,7 @@ export class Step1Page implements OnInit {
         } else {
           this.form.get('continoueWork').setValue(false);
           this.form.get('continoueWork').disable();
-          this.differDates = false;
+          this.continuoueCheck = false;
           this.differDates = true;
           const DifferenceOfDate = moment(event.value.endDate).diff(moment(event.value.startDate), 'days');
           // console.log(DifferenceOfDate);

@@ -46,65 +46,64 @@ export class LoginPage implements OnInit {
       .then(res => {
         this.api.getUser(res.user.uid)
           .subscribe((user: any) => {
-            if (user.type === 'ADMIN ') {
-              // this.router.navigate(['admin/companies']);
+            // console.log(user);
+            if (user.type === 'admin') {
+              // console.log('admin working...');
               localStorage.setItem('uid', res.user.uid);
-              // localStorage.setItem('type', 'admin');
-            } else
-            if (user.type === 'employer') {
-                localStorage.setItem('uid', res.user.uid);
-                // localStorage.setItem('type', 'employer');
-                this.api.getEmployerData(res.user.uid)
-                  .subscribe(res => {
-                    this.companyData = res;
-                    // console.log(res);
-                    // localStorage.setItem('userName', this.userData.fname);
-                    // this.helper.setuserName(this.userData.fname);
-                    if (this.companyData.telephone === '' || this.companyData.telephone == null) {
-                      this.navController.navigateRoot('/employer/onboarding');
-                    } else {
-                      this.navController.navigateRoot('/employer/ads');
-                    }
-                  });
+              this.navController.navigateRoot('admin/employees');
+              // this.router.navigate(['admin/companies']);
+            } else if (user.type === 'employer') {
+              localStorage.setItem('uid', res.user.uid);
+              // localStorage.setItem('type', 'employer');
+              this.api.getEmployerData(res.user.uid)
+                .subscribe(resx => {
+                  this.companyData = resx;
+                  // console.log(res);
+                  // localStorage.setItem('userName', this.userData.fname);
+                  // this.helper.setuserName(this.userData.fname);
+                  if (this.companyData.telephone === '' || this.companyData.telephone == null) {
+                    this.navController.navigateRoot('/employer/onboarding');
+                  } else {
+                    this.navController.navigateRoot('/employer/ads');
+                  }
+                });
 
-                // if(!user.firmenname)
-                // this.router.navigate(['onboarding']);
-                // else
-                // this.router.navigate(['overview']);
-                /* Taking Company data; checking employer/onboarding form is already fild*/
+              // if(!user.firmenname)
+              // this.router.navigate(['onboarding']);
+              // else
+              // this.router.navigate(['overview']);
+              /* Taking Company data; checking employer/onboarding form is already fild*/
 
-              } else
-                if (user.type === 'employee') {
-                  localStorage.setItem('uid', res.user.uid);
-                  // localStorage.setItem('type', ' employee');
-                  this.api.getEmployeeData(res.user.uid)
-                    .subscribe( res => {
-                      this.companyData = res;
-                      // console.log(res);
-                      // localStorage.setItem('userName', this.userData.fname);
-                      // this.helper.setuserName(this.userData.fname);
-                      if (this.companyData.telefonnumer === '' || this.companyData.telefonnumer == null) {
-                        this.navController.navigateRoot('/employee/onboarding');
-                      } else {
-                        this.navController.navigateRoot('/employee/appointments');
-                      }
-                    });
-                  // if(!user.firmenname)
-                  // this.router.navigate(['onboarding']);
-                  // else
-                  // this.router.navigate(['overview']);
+            } else if (user.type === 'employee') {
+              localStorage.setItem('uid', res.user.uid);
+              // localStorage.setItem('type', ' employee');
+              this.api.getEmployeeData(res.user.uid)
+                .subscribe(resx => {
+                  this.companyData = resx;
+                  // console.log(res);
+                  // localStorage.setItem('userName', this.userData.fname);
+                  // this.helper.setuserName(this.userData.fname);
+                  if (this.companyData.telefonnumer === '' || this.companyData.telefonnumer == null) {
+                    this.navController.navigateRoot('/employee/onboarding');
+                  } else {
+                    this.navController.navigateRoot('/employee/appointments');
+                  }
+                });
+              // if(!user.firmenname)
+              // this.router.navigate(['onboarding']);
+              // else
+              // this.router.navigate(['overview']);
 
 
-                } else {
-                  this.auth.logout();
-                  // this.toastr.error('User Account Doesnt Exists');
-                  this.helper.presentToast('User Account Doesnt Exists!');
-                }
+            } else {
+              this.auth.logout();
+              this.helper.presentToast('User Account Doesnt Exists!');
+            }
           });
       }, err => {
         // this.toastr.error(err.message,'Error!');
-        this.helper.presentToast(err.message + 'Error!');
         console.log(err.message);
+        this.helper.presentToast(err.message + 'Error!');
 
       });
     // if (this.getType === 'EMPLOYEE') {

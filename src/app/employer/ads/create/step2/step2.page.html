@@ -63,7 +63,8 @@
                 <ion-item float-right>
                   <!-- {{i}} -->
                   <!-- <ion-icon name="close"  ></ion-icon> -->
-                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeFieldx(i)"></ion-icon>
+                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeFieldx(i)">
+                  </ion-icon>
                 </ion-item>
 
 
@@ -144,8 +145,6 @@
         </form>
 
 
-
-
       </div>
       <!-- show if dates same (Option 1) is clicked and continuous checkbox is selected -->
       <div *ngIf="option2;" class=" dates-same-continuous">
@@ -159,14 +158,14 @@
             <div class="grid-2">
               <!-- start time start date-->
               <ion-item lines="none">
-                <ion-label position="stacked">Startzeit {{data.startDate | date}} </ion-label>
+                <ion-label position="stacked">Startzeit {{data.startDate }} </ion-label>
                 <ion-datetime formControlName="startTime" displayFormat="HH:mm" cancelText="Abbrechen"
                   doneText="Fertig"></ion-datetime>
               </ion-item>
 
               <!-- end time end date-->
               <ion-item lines="none">
-                <ion-label position="stacked">Endzeit {{data.endDate | date}}</ion-label>
+                <ion-label position="stacked">Endzeit {{data.endDate }}</ion-label>
                 <ion-datetime formControlName="endTime" displayFormat="HH:mm" cancelText="Abbrechen" doneText="Fertig">
                 </ion-datetime>
               </ion-item>
@@ -204,7 +203,8 @@
                 <ion-item float-right>
                   <!-- {{i}} -->
                   <!-- <ion-icon name="close"  ></ion-icon> -->
-                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeFieldx(i)"></ion-icon>
+                  <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeFieldx(i)">
+                  </ion-icon>
                 </ion-item>
 
 

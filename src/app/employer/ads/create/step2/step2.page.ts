@@ -49,15 +49,14 @@ export class Step2Page implements OnInit {
 
     this.actionController = JSON.parse(localStorage.getItem('actionController'));
     this.continuoueCheck = JSON.parse(localStorage.getItem('continuoueCheck'));
-    // this.continuoueCheck = JSON.parse(localStorage.getItem('continuoueCheck'));
-    // this.differDates = JSON.parse(localStorage.getItem("differDates"));
-    // console.log('differDates check is ' + this.differDates);
 
+    // console.log('actionController ', this.actionController);
+    // console.log('continuoueCheck ', this.continuoueCheck);
+
+
+    /*
     // this.continuoueCheck = JSON.parse(localStorage.getItem("continuoueCheck"));
-
-    /*     console.log('actionController ', this.actionController);
         console.log(typeof this.actionController);
-        console.log('continuoueCheck ', this.continuoueCheck);
         console.log(typeof this.continuoueCheck); */
 
 
@@ -129,7 +128,6 @@ export class Step2Page implements OnInit {
             endTime: ['', Validators.required],
             qualification: ['', Validators.required],
             requiredEmployees: ['', Validators.required],
-            otherQualification: [],
             wage: ['', Validators.required],
             wageType: ['', Validators.required],
             drivingLicence: ['', Validators.required]
@@ -204,9 +202,9 @@ export class Step2Page implements OnInit {
 
   goBack() {
     this.slides.lockSwipes(false);
-    // this.dateStart = moment(this.dateStart).subtract(1, 'days').format();
+    this.slides.slidePrev().then(() => { this.slides.lockSwipes(true); });
     // console.log('Minus 1 ', this.dateStart);
-    // this.slides.slidePrev().then(() => { this.slides.lockSwipes(true); });
+    // this.dateStart = moment(this.dateStart).subtract(1, 'days').format();
   }
   // getQulalifications(item) {
   //   console.log(item.value);
@@ -234,6 +232,7 @@ export class Step2Page implements OnInit {
 
           confirmEmployee: [],
           confirmEmployeeIds: [],
+          apply: [],
 
           step2: [],
           // otherQualification: [],
@@ -242,23 +241,33 @@ export class Step2Page implements OnInit {
           condition2: false,
           condition3: true
         };
+        // moment(event.value.startDate).format('HH:mm');
+        //
+
+        // a.value
 
         form.forEach(a => {
-          this.record.step2.push(a.value);
+          this.record.step2.push(
+            {
+              startTime: moment(a.value.startTime).format('HH:mm'),
+              endTime: moment(a.value.endTime).format('HH:mm'),
+              qualification: a.value.qualification,
+              requiredEmployees: a.value.requiredEmployees,
+              wage: a.value.wage,
+              wageType: a.value.wageType,
+              drivingLinse: a.value.drivingLicence,
+              otherQualification: []
+            }
+          );
         });
 
         if (this.extraWorkforce.length > 0) {
           this.extraWorkforce.forEach(a => {
             if (a.index >= 0) {
-              if (this.record.step2[a.index].otherQualification === null) {
-                this.record.step2[a.index].otherQualification = [];
-              } else {
-                this.record.step2[a.index].otherQualification.push({
-                  qualification: a.qualification,
-                  requiredEmployees: a.requiredEmployees
-                });
-              }
-
+              this.record.step2[a.index].otherQualification.push({
+                qualification: a.qualification,
+                requiredEmployees: a.requiredEmployees
+              });
             }
           });
         }
@@ -286,7 +295,7 @@ export class Step2Page implements OnInit {
         // this.newField.forEach(a => {
         // });
         // this.adDetail.push(record)
-        // console.log(record);
+        // console.log(this.record);
 
         this.api.createAds(this.record)
           .then(res => {
@@ -307,9 +316,10 @@ export class Step2Page implements OnInit {
 
           confirmEmployee: [],
           confirmEmployeeIds: [],
+          apply: [],
 
-          startTime: form.value.startTime,
-          endTime: form.value.endTime,
+          startTime: moment(form.value.startTime).format('HH:mm'),
+          endTime: moment(form.value.endTime).format('HH:mm'),
 
           qualification: form.value.qualification,
           requiredEmployees: form.value.requiredEmployees,
@@ -318,7 +328,6 @@ export class Step2Page implements OnInit {
           // xyz: this.newField[0].otherRequiredEmp,
 
           otherQualification: [],
-          // otherRequiredEmp: [],
 
 
           wage: form.value.wage,
@@ -340,7 +349,7 @@ export class Step2Page implements OnInit {
           }
           );
         });
-        // console.log(record);
+        console.log(record);
         this.api.createAds(record)
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
@@ -359,16 +368,18 @@ export class Step2Page implements OnInit {
         endDate: this.data.endDate,
         fastReply: this.data.fastReply,
 
-        startTime: form.value.startTime,
-        endTime: form.value.endTime,
 
-        qualification: form.value.qualification,
-        requiredEmployees: form.value.requiredEmployees,
         otherQualification: [],
 
         confirmEmployee: [],
         confirmEmployeeIds: [],
+        apply: [],
 
+        startTime: moment(form.value.startTime).format('HH:mm'),
+        endTime: moment(form.value.endTime).format('HH:mm'),
+
+        qualification: form.value.qualification,
+        requiredEmployees: form.value.requiredEmployees,
         wage: form.value.wage,
         wageType: form.value.wageType,
         drivingLinse: form.value.drivingLicence,
@@ -379,7 +390,7 @@ export class Step2Page implements OnInit {
 
       };
       // localStorage.setItem('option', JSON.stringify(false));
-      // console.log(record);
+      console.log(record);
 
       this.newField.forEach(a => {
         record.otherQualification.push({

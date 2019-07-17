@@ -13,7 +13,7 @@
       </div>
 
       <!-- <div class="general"> -->
-      <form [formGroup]="form">
+      <form [formGroup]="form" (ngSubmit)="login(form)">
         <ion-list>
           <ion-item lines="none">
             <ion-label position="stacked">E-Mail</ion-label>
@@ -21,7 +21,8 @@
           </ion-item>
           <ion-item lines="none">
             <ion-label position="stacked">Passwort</ion-label>
-            <ion-input type="password" clearInput iname="password" class="form-control" id="password" required formControlName="password" ></ion-input>
+            <ion-input type="password" clearInput iname="password" class="form-control" id="password" required
+              formControlName="password"></ion-input>
           </ion-item>
         </ion-list>
 
@@ -32,8 +33,8 @@
         <div class="divider"></div>
 
         <div class="container">
-          <ion-button (click)="login(form)" type="submit" [disabled]="form.invalid || form.pristine " color="primary"
-            expand="block" class="button button-primary"> Jetzt einloggen</ion-button>
+          <ion-button type="submit" [disabled]="form.invalid || form.pristine " color="primary" expand="block"
+            class="button button-primary" (keyup.enter)="login(form)"> Jetzt einloggen</ion-button>
           <!-- (click)="login(form)" -->
           <!-- (click)="navigateHome()" -->
           <!-- [disabled]="form.pristine || form.invalid" -->

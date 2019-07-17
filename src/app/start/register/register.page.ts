@@ -122,7 +122,8 @@ export class RegisterPage implements OnInit {
   createEmployer(id: string) {
     return this.api.createEmployer(id, {
       vorname: this.data.vorname,
-      nachname: this.data.nachname
+      nachname: this.data.nachname,
+      email: this.data.email
     });
   }
 

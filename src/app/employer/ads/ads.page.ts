@@ -21,7 +21,7 @@ export class AdsPage {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
   }
 
-// tslint:disable-next-line: use-life-cycle-interface
+  // tslint:disable-next-line: use-life-cycle-interface
   ngOnInit() {
 
     localStorage.removeItem('AdsData');
@@ -46,9 +46,6 @@ export class AdsPage {
       }, err => {
         console.log(err.message);
       });
-
-
-
   }
 
   navigateAd(data) {
