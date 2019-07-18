@@ -11,33 +11,44 @@ import { map, take } from 'rxjs/operators';
 export class AdsPage implements OnInit {
 
   getads;
+  getEmployeedata;
   getAllads;
-  jobTitle: '';
-  qualification = [
-    'SANITAETSHELFER',
-    'RETTUNGSHELFER',
-    'RETTUNGSSANITATER',
-    'RETTUNGSASSISTENT',
-    'NOTFALLSANITATER'
+  jobTitle:'';
+  qualification=[
+     'SANITAETSHELFER',
+     'RETTUNGSHELFER',
+     'RETTUNGSSANITATER',
+     'RETTUNGSASSISTENT',
+     'NOTFALLSANITATER'
   ];
 
-  constructor(private navController: NavController, private api: ApiService) { }
+  constructor(private navController: NavController, private api:ApiService) { }
 
   navigateAd(item) {
-    localStorage.setItem('data', JSON.stringify(item));
-    this.navController.navigateForward('employee/appointments/ads/ad');
+    localStorage.setItem('data', JSON.stringify(item))
+    this.navController.navigateForward("employee/appointments/ads/ad");
   }
 
   ngOnInit() {
     let x = [];
-    this.qualification.forEach((a, i) => {
-      if (a.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()) {
-        x = this.qualification.slice(i, this.qualification.length);
+    this.qualification.forEach((a,i) => {
+      if(a.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()){
+        x = this.qualification.slice(i,this.qualification.length);
         // console.log(x)
       }
     });
     // this.getAdsData()
-    this.getAllAds(x);
+
+    this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res =>{
+      this.getEmployeedata = res;
+      if(this.getEmployeedata.status === true){
+        this.getAllAds(x)
+      }
+    })
+              
+            
+  
+   
   }
 
   // getAdsData(){
@@ -53,18 +64,18 @@ export class AdsPage implements OnInit {
   //   })
   // }
 
-  getAllAds(x) {
+  getAllAds(x){
     this.api.getAllAds().pipe(map((actions: any) => {
       return actions.map(a => {
-        const data = a.payload.doc.data();
+        const data = a.payload.doc.data()
         const id = a.payload.doc.id;
         return { id, ...data };
       });
-    })).subscribe(res => {
-      this.getAllads = res.filter(result => x.indexOf(result.qualification) > -1);
-      //  console.log(this.getAllads)
-    });
+    })).subscribe(res =>{
+        this.getAllads=res.filter( result => x.indexOf(result.qualification) > -1 );
+        //  console.log(this.getAllads)
+    })
   }
-
+  
 
 }

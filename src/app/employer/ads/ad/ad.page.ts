@@ -30,7 +30,7 @@ export class AdPage implements OnInit {
     localStorage.removeItem('confirm');
 
     this.data = JSON.parse(localStorage.getItem('adDetail'));
-    // console.log('Ad data ', this.data);
+    console.log('Ad data ', this.data);
     if (this.data.step2) {
       this.step2 = this.data.step2;
       // console.log(this.step2);
@@ -60,7 +60,7 @@ export class AdPage implements OnInit {
     if (this.data.confirmEmployeeIds.length !== 0) {
       this.acceptedEmploye = true;
       this.totalConfirm = this.data.confirmEmployee.length;
-      if (this.data.confirmEmployeeIds.length === this.data.requiredEmployees) {
+      if (this.data.confirmEmployee.length === this.data.requiredEmployees) {
         this.getAllEmployees = true;
       } else {
         this.getAllEmployees = false;

@@ -67,7 +67,7 @@ export class ApplicationPage implements OnInit {
         handler: () => {
           // Confirmation of application
           let ad = JSON.parse(localStorage.getItem('adDetail'));
-          // console.log(' is ', ad);
+          // console.log('ad is ', ad);
           if (ad.confirmEmployee) {
             ad.confirmEmployee.push({
               name: this.userDetail.vorname + '' + this.userDetail.nachname,
@@ -92,7 +92,9 @@ export class ApplicationPage implements OnInit {
             this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
               this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
               // this.confirmation('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
-              this.navController.pop();
+              // this.navController.pop();
+              this.navController.navigateBack('/employer/ads/ad/applications');
+
             });
           }
           // this.ngzone.run(this.navController.navigateBack('/employer/ads/ad/applications'));

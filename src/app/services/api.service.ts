@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as firebase from 'firebase';
+
 
 @Injectable({
   providedIn: 'root'
@@ -98,7 +100,25 @@ export class ApiService {
     return this.afs.collection('ads', ref => ref.where('uid', '==', id)).snapshotChanges();
   }
 
+  getAdsByQualification(val) {
+    return this.afs.collection('ads', res => res.where('qualification', '==', val)).snapshotChanges();
+  }
+
   // getApplyAds() {
   //   return this.afs.collection('ads', ref => ref.where('did', '==', 'did')).snapshotChanges();
   // }
+
+  //Appointments
+
+  DeleteAppointment(id) {
+    return this.afs.doc('ads/' + id).delete();
+  }
+
+  // batch
+  batchWrite() {
+    return this.afs.firestore.batch();
+  }
+  setDocument(id) {
+    return firebase.firestore().collection('ads').doc(id);
+  }
 }

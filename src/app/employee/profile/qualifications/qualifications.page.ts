@@ -17,7 +17,7 @@ export class QualificationsPage implements OnInit {
 
   form: FormGroup;
   data;
-  fileArr = [];
+  fileArr = []
   field = [];
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
@@ -26,6 +26,8 @@ export class QualificationsPage implements OnInit {
   getEmployeeData;
   getEmployeeID;
   filesRecord;
+  changedFiles=[];
+  extras = [];
 
   constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService) { }
 
@@ -36,21 +38,22 @@ export class QualificationsPage implements OnInit {
       duration: 1000
     });
     toast.present();
-    this.navController.navigateBack('/employee/profile');
+    this.navController.navigateBack("/employee/profile");
   }
 
   ngOnInit() {
+    this.getEmployeeID = localStorage.getItem('uid');
     this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
       this.getEmployeeData = res;
       console.log(this.getEmployeeData);
-      this.getEmployeeID = localStorage.getItem('uid');
+      this.extras.slice(7);
       // console.log(this.getEmployeeData);
       // this.filesRecord = this.getEmployeeData.files;
       // this.getEmployeeData =res.files;
       // console.log("Files record\n " + this.filesRecord);
-    }, err => {
+    }, err =>{
       console.log(err.message);
-    });
+    })
 
 
 
@@ -62,34 +65,23 @@ export class QualificationsPage implements OnInit {
     this.form = this.fb.group({
       qualifikation: ['', Validators.required],
       führerscheinklasse: ['', Validators.required]
-    });
+    })
   }
 
-  submit(form) {
-    this.data = {
-      qualifikation: form.value.qualifikation,
-      führerscheinklasse: form.value.führerscheinklasse,
-      sonstige: this.field[0].text,
-      files: [],
-      qualification: []
-    };
+  submit() {
 
-    this.field.forEach(a => {
-      this.data.qualification.push(a.text);
-      if (a.file) {
-        this.fileArr.push(a.file);
-      }
-    });
-
-    this.fileArr.forEach((a, i) => {
-      this.ref = this.fireStorage.ref('Files/' + this.getEmployeeID);
-      this.task = this.ref.put(a);
+    this.changedFiles.forEach((a, i) => {
+      this.ref = this.fireStorage.ref('Files/' + a.fileId);
+      console.log(a.file);
+      this.task = this.ref.put(a.file);
       this.promises.push(this.task);
-      this.urls.push({ ref: this.ref, index: i, fileId: this.getEmployeeID, name: a.name });
+      this.urls.push({ ref: this.ref, index: a.index, name: a.name });
 
       this.task.snapshotChanges().subscribe();
 
     });
+
+    let total=0;
 
     Promise.all(
       this.promises
@@ -97,42 +89,77 @@ export class QualificationsPage implements OnInit {
       .then((url: Array<any>) => {
         this.urls.forEach(a => {
           a.ref.getDownloadURL().subscribe(res => {
-            this.data.files.push({
-              fileURL: res,
-              fileID: a.fileId,
-              name: a.name
-            });
+            total +=1;
+            console.log(a);
+            this.getEmployeeData.files[a.index].fileURL = res;
+            this.getEmployeeData.files[a.index].name = a.name;
+            console.log(this.getEmployeeData);
           });
         });
-        this.updateEmplyee();
+        var interval = setInterval( () => {
+          if(total === this.urls.length)
+             {
+               clearInterval(interval);
+               this.updateEmplyee();
+            }
+        }, 2000);
       })
       .catch((error) => {
-        console.log(`Some failed: `, error.message);
+        console.log(`Some failed: `, error.message)
       });
   }
 
-  uploadFile(event, val, i?) {
-    if (i && i > 0) {
-      this.field[i].file = event.target.files[0];
-      return;
-    } else {
-      this.fileArr[val] = event.target.files[0];
+  uploadFile(event) {
+    let x = this.changedFiles.findIndex(data => data.index === this.currentSelectedFile);
+    if(x > -1){
+      this.changedFiles[x].file =  event.target.files[0];
+      this.changedFiles[x].name = event.name;
+    }
+    else{
+      console.log(this.currentSelectedFile)
+      console.log(this.extras);
+      if(this.currentSelectedFile === this.getEmployeeData.files.length){
+        this.getEmployeeData.files.push(this.extras[this.currentSelectedFile-7]);
+        console.log(this.getEmployeeData.files);
+        this.changedFiles.push({
+          index: this.currentSelectedFile,
+          file: event.target.files[0],
+          fileId: this.getEmployeeData.files[this.currentSelectedFile].fileID,
+          name: event.target.files[0].name
+        })
+      }
+      else
+        this.changedFiles.push({
+        index: this.currentSelectedFile,
+        file: event.target.files[0],
+        fileId: this.getEmployeeData.files[this.currentSelectedFile].fileID,
+        name: event.target.files[0].name
+      })
     }
   }
 
   updateEmplyee() {
-
-    this.api.updateEmployee(localStorage.getItem('uid'), this.data)
+    console.log('here');
+    this.api.updateEmployee(localStorage.getItem('uid'), this.getEmployeeData)
       .then(after => {
-        this.router.navigate(['employee/profile']);
+        // this.router.navigate(['employee/profile']);
       });
   }
 
   addNewfield() {
-    this.field.push({
-      text: '',
-      file: ''
+    this.extras.push({
+      fileID: Date.now()*1000,
+      fileURL: '',
+      name: ''
     });
+  }
+
+  currentSelectedFile:number;
+
+  openFile(val){
+    const element: HTMLElement = document.querySelector('input[type="file"]');
+    element.click();
+    this.currentSelectedFile = val;
   }
 
 }

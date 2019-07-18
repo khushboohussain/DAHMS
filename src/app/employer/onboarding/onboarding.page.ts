@@ -26,9 +26,9 @@ export class OnboardingPage implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      role: [''],
+      role: [' ', ],
       CompanyName: ['', Validators.required],
-      address: [''],
+      address: [' ', ],
       telephone: ['', Validators.required]
     });
 

@@ -56,12 +56,12 @@
 
       <!-- block employer -->
       <div class="container">
-        <ion-button color="primary" expand="block" (click)="block()">Blockieren</ion-button>
+        <ion-button color="primary" expand="block" [disabled]="isBlocked" (click)="blockUser()">Blockieren</ion-button>
       </div>
 
       <!-- delete employer -->
       <div class="container">
-        <ion-button color="primary" expand="block" (click)="delete()">Löschen</ion-button>
+        <ion-button color="primary" expand="block" (click)="deleteUser()">Löschen</ion-button>
       </div>
 
     </div>

@@ -15,8 +15,6 @@ import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 })
 export class OnboardingPage implements OnInit {
 
-  constructor(private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService) { }
-
   form: FormGroup;
   base64Image;
   image = 'assets/profile.jpg';
@@ -28,28 +26,22 @@ export class OnboardingPage implements OnInit {
   file;
   filepath;
   fileID;
-  fileArr = [];
+  fileArr=[]
   blob: Blob;
   field = [];
 
-  // navigateHome() {
-  //   this.navController.navigateRoot("/employee/appointments");
-  // }
-
-  promises = [];
-
-  urls = [];
+  constructor(private navController: NavController, private helper: HelperService,private fb: FormBuilder,private fireStorage: AngularFireStorage,private router: Router, private api:ApiService) { }
 
   ngOnInit() {
     let x: File;
     this.field.push({
       text: '',
-      file: x
+      file: x 
     });
     this.form = this.fb.group({
       adresse: ['', Validators.required],
       telefonnumer: ['', Validators.required],
-      zugehörigkeit: ['', Validators.required],
+      zugehorigkeit: ['', Validators.required],
       Einsatzradius: ['', Validators.required],
       qualifikation: ['', Validators.required],
       führerscheinklasse: ['', Validators.required],
@@ -57,12 +49,18 @@ export class OnboardingPage implements OnInit {
     });
   }
 
+  // navigateHome() {
+  //   this.navController.navigateRoot("/employee/appointments");
+  // }
+
+  promises=[];
+
   submit(form) {
     console.log(form);
     this.data = {
       adresse: form.value.adresse,
       telefonnumer: form.value.telefonnumer,
-      zugehörigkeit: form.value.zugehörigkeit,
+      zugehorigkeit: form.value.zugehorigkeit,
       Einsatzradius: form.value.Einsatzradius,
       qualifikation: form.value.qualifikation,
       führerscheinklasse: form.value.führerscheinklasse,
@@ -72,27 +70,25 @@ export class OnboardingPage implements OnInit {
       files: [],
       qualification: []
     };
-    this.helper.presentToast('');
-    // this.helper.presentLoading();
+    this.helper.presentLoading();
 
     console.log(this.field);
-    console.log(this.fileArr);
-
-
-    this.field.forEach(a => {
-      this.data.qualification.push(a.text);
-      if (a.file) {
+    console.log(this.fileArr)
+   
+    
+    this.field.forEach(a =>{
+      this.data.qualification.push(a.text)
+      if(a.file)
         this.fileArr.push(a.file);
-      }
     });
 
-    this.fileArr.forEach((a, i) => {
+    this.fileArr.forEach( (a,i) =>{
       this.fileID = Math.floor(Date.now());
-      this.ref = this.fireStorage.ref('Files/' + this.fileID);
+      this.ref = this.fireStorage.ref('Files/'+this.fileID);
       this.task = this.ref.put(a);
       this.promises.push(this.task);
-      this.urls.push({ ref: this.ref, index: i, fileId: this.fileID, name: a.name });
-      localStorage.setItem('fID', this.fileID);
+      this.urls.push({ref: this.ref, index: i, fileId: this.fileID, name: a.name});
+      localStorage.setItem('fID',this.fileID)
 
       this.task.snapshotChanges().subscribe();
 
@@ -101,21 +97,21 @@ export class OnboardingPage implements OnInit {
     Promise.all(
       this.promises
     )
-      .then((url: Array<any>) => {
-        this.urls.forEach(a => {
-          a.ref.getDownloadURL().subscribe(res => {
-            this.data.files.push({
-              fileURL: res,
-              fileID: a.fileId,
-              name: a.name
-            });
-          });
+    .then((url: Array<any>) => {
+      this.urls.forEach(a =>{
+        a.ref.getDownloadURL().subscribe(res =>{
+        this.data.files.push({
+          fileURL: res,
+          fileID: a.fileId,
+          name: a.name
         });
-        this.uploadImage();
-      })
-      .catch((error) => {
-        console.log(`Some failed: `, error.message);
+        });
       });
+      this.uploadImage();
+    })
+    .catch((error) => {
+      console.log(`Some failed: `, error.message)
+    });
   }
 
   choosePicture() {
@@ -140,15 +136,15 @@ export class OnboardingPage implements OnInit {
         this.base64Image = base64String;
         this.form.controls['image'].setValue(this.base64Image);
       };
-    } catch (e) {
-      // no error
+    } catch ( e ) {
+      //no error
     }
   }
-
+  
   uploadImage() {
     this.uploadImageId = Math.floor(Date.now());
     this.ref = this.fireStorage.ref(`Thumbnails/${this.uploadImageId}`);
-    const task = this.ref.putString('data:image/jpeg;base64,' + this.base64Image, 'data_url');
+    const task = this.ref.putString( 'data:image/jpeg;base64,' + this.base64Image, 'data_url');
     task.snapshotChanges()
       .pipe(finalize(() => {
         this.ref.getDownloadURL().subscribe(url => {
@@ -156,25 +152,27 @@ export class OnboardingPage implements OnInit {
           if (this.image !== '') {
             this.data.imageURL = this.image;
             this.data.imageId = this.uploadImageId;
-            localStorage.setItem('imgid', this.data.imageId);
+            localStorage.setItem('imgid', this.data.imageId)
             this.createEmplyee();
           }
         });
       })).subscribe();
   }
 
-  uploadFile(event, val, i?) {
+  uploadFile(event, val, i?){
     // this.fileID = Math.floor(Date.now());
-    if (i && i > 0) {
+    if(i && i > 0){
       this.field[i].file = event.target.files[0];
       return;
-    } else {
-      this.fileArr[val] = event.target.files[0];
     }
+    else
+      this.fileArr[val]=event.target.files[0];
     // this.filepath=(`files'/${this.fileID}`);
     // this.ref=this.fireStorage.ref(this.filepath);
     // this.task= this.ref.put(this.file);
   }
+
+  urls=[];
 
   // async uploadAllFiles(item,i){
   //   this.fileID = Math.floor(Date.now());
@@ -191,19 +189,19 @@ export class OnboardingPage implements OnInit {
   //   ).subscribe();
   // }
 
-  createEmplyee() {
-
+  createEmplyee(){
+    
     this.api.updateEmployee(localStorage.getItem('uid'), this.data)
-      .then(after => {
-        this.router.navigate(['employee/appointments']);
-      });
+    .then(after => {
+      this.router.navigate(['employee/appointments']);
+    });
   }
 
-  addNewfield() {
-    this.field.push({
+  addNewfield(){
+    this.field.push( {
       text: '',
       file: ''
-    });
+    })
   }
 }
 

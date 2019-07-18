@@ -23,12 +23,12 @@ export class AppointmentsPage implements OnInit {
   }
 
   navigateAppointment() {
-    this.navController.navigateForward('/employee/appointments/appointment');
+    this.navController.navigateForward("/employee/appointments/appointment");
   }
 
   navigateAds(item) {
-    localStorage.setItem('data', JSON.stringify(item));
-    this.navController.navigateForward('/employee/appointments/ads');
+    localStorage.setItem('data', JSON.stringify(item))
+    this.navController.navigateForward("/employee/appointments/ads");
   }
 
   ngOnInit() {
@@ -39,20 +39,20 @@ export class AppointmentsPage implements OnInit {
       location: '',
       startDate: '',
       endDate: ''
-    };
+    }
   }
 
   getAdsData() {
     this.api.getAllAds().pipe(map((actions: any) => {
       return actions.map(a => {
-        const data = a.payload.doc.data();
+        const data = a.payload.doc.data()
         const id = a.payload.doc.did;
         return { id, ...data };
 
       });
     })).subscribe(res => {
       // console.log(res.id);
-      this.getads = res.filter(result => result.confirmEmployeeIds.indexOf(localStorage.getItem('uid')) > -1);
+      this.getads = res.filter(result => result.confirmEmployeeIds.indexOf(localStorage.getItem('uid')) > -1)
 
       // this.getads= res.filter( result => result.confirmEmployeeIds.indexOf(localStorage.getItem('uid')) > -1)
       // console.log(this.getads)
@@ -67,13 +67,13 @@ export class AppointmentsPage implements OnInit {
       //   console.log("no")
       // }
       // console.log(res)
-    });
+    })
   }
   getEmployeeData() {
     this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
       this.getEmployedata = res;
       // console.log(this.getEmployedata);
-      localStorage.setItem('qualifikation', this.getEmployedata.qualifikation);
-    });
+      localStorage.setItem('qualifikation', this.getEmployedata.qualifikation)
+    })
   }
 }

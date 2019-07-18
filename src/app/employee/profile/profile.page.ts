@@ -11,21 +11,21 @@ export class ProfilePage implements OnInit {
 
   currentUrl: string;
   userType;
-
-  constructor(private navController: NavController, private router: Router) {
+  
+  constructor(private navController: NavController, private router: Router) { 
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
   }
 
   navigateDetails() {
-    this.navController.navigateForward('/employee/profile/details');
+    this.navController.navigateForward("/employee/profile/details");
   }
 
   navigateQualifications() {
-    this.navController.navigateForward('/employee/profile/qualifications');
+    this.navController.navigateForward("/employee/profile/qualifications");
   }
 
   navigateStart() {
-    this.navController.navigateRoot('/start');
+    this.navController.navigateRoot("/start");
   }
 
   ngOnInit() {}

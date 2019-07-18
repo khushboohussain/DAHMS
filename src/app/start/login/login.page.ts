@@ -55,18 +55,25 @@ export class LoginPage implements OnInit {
             } else if (user.type === 'employer') {
               localStorage.setItem('uid', res.user.uid);
               // localStorage.setItem('type', 'employer');
-              this.api.getEmployerData(res.user.uid)
-                .subscribe(resx => {
-                  this.companyData = resx;
-                  // console.log(res);
-                  // localStorage.setItem('userName', this.userData.fname);
-                  // this.helper.setuserName(this.userData.fname);
+              this.api.getEmployerData(res.user.uid).subscribe(resx => {
+                this.companyData = resx;
+                if (this.companyData.block === true) {
+                  this.auth.logout().then(() => {
+                    this.helper.presentToast('You are block by Admin');
+                    this.navController.pop();
+                  });
+                } else {
                   if (this.companyData.telephone === '' || this.companyData.telephone == null) {
                     this.navController.navigateRoot('/employer/onboarding');
                   } else {
                     this.navController.navigateRoot('/employer/ads');
                   }
-                });
+
+                }
+              });
+              // console.log(res);
+              // localStorage.setItem('userName', this.userData.fname);
+              // this.helper.setuserName(this.userData.fname);
 
               // if(!user.firmenname)
               // this.router.navigate(['onboarding']);

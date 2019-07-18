@@ -12,7 +12,7 @@ export class AppointmentPage implements OnInit {
   AdData;
   feeType;
 
-  constructor(public actionSheetController: ActionSheetController, private toastController: ToastController, private navController: NavController, private api: ApiService) { }
+  constructor(public actionSheetController: ActionSheetController, private toastController: ToastController, private navController: NavController, private api: ApiService) {}
 
   async cancelAppointment() {
     const actionSheet = await this.actionSheetController.create({
@@ -21,8 +21,8 @@ export class AppointmentPage implements OnInit {
         text: 'Verbindliche Absage abschicken',
         handler: () => {
           this.deleteAppointment();
-          this.navController.navigateBack('/employee/appointments');
-          this.confirmation('Sie haben erfolgreich den Termin abgesagt.');
+          this.navController.navigateBack("/employee/appointments");
+          this.confirmation("Sie haben erfolgreich den Termin abgesagt.");
         }
       }, {
         text: 'Abbrechen',
@@ -43,9 +43,9 @@ export class AppointmentPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getAds();
+     this.getAds();
 
-    if (this.AdData.wageType == 'DAILY') {
+    if (this.AdData.wageType == "DAILY") {
 
       this.feeType = 'tag';
     } else {
@@ -53,20 +53,20 @@ export class AppointmentPage implements OnInit {
     }
   }
 
-  getAds() {
-    this.AdData = JSON.parse(localStorage.getItem('data'));
+  getAds(){
+    this.AdData = JSON.parse(localStorage.getItem('data'))
   }
 
-  deleteAppointment() {
-    const x = this.AdData.confirmEmployee.findIndex(data => data.uid === localStorage.getItem('uid'));
-    const y = this.AdData.confirmEmployeeIds.findIndex(data => data === localStorage.getItem('uid'));
-    if (x > -1) {
+  deleteAppointment(){
+    let x = this.AdData.confirmEmployee.findIndex(data => data.uid === localStorage.getItem('uid'))
+    let y = this.AdData.confirmEmployeeIds.findIndex(data => data === localStorage.getItem('uid'))
+    if(x > -1){
       this.AdData.confirmEmployee.splice(x, 1);
     }
-    if (y > -1) {
+    if(y > -1){
       this.AdData.confirmEmployeeIds.splice(y, 1);
     }
-    this.api.updateAds(this.AdData.id, this.AdData);
+    this.api.updateAds(this.AdData.id, this.AdData)
 
   }
 

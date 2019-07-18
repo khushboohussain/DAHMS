@@ -22,26 +22,36 @@ export class EmployersPage implements OnInit {
   }
 
   ngOnInit() {
+    localStorage.removeItem('empId');
+    localStorage.removeItem('empData');
 
+    this.getAllEmployers();
+    // console.log(this.userData);
+
+
+  }
+
+  getAllEmployers() {
     this.api.getAllEmployer().pipe(map(actions => actions.map(a => {
       const data = a.payload.doc.data();
       const did = a.payload.doc.id;
       // console.log(did);
       return { did, ...data };
-    })))
-      .subscribe(res => {
-        this.userData = res;
+    }))).subscribe(res => {
+      this.userData = res;
+      if (res !== undefined) {
         this.totalRecord = res.length;
-        // console.log(res);
-        console.log(res.length);
         // console.log(this.totalRecord);
-        // console.log(res);
-        // console.log(this.getAds.did);
-      }, err => {
-        console.log(err.message);
-      });
 
-    console.log('data ', this.userData);
+      } else {
+        this.totalRecord = 0;
+        // console.log(this.totalRecord);
+      }
+      // console.log(this.userData);
+    }, err => {
+      console.log(err.message);
+    });
+
 
   }
 
@@ -53,33 +63,55 @@ export class EmployersPage implements OnInit {
       header: 'Take Action',
       buttons: [
         {
-          text: 'Alle Termine gleich',
+          text: 'Download',
           handler: () => {
+            alert('not clear!');
             // localStorage.setItem('actionController', JSON.stringify(true));
             // localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-            this.navController.navigateForward('/employer/ads/create/step2');
+            // this.navController.navigateForward('/employer/ads/create/step2');
           }
         },
+        // {
+        //   text: 'Einzelne Termine bearbeiten',
+        //   handler: () => {
+        //     // localStorage.setItem('actionController', JSON.stringify(false));
+        //     // localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
+        //     this.navController.navigateForward('/employer/ads/create/step2');
+        //   }
+        // }, 
+        // {
+        //   text: 'Cancel',
+        //   role: 'cancel',
+        //   handler: () => { }
+        // },
         {
-          text: 'Einzelne Termine bearbeiten',
-          handler: () => {
-            // localStorage.setItem('actionController', JSON.stringify(false));
-            // localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-            this.navController.navigateForward('/employer/ads/create/step2');
-          }
-        }, {
-          text: 'Abbrechen',
-          role: 'cancel',
-          handler: () => { }
+          text: 'Download',
+          role: '',
+          handler: () => { alert('not clear about download cls files'); }
         }]
     });
     await actionSheet.present();
 
   }
 
+  onSearchChange(value: string) {
+    if (value === '') {
+      this.getAllEmployers();
+    } else {
+      const y = value.toLowerCase();
+      const x = this.userData.filter(data => (data.vorname + ' ' + data.nachname).toLowerCase().indexOf(y) > -1);
+      if (x.length > 0) {
+        this.userData = x;
+      } else {
+        this.userData = [];
+      }
+
+    }
+  }
+
   navigateEmployer(data) {
     // console.log(data.did);
-    // localStorage.setItem('empId', data.did);
+    localStorage.setItem('empId', data.did);
     this.api.getEmployerData(data.did).subscribe(res => {
       localStorage.setItem('empData', JSON.stringify(res));
       this.navController.navigateForward('/admin/employers/employer');

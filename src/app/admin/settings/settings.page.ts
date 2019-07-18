@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -12,19 +13,25 @@ export class SettingsPage implements OnInit {
   currentUrl: string;
   userType;
 
-  constructor(private navController: NavController, private router: Router) { 
+  constructor(private navController: NavController, private router: Router, public auth: AuthService) {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
   }
 
-  navigateEmployer() {
-    this.navController.navigateForward("/admin/employers/employer");
-  }
-
-  logout() {
-    this.navController.navigateRoot("/start");
-  }
 
   ngOnInit() {
   }
+
+
+  navigateEmployer() {
+    this.navController.navigateForward('/admin/employers/employer');
+  }
+
+  logout() {
+    this.auth.logout().then(res => {
+      this.navController.navigateRoot('/start');
+    });
+  }
+
+
 
 }

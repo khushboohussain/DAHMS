@@ -49,17 +49,20 @@
 
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button [class.active]="currentUrl == '/admin/employees'" routerLink="/admin/employees" routerDirection="root">
+    <ion-tab-button [class.active]="currentUrl == '/admin/employees'" routerLink="/admin/employees"
+      routerDirection="root">
       <ion-icon name="people"></ion-icon>
       <ion-label>Einsatzkräfte</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button [class.active]="currentUrl == '/admin/employers'" routerLink="/admin/employers" routerDirection="root">
+    <ion-tab-button [class.active]="currentUrl == '/admin/employers'" routerLink="/admin/employers"
+      routerDirection="root">
       <ion-icon name="medkit"></ion-icon>
       <ion-label>Organisationen</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button [class.active]="currentUrl == '/admin/settings'" routerLink="/admin/settings" routerDirection="root">
+    <ion-tab-button [class.active]="currentUrl == '/admin/settings'" routerLink="/admin/settings"
+      routerDirection="root">
       <ion-icon name="cog"></ion-icon>
       <ion-label>Einstellungen</ion-label>
     </ion-tab-button>

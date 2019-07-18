@@ -23,7 +23,7 @@ export class DetailsPage implements OnInit {
   data;
   file;
 
-  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService) {}
+  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService,private fb: FormBuilder,private fireStorage: AngularFireStorage,private router: Router, private api:ApiService) {}
 
   async update() {
     const toast = await this.toastController.create({
@@ -32,12 +32,12 @@ export class DetailsPage implements OnInit {
       duration: 1000
     });
     toast.present();
-    this.navController.navigateBack('/employee/profile');
+    this.navController.navigateBack("/employee/profile");
   }
 
   ngOnInit() {
     // this.api.getAllEmployees();
-
+    
     this.form = this.fb.group({
       email: ['', Validators.compose([
         Validators.required,
@@ -58,7 +58,7 @@ export class DetailsPage implements OnInit {
     });
   }
 
-  submit(form) {
+  submit(form){
     this.data = {
       vorname: form.value.vorname,
       nachname: form.value.nachname,
@@ -95,7 +95,7 @@ export class DetailsPage implements OnInit {
         this.form.controls['image'].setValue(this.base64Image);
       };
     } catch ( e ) {
-      // no error
+      //no error
     }
   }
 
@@ -114,13 +114,13 @@ export class DetailsPage implements OnInit {
       })).subscribe();
   }
 
-  updateEmplyeeData() {
+  updateEmplyeeData(){
 
     this.api.updateUser(localStorage.getItem('uid'), {
       email: this.data.email,
       password: this.data.password
-    }).then(res => {
-      this.api.updateEmployee(localStorage.getItem('uid'), {
+    }).then(res =>{
+      this.api.updateEmployee(localStorage.getItem('uid'),{
         vorname: this.data.vorname,
         nachname: this.data.nachname,
         adresse: this.data.adresse,
@@ -131,9 +131,9 @@ export class DetailsPage implements OnInit {
       .then(after => {
         this.router.navigate(['employee/profile']);
       });
-    });
-
-
+    })
+    
+   
   }
 
 }
