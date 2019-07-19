@@ -112,12 +112,7 @@ export class EmployersPage implements OnInit {
   navigateEmployer(data) {
     // console.log(data.did);
     localStorage.setItem('empId', data.did);
-    this.api.getEmployerData(data.did).subscribe(res => {
-      localStorage.setItem('empData', JSON.stringify(res));
-      this.navController.navigateForward('/admin/employers/employer');
-    }, err => {
-      alert(err.message);
-    });
+    localStorage.setItem('empData', JSON.stringify(data));
   }
 
 

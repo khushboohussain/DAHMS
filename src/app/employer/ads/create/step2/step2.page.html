@@ -297,10 +297,17 @@
                 <!-- {{dateEnd | date}} -->
 
                 <!-- get data from last slide, if first slide then don't show -->
-                <div class="add-new" *ngIf="i > 0" (click)="goBack()">
+                <div class="add-new" *ngIf="i > 0" (click)="getValues(form2, i)">
                   <ion-icon name="add"></ion-icon>
-                  <p>Voherige Daten übernehmen </p>
+                  <p> Voherige Daten übernehmen </p>
                 </div>
+
+                <div class="" *ngIf="i > 0" (click)="goBack()">
+                  <ion-button name="arrow-back" color="primary" expand="block">
+                    <ion-icon name="arrow-dropleft"></ion-icon> Previous Slide
+                  </ion-button>
+                </div>
+
               </div>
 
               <ion-list>

@@ -51,14 +51,9 @@ export class AdsPage {
   navigateAd(data) {
     // console.log('docID is ', data.did);
     localStorage.setItem('AdId', data.id);
-    this.api.getAd(data.did).subscribe(res => {
-      localStorage.setItem('adDetail', JSON.stringify(res));
-      // console.log("res");
-      // console.log(res);
-      this.navController.navigateForward('/employer/ads/ad');
-    }, err => {
-      console.log(err.message);
-    });
+    localStorage.setItem('adDetail', JSON.stringify(data));
+    this.navController.navigateForward('/employer/ads/ad');
+
   }
 
   // check payment method is integrated or not

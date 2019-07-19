@@ -25,6 +25,7 @@ export class Step2Page implements OnInit {
   days: number;
   otherQualification = '';
   otherRequiredEmployees = null;
+  previousData: any = [];
 
   option1: boolean;
   option2: boolean;
@@ -349,7 +350,7 @@ export class Step2Page implements OnInit {
           }
           );
         });
-        console.log(record);
+        // console.log(record);
         this.api.createAds(record)
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
@@ -390,8 +391,7 @@ export class Step2Page implements OnInit {
 
       };
       // localStorage.setItem('option', JSON.stringify(false));
-      console.log(record);
-
+      // console.log(record);
       this.newField.forEach(a => {
         record.otherQualification.push({
           qualification: a.otherQualification,
@@ -414,7 +414,40 @@ export class Step2Page implements OnInit {
     // end Else Bloack
   } // end SubmitForm method
 
+  getValues(form, i) {
 
+    const x = this.extraWorkforce.length;
+    console.log(x);
+
+    this.previousData.step2 = [];
+
+    this.previousData.step2.otherQualification = [];
+    console.log(this.previousData);
+
+    form.forEach(a => {
+      this.previousData.push(a.value);
+    });
+    console.log(this.previousData);
+
+    if (x > 0) {
+
+      this.extraWorkforce.forEach(a => {
+        console.log(a.index);
+
+        if (a.index >= 0) {
+          this.previousData.step2[a.index].otherQualification.push({
+            qualification: a.qualification,
+            requiredEmployees: a.requiredEmployees
+          });
+        }
+      });
+    }
+
+    alert(`'Previous Slide data is \n'  ${this.previousData[i - 1]}`);
+    // tslint:disable-next-line: max-line-length
+    console.log(this.previousData[i - 1], '\n', this.previousData[i - 1].drivingLicence + ' ' + this.previousData[i - 1].startDate + '' + this.previousData[i - 1].endTime);
+
+  }
 
 
 }

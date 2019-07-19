@@ -256,55 +256,42 @@ export class Step1Page implements OnInit {
   }
 
   // Getting dates on changes ...
+
   gettingDate(event) {
 
     if (event.value.startDate !== '') {
-      //  StartDate = event.value.start;
-      // console.log("moment().date() getting day ..",moment(event.value.startDate).date());
-      // console.log(moment(event.value.startDate).format('HH:mm'));
-      // console.log(moment(event.value.startDate).format('HH:MM'));
-      // console.log(moment(event.value.startDate).format('HH:mm'));
 
-      // console.log("moment()", moment(event.value.startDate));
-      // console.log('local', moment(event.value.startDate).local());
-      // console.log("moment(startDate) ",moment(event.value.startDate));
-      // console.log('moment. format', moment().format('LL'));
-      // console.log('moment. format', moment().format('L'));
-      // console.log('moment. format', moment().format('DD-MM-YYYY'));
-
-      // console.log('moment.fromNow()', moment().fromNow());
-      // console.log("Start Date is ..." + event.value.startDate);
-
-      if (event.value.startDate < this.today) {
-        this.helper.presentToast(`Please select valid date for Start Date! \n not lessthan ${this.today}`);
-        this.form.get('startDate').setValue(this.today);
-        // console.log("start date after clean ", event.value.startDate);
-        // alert('Please select valid date for Start Date! \n not lessthan ' + this.today);
-      } else {
-        const startDateX = event.value.startDate.split('-');
-        // console.log('Getted Splitted Date ' + startDate);
-        this.startMonth = startDateX.splice(1, 1).toString();
-        // console.log("Month " + this.startMonth);
-        this.startDay = startDateX.splice(1, 2).toString();
-        // console.log("DAY is " + this.startDay);
-      }
+      // if (moment(event.value.startDate).format('L') < moment(this.minDate).format('L')) {
+      // this.continuoueCheck = true;
+      //   console.log('this', this.continuoueCheck);
+      //   console.log('event.value.startDate');
+      //   this.helper.presentToast('Please select valid date for Start Date! \n not less than' + this.today);
+      //   this.form.get('startDate').setValue(this.today);
+      // } else {
+      const startDateX = event.value.startDate.split('-');
+      // console.log('Getted Splitted Date ' + startDate);
+      this.startMonth = startDateX.splice(1, 1).toString();
+      // console.log("Month " + this.startMonth);
+      this.startDay = startDateX.splice(1, 2).toString();
+      // console.log('DAY is ' + this.startDay);
+      // }
     }
 
     if (event.value.endDate !== '') {
-      // console.log("end Date is ..." + event.value.endDate);
 
-      if (event.value.endDate < this.today) {
-        this.helper.presentToast('Please select valid date for end Date! \n not lessthan ' + this.today);
-        this.form.get('endDate').setValue('');
+      // if (moment(event.value.endDate).format('L') < moment(this.minDate).format('L')) {
+      //   this.form.get('endDate').setValue('');
+      //   this.helper.presentToast(`First Date ${event.value.startDate} is greater than end date ${event.value.startDate} `);
+      //   this.helper.presentToast('Please select valid date for end Date! \n not lessthan ' + this.today);
 
-      } else {
-        const endDate = event.value.endDate.split('-');
-        // console.log('Getted Splitted Date ' + endDate);
-        this.endMonth = endDate.splice(1, 1).toString();
-        // console.log("Month " + this.endMonth);
-        this.endDay = endDate.splice(1, 2).toString();
-        // console.log("DAY is " + this.endDay);
-      }
+      // } else {
+      const endDate = event.value.endDate.split('-');
+      // console.log('Getted Splitted Date ' + endDate);
+      this.endMonth = endDate.splice(1, 1).toString();
+      // console.log("Month " + this.endMonth);
+      this.endDay = endDate.splice(1, 2).toString();
+      // console.log("DAY is " + this.endDay);
+      // }
 
     }
 

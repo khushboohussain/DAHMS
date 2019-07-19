@@ -20,6 +20,7 @@ export class AdPage implements OnInit {
 
   totalApp = 0;
   totalConfirm = 0;
+  licenseType: string;
   getAllEmployees: boolean;
   acceptedEmploye: boolean;
 
@@ -30,7 +31,7 @@ export class AdPage implements OnInit {
     localStorage.removeItem('confirm');
 
     this.data = JSON.parse(localStorage.getItem('adDetail'));
-    console.log('Ad data ', this.data);
+    // console.log('Ad data ', this.data);
     if (this.data.step2) {
       this.step2 = this.data.step2;
       // console.log(this.step2);
@@ -79,13 +80,15 @@ export class AdPage implements OnInit {
     this.option3 = this.data.condition3;
     // for wage type daily or per hour
 
+    if (this.data.drivingLinse === 'NO') {
+      this.licenseType = 'Kein Führerschein';
+    } else if (this.data.drivingLinse === 'BENEFICIAL') {
+      this.licenseType = 'Führerschein vorteilhaft';
+    } else {
+      this.licenseType = this.data.drivingLinse;
+    }
 
-    // if (this.data.requiredEmployees ) {
-
-    // }
-
-    // }
-  }
+  } //ngOnit end
 
   // <!-- dont show this one, =>  once the employer got all his employees -->
   navigateApplications() {
