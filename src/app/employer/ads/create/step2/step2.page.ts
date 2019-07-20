@@ -25,7 +25,7 @@ export class Step2Page implements OnInit {
   days: number;
   otherQualification = '';
   otherRequiredEmployees = null;
-  previousData: any = [];
+  previousData: any;
 
   option1: boolean;
   option2: boolean;
@@ -419,33 +419,43 @@ export class Step2Page implements OnInit {
     const x = this.extraWorkforce.length;
     console.log(x);
 
-    this.previousData.step2 = [];
+    // this.previousData.step2 = [];
 
-    this.previousData.step2.otherQualification = [];
+    // this.previousData.step2.otherQualification = [];
     console.log(this.previousData);
 
-    form.forEach(a => {
-      this.previousData.push(a.value);
+    this.previousData = form[i - 1];
+
+    // form.forEach(a => {
+    //   this.previousData.push(a.value);
+    // });
+    console.log(this.previousData);
+
+    this.previousData.otherQualification = [];
+
+    this.extraWorkforce.forEach(a => {
+      if (a.index === i - 1) {
+        this.previousData.otherQualification.push(a);
+      }
     });
-    console.log(this.previousData);
 
-    if (x > 0) {
+    // if (x > 0) {
 
-      this.extraWorkforce.forEach(a => {
-        console.log(a.index);
+    //   this.extraWorkforce.forEach(a => {
+    //     console.log(a.index);
 
-        if (a.index >= 0) {
-          this.previousData.step2[a.index].otherQualification.push({
-            qualification: a.qualification,
-            requiredEmployees: a.requiredEmployees
-          });
-        }
-      });
-    }
+    //     if (a.index >= 0) {
+    //       this.previousData.step2[a.index].otherQualification.push({
+    //         qualification: a.qualification,
+    //         requiredEmployees: a.requiredEmployees
+    //       });
+    //     }
+    //   });
+    // }
 
-    alert(`'Previous Slide data is \n'  ${this.previousData[i - 1]}`);
+    alert(`'Previous Slide data is \n'  ${JSON.stringify(this.previousData)}`);
     // tslint:disable-next-line: max-line-length
-    console.log(this.previousData[i - 1], '\n', this.previousData[i - 1].drivingLicence + ' ' + this.previousData[i - 1].startDate + '' + this.previousData[i - 1].endTime);
+    // console.log(this.previousData[i - 1], '\n', this.previousData[i - 1].drivingLicence + ' ' + this.previousData[i - 1].startDate + '' + this.previousData[i - 1].endTime);
 
   }
 
