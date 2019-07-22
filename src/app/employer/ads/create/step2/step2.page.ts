@@ -44,7 +44,7 @@ export class Step2Page implements OnInit {
   ngOnInit() {
     // Retrieve the object from storage
     this.data = JSON.parse(localStorage.getItem('AdsData'));
-    // console.log('retrieved Object: \n', this.data);
+    console.log('retrieved Object: \n', this.data);
 
     this.dateStart = this.data.startDate;
 
@@ -153,7 +153,10 @@ export class Step2Page implements OnInit {
     this.otherRequiredEmployees = null;
     this.newField.push({
       qualification: '',
-      requiredEmployees: null
+      requiredEmployees: 0,
+      wage: 0,
+      wageType: '',
+      drivingLicence: ''
     });
   }
   removeFieldx(index: number) {
@@ -172,12 +175,18 @@ export class Step2Page implements OnInit {
       this.extraWorkforce.push({
         qualification: '',
         requiredEmployees: 0,
+        wage: 0,
+        wageType: '',
+        drivingLicence: '',
         index: i
       });
     } else {
       this.extraWorkforce.push({
         qualification: '',
-        requiredEmployees: 0
+        requiredEmployees: 0,
+        wage: 0,
+      wageType: '',
+      drivingLicence: ''
       });
     }
 
@@ -230,6 +239,8 @@ export class Step2Page implements OnInit {
           startDate: this.data.startDate,
           endDate: this.data.endDate,
           fastReply: this.data.fastReply,
+          latitude: this.data.latitude,
+          longitude: this.data.longitude,
 
           confirmEmployee: [],
           confirmEmployeeIds: [],
@@ -267,7 +278,10 @@ export class Step2Page implements OnInit {
             if (a.index >= 0) {
               this.record.step2[a.index].otherQualification.push({
                 qualification: a.qualification,
-                requiredEmployees: a.requiredEmployees
+                requiredEmployees: a.requiredEmployees,
+                wage: a.wage,
+                wageType: a.wageType,
+                drivingLicence: a.drivingLicence
               });
             }
           });
@@ -314,6 +328,8 @@ export class Step2Page implements OnInit {
           startDate: this.data.startDate,
           endDate: this.data.endDate,
           fastReply: this.data.fastReply,
+          latitude: this.data.latitude,
+          longitude: this.data.longitude,
 
           confirmEmployee: [],
           confirmEmployeeIds: [],
@@ -346,7 +362,10 @@ export class Step2Page implements OnInit {
         this.newField.forEach(a => {
           record.otherQualification.push({
             qualification: a.otherQualification,
-            requiredEmployees: a.otherRequiredEmp
+            requiredEmployees: a.otherRequiredEmp,
+            wage: a.wage,
+            wageType: a.wageType,
+            drivingLicence: a.drivingLicence
           }
           );
         });
@@ -368,7 +387,8 @@ export class Step2Page implements OnInit {
         startDate: this.data.startDate,
         endDate: this.data.endDate,
         fastReply: this.data.fastReply,
-
+        latitude: this.data.latitude,
+        longitude: this.data.longitude,
 
         otherQualification: [],
 
@@ -395,10 +415,14 @@ export class Step2Page implements OnInit {
       this.newField.forEach(a => {
         record.otherQualification.push({
           qualification: a.otherQualification,
-          requiredEmployees: a.otherRequiredEmp
-        }
-        );
-      });
+          requiredEmployees: a.otherRequiredEmp,
+          wage: a.wage,
+          wageType: a.wageType,
+          drivingLicence: a.drivingLicence
+        });
+      }
+      );
+      // });
       // console.log(record);
 
       this.api.createAds(record)
@@ -417,19 +441,19 @@ export class Step2Page implements OnInit {
   getValues(form, i) {
 
     const x = this.extraWorkforce.length;
-    console.log(x);
+    // console.log(x);
 
     // this.previousData.step2 = [];
 
     // this.previousData.step2.otherQualification = [];
-    console.log(this.previousData);
+    // console.log(this.previou`sData);
 
-    this.previousData = form[i - 1];
+    this.previousData = form[i - 1].value;
 
     // form.forEach(a => {
     //   this.previousData.push(a.value);
     // });
-    console.log(this.previousData);
+    // console.log(this.previousData);
 
     this.previousData.otherQualification = [];
 
@@ -452,8 +476,25 @@ export class Step2Page implements OnInit {
     //     }
     //   });
     // }
+    console.log('getting data from last slide', this.previousData);
+    // console.log('getting data from last slide', this.previousData.controls.startDate);
 
-    alert(`'Previous Slide data is \n'  ${JSON.stringify(this.previousData)}`);
+    // console.log(`'Previous Slide data is \n'  ${JSON.stringify(this.previousData)}`);
+    this.form2[i].controls['startTime'].setValue(this.previousData.startTime);
+    this.form2[i].controls['endTime'].setValue(this.previousData.endTime);
+    this.form2[i].controls['qualification'].setValue(this.previousData.qualification);
+    this.form2[i].controls['requiredEmployees'].setValue(this.previousData.requiredEmployees);
+    this.form2[i].controls['wage'].setValue(this.previousData.wage);
+    this.form2[i].controls['wageType'].setValue(this.previousData.wageType);
+    this.form2[i].controls['drivingLicence'].setValue(this.previousData.drivingLicence);
+
+    // this.form.get('startTime').setValue(this.previousData.startTime);
+    // this.form.get('endTime').setValue(this.previousData.endTime);
+    // this.form.get('qualification').setValue(this.previousData.qualification);
+    // this.form.get('requiredEmployees').setValue(this.previousData.requiredEmployees);
+    // this.form.get('wage').setValue(this.previousData.wage);
+    // this.form.get('wageType').setValue(this.previousData.wageType);
+    // this.form.get('drivingLicence').setValue(this.previousData.drivingLicence);
     // tslint:disable-next-line: max-line-length
     // console.log(this.previousData[i - 1], '\n', this.previousData[i - 1].drivingLicence + ' ' + this.previousData[i - 1].startDate + '' + this.previousData[i - 1].endTime);
 

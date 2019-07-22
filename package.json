@@ -38,6 +38,7 @@
     "core-js": "^2.5.4",
     "file-saver": "^2.0.2",
     "firebase": "^6.2.2",
+    "haversine": "^1.1.1",
     "ionicons": "^4.5.5",
     "moment": "^2.24.0",
     "os": "^0.1.1",

@@ -102,7 +102,9 @@ export class OnboardingPage implements OnInit {
       imageURL: '',
       imageId: '',
       files: [],
-      qualification: []
+      qualification: [],
+      latitude: this.location.company.latitude,
+      longitude: this.location.company.longitude
     };
     this.helper.presentLoading();
 

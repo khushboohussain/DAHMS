@@ -23,7 +23,8 @@ export class DetailsPage implements OnInit {
   data;
   file;
 
-  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService,private fb: FormBuilder,private fireStorage: AngularFireStorage,private router: Router, private api:ApiService) {}
+  // tslint:disable-next-line: max-line-length
+  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService) { }
 
   async update() {
     const toast = await this.toastController.create({
@@ -32,12 +33,12 @@ export class DetailsPage implements OnInit {
       duration: 1000
     });
     toast.present();
-    this.navController.navigateBack("/employee/profile");
+    this.navController.navigateBack('/employee/profile');
   }
 
   ngOnInit() {
     // this.api.getAllEmployees();
-    
+
     this.form = this.fb.group({
       email: ['', Validators.compose([
         Validators.required,
@@ -56,9 +57,42 @@ export class DetailsPage implements OnInit {
       Einsatzradius: ['', Validators.required],
       image: ['', Validators.required]
     });
+
+    this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
+      this.data = res;
+      console.log(this.data.Einsatzradius);
+      this.form.patchValue({
+        vorname: this.data.vorname,
+        nachname: this.data.nachname,
+        email: this.data.email,
+        // password: this.data.password,
+        adresse: this.data.adresse,
+        telefonnumer: this.data.telefonnumer,
+        zugehörigkeit: this.data.zugehorigkeit,
+        Einsatzradius: this.data.Einsatzradius
+      });
+      // this.form.get('Einsatzradius').setValue(this.data.Einsatzradius);
+      // this.form.controls['Einsatzradius'].setValue(this.data.Einsatzradius);
+
+      this.form.get('email').disable();
+      this.form.get('password').disable();
+    });
+    // this.form.patchValue({
+    //   vorname: this.data.vorname,
+    //   nachname: this.data.nachname,
+    //   email: this.data.email,
+    //   password: this.data.password,
+    //   adresse: this.data.adresse,
+    //   telefonnumer: this.data.telefonnumer,
+    //   zugehörigkeit: this.data.zugehörigkeit,
+    //   Einsatzradius: this.data.Einsatzradius,
+    //  });
+    // this.form.get('vorname').setValue(this.data.vorname);
+    // this.form.controls['nachname'].setValue(this.data.nachname);
+
   }
 
-  submit(form){
+  submit(form) {
     this.data = {
       vorname: form.value.vorname,
       nachname: form.value.nachname,
@@ -94,14 +128,14 @@ export class DetailsPage implements OnInit {
         this.base64Image = base64String;
         this.form.controls['image'].setValue(this.base64Image);
       };
-    } catch ( e ) {
-      //no error
+    } catch (e) {
+      // no error
     }
   }
 
   uploadImage() {
     this.ref = this.fireStorage.ref(`Thumbnails/${localStorage.getItem('imgid')}`);
-    const task = this.ref.putString( 'data:image/jpeg;base64,' + this.base64Image, 'data_url');
+    const task = this.ref.putString('data:image/jpeg;base64,' + this.base64Image, 'data_url');
     task.snapshotChanges()
       .pipe(finalize(() => {
         this.ref.getDownloadURL().subscribe(url => {
@@ -114,13 +148,13 @@ export class DetailsPage implements OnInit {
       })).subscribe();
   }
 
-  updateEmplyeeData(){
+  updateEmplyeeData() {
 
     this.api.updateUser(localStorage.getItem('uid'), {
       email: this.data.email,
       password: this.data.password
-    }).then(res =>{
-      this.api.updateEmployee(localStorage.getItem('uid'),{
+    }).then(res => {
+      this.api.updateEmployee(localStorage.getItem('uid'), {
         vorname: this.data.vorname,
         nachname: this.data.nachname,
         adresse: this.data.adresse,
@@ -128,12 +162,12 @@ export class DetailsPage implements OnInit {
         zugehörigkeit: this.data.zugehörigkeit,
         Einsatzradius: this.data.Einsatzradius,
       })
-      .then(after => {
-        this.router.navigate(['employee/profile']);
-      });
-    })
-    
-   
+        .then(after => {
+          this.router.navigate(['employee/profile']);
+        });
+    });
+
+
   }
 
 }

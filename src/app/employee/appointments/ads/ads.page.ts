@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { map, take } from 'rxjs/operators';
+import * as haversine from 'haversine';
 
 @Component({
   selector: 'app-ads',
@@ -71,8 +72,24 @@ export class AdsPage implements OnInit {
         const id = a.payload.doc.id;
         return { id, ...data };
       });
-    })).subscribe(res =>{
-        this.getAllads=res.filter( result => x.indexOf(result.qualification) > -1 );
+    })).subscribe((res: Array<any>) =>{
+        this.getAllads = res.filter( result => {
+          let distance = haversine({
+            latitude: this.getEmployeedata.latitude,
+            longitude: this.getEmployeedata.longitude
+          },
+          {
+            latitude: result.latitude,
+            longitude: result.longitude
+          });
+
+          // console.log(distance);
+
+          if(parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.qualification) > -1 ){
+            return result;
+          }
+          // x.indexOf(result.qualification) > -1
+        });
         //  console.log(this.getAllads)
     })
   }

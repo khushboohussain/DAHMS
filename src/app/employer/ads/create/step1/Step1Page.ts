@@ -136,7 +136,9 @@ export class Step1Page implements OnInit {
       startDate: moment(form.value.startDate).format('DD-MM-YYYY'),
       endDate: moment(form.value.endDate).format('DD-MM-YYYY'),
       continoueWork: form.value.continoueWork,
-      fastReply: form.value.fastReply
+      fastReply: form.value.fastReply,
+      latitude: this.location.company.latitude,
+      longitude: this.location.company.longitude
     };
     // console.log(data);
     // this.continueWork = data.continoueWork;

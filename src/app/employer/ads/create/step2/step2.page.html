@@ -8,7 +8,6 @@
       <!-- show if dates same (option 1) is clicked and continuous checkbox is not selected -->
       <div *ngIf="option1;" class=" dates-same">
 
-
         <form [formGroup]="form">
           <div class="title container">
             <h2>Einsatz Template 1</h2>
@@ -58,7 +57,7 @@
                 </ion-item>
               </div>
 
-
+              <!-- adding new fild of qualification -->
               <div *ngFor="let item of newField; let i = index ">
                 <ion-item float-right>
                   <!-- {{i}} -->
@@ -66,8 +65,6 @@
                   <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeFieldx(i)">
                   </ion-icon>
                 </ion-item>
-
-
                 <div class="grid-2-l">
                   <!-- personal qualification -->
                   <ion-item lines="none">
@@ -83,7 +80,6 @@
                       <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
                     </ion-select>
                   </ion-item>
-
                   <!-- how many of those employees -->
                   <ion-item lines="none">
                     <ion-label position="stacked">Anzahl</ion-label>
@@ -91,8 +87,40 @@
                       clearInput></ion-input>
 
                   </ion-item>
-
                 </div>
+
+                <!-- wage -->
+                <div class="grid-2-l">
+                  <!-- money -->
+                  <ion-item lines="none">
+                    <ion-label position="stacked">Honorar</ion-label>
+                    <ion-input type="number" [(ngModel)]="item.wage" [ngModelOptions]="{standalone: true}" clearInput>
+                    </ion-input>
+                  </ion-item>
+
+                  <!-- money per day or per hour paid -->
+                  <ion-item lines="none">
+                    <ion-label position="stacked">Tag/Std.</ion-label>
+                    <ion-select [(ngModel)]="item.wageType" [ngModelOptions]="{standalone: true}" cancelText="Abbrechen"
+                      okText="Fertig">
+                      <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
+                      <ion-select-option value="DAILY">pro Tag</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </div>
+
+                <!-- driving license -->
+                <ion-item lines="none">
+                  <ion-label position="stacked">Führerschein benötigt?</ion-label>
+                  <ion-select [(ngModel)]="item.drivingLicence" [ngModelOptions]="{standalone: true}"
+                    cancelText="Abbrechen" okText="Fertig">
+                    <ion-select-option value="NO">Kein Führerschein</ion-select-option>
+                    <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
+                    <ion-select-option value="B">B</ion-select-option>
+                    <ion-select-option value="B1">B1</ion-select-option>
+                  </ion-select>
+                </ion-item>
+
               </div>
               <!-- new field creation end -->
 
@@ -143,9 +171,8 @@
           </div>
 
         </form>
-
-
       </div>
+
       <!-- show if dates same (Option 1) is clicked and continuous checkbox is selected -->
       <div *ngIf="option2;" class=" dates-same-continuous">
 
@@ -206,8 +233,6 @@
                   <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeFieldx(i)">
                   </ion-icon>
                 </ion-item>
-
-
                 <div class="grid-2-l">
                   <!-- personal qualification -->
                   <ion-item lines="none">
@@ -232,6 +257,36 @@
 
                   </ion-item>
                 </div>
+                <!-- wage -->
+                <div class="grid-2-l">
+                  <!-- money -->
+                  <ion-item lines="none">
+                    <ion-label position="stacked">Honorar</ion-label>
+                    <ion-input type="number" [(ngModel)]="item.wage" [ngModelOptions]="{standalone: true}" clearInput>
+                    </ion-input>
+                  </ion-item>
+
+                  <!-- money per day or per hour paid -->
+                  <ion-item lines="none">
+                    <ion-label position="stacked">Tag/Std.</ion-label>
+                    <ion-select [(ngModel)]="item.wageType" [ngModelOptions]="{standalone: true}" cancelText="Abbrechen"
+                      okText="Fertig">
+                      <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
+                      <ion-select-option value="DAILY">pro Tag</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </div>
+                <!-- driving license -->
+                <ion-item lines="none">
+                  <ion-label position="stacked">Führerschein benötigt?</ion-label>
+                  <ion-select [(ngModel)]="item.drivingLicence" [ngModelOptions]="{standalone: true}"
+                    cancelText="Abbrechen" okText="Fertig">
+                    <ion-select-option value="NO">Kein Führerschein</ion-select-option>
+                    <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
+                    <ion-select-option value="B">B</ion-select-option>
+                    <ion-select-option value="B1">B1</ion-select-option>
+                  </ion-select>
+                </ion-item>
               </div>
               <!-- new field creation end -->
 
@@ -385,8 +440,39 @@
                         <ion-label position="stacked">Anzahl</ion-label>
                         <ion-input type="number" [(ngModel)]="extra.requiredEmployees"
                           [ngModelOptions]="{standalone: true}" clearInput></ion-input>
-
                       </ion-item>
+                      <!-- wage -->
+                      <div class="grid-2-l">
+                        <!-- money -->
+                        <ion-item lines="none">
+                          <ion-label position="stacked">Honorar</ion-label>
+                          <ion-input type="number" [(ngModel)]="item.wage" [ngModelOptions]="{standalone: true}"
+                            clearInput>
+                          </ion-input>
+                        </ion-item>
+
+                        <!-- money per day or per hour paid -->
+                        <ion-item lines="none">
+                          <ion-label position="stacked">Tag/Std.</ion-label>
+                          <ion-select [(ngModel)]="item.wageType" [ngModelOptions]="{standalone: true}"
+                            cancelText="Abbrechen" okText="Fertig">
+                            <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
+                            <ion-select-option value="DAILY">pro Tag</ion-select-option>
+                          </ion-select>
+                        </ion-item>
+                      </div>
+                      <!-- driving license -->
+                      <ion-item lines="none">
+                        <ion-label position="stacked">Führerschein benötigt?</ion-label>
+                        <ion-select [(ngModel)]="item.drivingLicence" [ngModelOptions]="{standalone: true}"
+                          cancelText="Abbrechen" okText="Fertig">
+                          <ion-select-option value="NO">Kein Führerschein</ion-select-option>
+                          <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
+                          <ion-select-option value="B">B</ion-select-option>
+                          <ion-select-option value="B1">B1</ion-select-option>
+                        </ion-select>
+                      </ion-item>
+
 
                     </div>
                   </div>

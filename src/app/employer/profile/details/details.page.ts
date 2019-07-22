@@ -56,7 +56,7 @@ export class DetailsPage implements OnInit {
         this.location.addressAutocomplete = {
           query: this.myLocation
         };
-        console.log('this query', this.location.addressAutocomplete.query);
+        // console.log('this query', this.location.addressAutocomplete.query);
 
         this.form.patchValue({
           'vorname': this.userData.vorname,
