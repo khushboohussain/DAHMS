@@ -100,6 +100,8 @@ export class DetailsPage implements OnInit {
       return true;
     } else if (this.AdData.requiredEmployees === this.AdData.confirmEmployee.length) {
       return true;
+    } else if (this.AdData.confirmEmployee.map(data => data.uid).indexOf(localStorage.getItem('uid')) > -1) {
+      return true;
     } else {
       return false;
     }

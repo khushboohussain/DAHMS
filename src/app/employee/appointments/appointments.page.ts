@@ -40,8 +40,8 @@ export class AppointmentsPage implements OnInit {
     this.navController.navigateForward('/employee/appointments/appointment');
   }
 
-  navigateAds(item) {
-    localStorage.setItem('data', JSON.stringify(item));
+  navigateAds() {
+    // localStorage.setItem('data', JSON.stringify(item));
     this.navController.navigateForward('/employee/appointments/ads');
   }
 

@@ -34,7 +34,7 @@ export class OnboardingPage implements OnInit {
   myLocation: string;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService, private location: LocationService) {
+  constructor(private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService, public location: LocationService) {
 
     this.location.addressAutocompleteItems = [];
     this.location.addressAutocomplete = {

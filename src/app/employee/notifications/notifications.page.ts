@@ -5,6 +5,8 @@ import { ApiService } from 'src/app/services/api.service';
 import { map } from 'rxjs/operators';
 import { HelperService } from 'src/app/services/helper.service';
 import * as moment from 'moment';
+import { Subscription, Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-notifications',
@@ -19,6 +21,10 @@ export class NotificationsPage implements OnInit {
   today = [];
   yesterday = [];
   older = [];
+  $newNotification: Observable<Array<any>>;
+  $otherNotifications: Observable<Array<any>>;
+  one: Array<any>;
+  two: Array<any>;
 
   constructor(private navController: NavController, private router: Router, private api: ApiService, private helper: HelperService) {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
@@ -26,14 +32,34 @@ export class NotificationsPage implements OnInit {
 
 
   ngOnInit() {
-    // console.log(localStorage.getItem('uid'));
-    this.api.getNotification(localStorage.getItem('uid'))
+
+    // this.$newNotification = this.api.getNewAdNotification();
+    // // where uid == empty
+    // this.$otherNotifications = this.api.getNotifications(localStorage.getItem('uid'));
+
+
+
+    this.$newNotification = this.api.getNotifications(localStorage.getItem('uid'))
       .pipe(map(actions => actions.map(a => {
         const data = a.payload.doc.data();
         const did = a.payload.doc.id;
         return { did, ...data };
-      })))
-      .subscribe((res: Array<any>) => {
+      })));
+    // .subscribe((res: Array<any>) => {
+    //   console.log(res);
+    //   this.one = res;
+    // });
+
+    // console.log(localStorage.getItem('uid'));
+    this.$otherNotifications = this.api.getNewAdNotification()
+      .pipe(map(actions => actions.map(a => {
+        const data = a.payload.doc.data();
+        const did = a.payload.doc.id;
+        return { did, ...data };
+      })));
+    combineLatest(this.$newNotification, this.$otherNotifications)
+      .pipe(map(([one, two]) => [...one, ...two]))
+      .subscribe(res => {
         // console.log(res);
 
         this.NotificationType = res.filter(data => data.type === 'offer' || data.type === 'rejected' || data.type === 'new');
@@ -62,18 +88,19 @@ export class NotificationsPage implements OnInit {
 
 
       });
+    // .subscribe((res: Array<any>) => {
+    //   console.log(res);
+    //   this.two=res;
+    //   
 
-  }
+
+    // });
 
 
-  navigateAd(data) {
-    console.log(data);
-
-    // this.navController.navigateForward('/employee/appointments/ads/ad');
   }
 
   navigateAppointment(data) {
-    console.log(data);
+    // console.log(data);
     localStorage.removeItem('data');
 
     if (data.type === 'offer') {

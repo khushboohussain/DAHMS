@@ -121,8 +121,13 @@ export class ApiService {
   setDocument(id) {
     return firebase.firestore().collection('ads').doc(id);
   }
+  // 
 
-  getNotification(id) {
+  getNewAdNotification() {
+    return this.afs.collection('notifications', ref => ref.where('uid', '>=', '')).snapshotChanges();
+  }
+
+  getNotifications(id) {
     return this.afs.collection('notifications', ref => ref.where('uid', '==', id)).snapshotChanges();
   }
 

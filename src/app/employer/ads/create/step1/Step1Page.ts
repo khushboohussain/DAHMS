@@ -40,7 +40,7 @@ export class Step1Page implements OnInit {
   // myLocation: string;
 
   // tslint:disable-next-line: max-line-length
-  constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder, public helper: HelperService, private location: LocationService) {
+  constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder, public helper: HelperService, public location: LocationService) {
 
     this.location.addressAutocompleteItems = [];
     this.location.addressAutocomplete = {
@@ -52,11 +52,11 @@ export class Step1Page implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       jobTitle: ['', Validators.required],
-      address: ['',],
+      address: ['', ],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      continoueWork: ['',],
-      fastReply: ['',]
+      continoueWork: ['', ],
+      fastReply: ['', ]
     });
 
 

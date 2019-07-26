@@ -17,7 +17,7 @@
       <!-- list of appointments -->
       <div class="appointments" *ngFor="let item of getads">
         <!-- appointment-->
-        <div class="red-card" (click)="navigateAppointment(item)">
+        <div class="red-card pointer" (click)="navigateAppointment(item)">
           <!-- ad title-->
           <h2>{{item?.jobTitle}}</h2>
           <div class="info">

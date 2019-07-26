@@ -28,7 +28,7 @@ export class DetailsPage implements OnInit {
   disableaddress: boolean;
 
   // tslint:disable-next-line: max-line-length
-  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService, private location: LocationService) {
+  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService, public location: LocationService) {
 
     this.location.addressAutocompleteItems = [];
     this.location.addressAutocomplete = {

@@ -26,7 +26,7 @@ export class QualificationsPage implements OnInit {
   getEmployeeData;
   getEmployeeID;
   filesRecord;
-  changedFiles=[];
+  changedFiles = [];
   extras = [];
 
   constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService) { }
@@ -51,7 +51,7 @@ export class QualificationsPage implements OnInit {
       // this.filesRecord = this.getEmployeeData.files;
       // this.getEmployeeData =res.files;
       // console.log("Files record\n " + this.filesRecord);
-    }, err =>{
+    }, err => {
       console.log(err.message);
     })
 
@@ -68,7 +68,7 @@ export class QualificationsPage implements OnInit {
     })
   }
 
-  submit() {
+  submit(data) {
 
     this.changedFiles.forEach((a, i) => {
       this.ref = this.fireStorage.ref('Files/' + a.fileId);
@@ -81,7 +81,7 @@ export class QualificationsPage implements OnInit {
 
     });
 
-    let total=0;
+    let total = 0;
 
     Promise.all(
       this.promises
@@ -89,19 +89,18 @@ export class QualificationsPage implements OnInit {
       .then((url: Array<any>) => {
         this.urls.forEach(a => {
           a.ref.getDownloadURL().subscribe(res => {
-            total +=1;
+            total += 1;
             console.log(a);
             this.getEmployeeData.files[a.index].fileURL = res;
             this.getEmployeeData.files[a.index].name = a.name;
             console.log(this.getEmployeeData);
           });
         });
-        var interval = setInterval( () => {
-          if(total === this.urls.length)
-             {
-               clearInterval(interval);
-               this.updateEmplyee();
-            }
+        let interval = setInterval(() => {
+          if (total === this.urls.length) {
+            clearInterval(interval);
+            this.updateEmplyee();
+          }
         }, 2000);
       })
       .catch((error) => {
@@ -111,15 +110,15 @@ export class QualificationsPage implements OnInit {
 
   uploadFile(event) {
     let x = this.changedFiles.findIndex(data => data.index === this.currentSelectedFile);
-    if(x > -1){
-      this.changedFiles[x].file =  event.target.files[0];
+    if (x > -1) {
+      this.changedFiles[x].file = event.target.files[0];
       this.changedFiles[x].name = event.name;
     }
-    else{
+    else {
       console.log(this.currentSelectedFile)
       console.log(this.extras);
-      if(this.currentSelectedFile === this.getEmployeeData.files.length){
-        this.getEmployeeData.files.push(this.extras[this.currentSelectedFile-7]);
+      if (this.currentSelectedFile === this.getEmployeeData.files.length) {
+        this.getEmployeeData.files.push(this.extras[this.currentSelectedFile - 7]);
         console.log(this.getEmployeeData.files);
         this.changedFiles.push({
           index: this.currentSelectedFile,
@@ -130,11 +129,11 @@ export class QualificationsPage implements OnInit {
       }
       else
         this.changedFiles.push({
-        index: this.currentSelectedFile,
-        file: event.target.files[0],
-        fileId: this.getEmployeeData.files[this.currentSelectedFile].fileID,
-        name: event.target.files[0].name
-      })
+          index: this.currentSelectedFile,
+          file: event.target.files[0],
+          fileId: this.getEmployeeData.files[this.currentSelectedFile].fileID,
+          name: event.target.files[0].name
+        })
     }
   }
 
@@ -148,15 +147,15 @@ export class QualificationsPage implements OnInit {
 
   addNewfield() {
     this.extras.push({
-      fileID: Date.now()*1000,
+      fileID: Date.now() * 1000,
       fileURL: '',
       name: ''
     });
   }
 
-  currentSelectedFile:number;
+  currentSelectedFile: number;
 
-  openFile(val){
+  openFile(val) {
     const element: HTMLElement = document.querySelector('input[type="file"]');
     element.click();
     this.currentSelectedFile = val;

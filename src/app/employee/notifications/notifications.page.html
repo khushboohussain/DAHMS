@@ -18,7 +18,7 @@
             <!-- that notification comes, if the application got accepted -->
             <div *ngFor="let item of today">
               <div class="item" (click)="navigateAppointment(item)">
-                <div class="item-text text container">
+                <div class="item-text text container pointer">
                   <p>{{item?.message}}</p>
                 </div>
                 <div class="item-icon">
@@ -62,9 +62,9 @@
         <!-- all notifications received yesterday -->
         <div class="yesterday">
           <p class="small-title container" *ngIf="yesterday.length > 0">Gestern</p>
-          <div class="list-items">
-            <div class="item" (click)="navigateAd()" *ngFor="let item of yesterday">
-              <div class="item-text text container">
+          <div class="list-items" *ngFor="let item of yesterday">
+            <div class="item" (click)="navigateAppointment(item)">
+              <div class="item-text text container pointer">
                 <p>{{item?.message}}</p>
               </div>
               <div class="item-icon">
@@ -78,8 +78,8 @@
         <div class="week">
           <p class="small-title container" *ngIf="older.length > 0">Letzte 7 Tage</p>
           <div class="list-items" *ngFor="let item of older">
-            <div class="item" (click)="navigateAd(item)">
-              <div class="item-text text container">
+            <div class="item" (click)="navigateAppointment(item)">
+              <div class="item-text text container pointer">
                 <p>{{item?.message}}</p>
               </div>
               <div class="item-icon">

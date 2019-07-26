@@ -17,7 +17,7 @@ export class OnboardingPage implements OnInit {
   disableaddress: boolean;
 
   // tslint:disable-next-line: max-line-length
-  constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, private helper: HelperService, private location: LocationService) {
+  constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, private helper: HelperService, public location: LocationService) {
     this.location.addressAutocompleteItems = [];
     this.location.addressAutocomplete = {
       query: ''
@@ -26,9 +26,9 @@ export class OnboardingPage implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      role: [' ', ],
+      role: [' ',],
       CompanyName: ['', Validators.required],
-      address: [' ', ],
+      address: [' ',],
       telephone: ['', Validators.required]
     });
 

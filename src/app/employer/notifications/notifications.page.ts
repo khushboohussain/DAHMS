@@ -70,20 +70,17 @@ export class NotificationsPage implements OnInit {
   }
 
   navigateApplication(data) {
-    console.log(data);
+    // console.log(data);
 
     localStorage.setItem('appliedId', data.uid);
 
     if (data.type === 'apply') {
-
-      // this.navController.navigateForward('/employer/ads/ad/applications/application');
-
+      this.navController.navigateForward('/employer/ads/ad/applications/application');
     } else {
-
       // localStorage.setItem('appliedId', data.uid.uid);
       localStorage.setItem('confirm', JSON.stringify(true));
       // localStorage.setItem('appliedId', data.uid);
-      // this.navController.navigateForward('/employer/ads/ad/applications/application');
+      this.navController.navigateForward('/employer/ads/ad/applications/application');
 
     }
 

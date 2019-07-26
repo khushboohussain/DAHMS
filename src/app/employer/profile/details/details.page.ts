@@ -20,7 +20,7 @@ export class DetailsPage implements OnInit {
 
 
   // tslint:disable-next-line: max-line-length
-  constructor(public toastController: ToastController, private navController: NavController, private api: ApiService, private fb: FormBuilder, private helper: HelperService, private location: LocationService) {
+  constructor(public toastController: ToastController, private navController: NavController, private api: ApiService, private fb: FormBuilder, private helper: HelperService, public location: LocationService) {
     this.location.addressAutocompleteItems = [];
     this.location.addressAutocomplete = {
       query: ''
