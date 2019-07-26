@@ -108,7 +108,7 @@ export class ApiService {
   //   return this.afs.collection('ads', ref => ref.where('did', '==', 'did')).snapshotChanges();
   // }
 
-  //Appointments
+  // Appointments
 
   DeleteAppointment(id) {
     return this.afs.doc('ads/' + id).delete();
@@ -121,4 +121,15 @@ export class ApiService {
   setDocument(id) {
     return firebase.firestore().collection('ads').doc(id);
   }
+
+  getNotification(id) {
+    return this.afs.collection('notifications', ref => ref.where('uid', '==', id)).snapshotChanges();
+  }
+
+  getEmployeerNotifications(id: any) {
+    return this.afs.collection('notifications', ref => ref.where('employerId', '==', id)).snapshotChanges();
+  }
+
+
+
 }

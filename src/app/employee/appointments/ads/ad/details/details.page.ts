@@ -13,11 +13,12 @@ export class DetailsPage implements OnInit {
   AdData;
   feeType: string;
   license: string;
-  apply=[];
+  apply = [];
   getEmployeeData;
   employeeName;
 
-  constructor(public actionSheetController: ActionSheetController, private api:ApiService, private toastController: ToastController, private navController: NavController) { }
+  // tslint:disable-next-line: max-line-length
+  constructor(public actionSheetController: ActionSheetController, private api: ApiService, private toastController: ToastController, private navController: NavController) { }
 
   async sendApplication() {
     const actionSheet = await this.actionSheetController.create({
@@ -26,8 +27,8 @@ export class DetailsPage implements OnInit {
         text: 'Verbindliche Bewerbung abschicken',
         handler: () => {
           this.updateAds();
-          this.navController.navigateBack("/employee/appointments");
-          this.confirmation("Sie haben sich erfolgreich beworben.");
+          this.navController.navigateBack('/employee/appointments');
+          this.confirmation('Sie haben sich erfolgreich beworben.');
         }
       }, {
         text: 'Abbrechen',
@@ -50,57 +51,57 @@ export class DetailsPage implements OnInit {
   ngOnInit() {
     this.getAds();
     this.GetEmployeeData();
-    if (this.AdData.wageType == "DAILY") {
+    if (this.AdData.wageType === 'DAILY') {
 
       this.feeType = 'tag';
     } else {
       this.feeType = '€';
     }
-    
-    if (this.AdData.drivingLinse == "B"){
+
+    if (this.AdData.drivingLinse === 'B') {
       this.license = 'Führerscheinklasse';
-    }
-    else if(this.AdData.drivingLinse == "NO"){
+    } else if (this.AdData.drivingLinse == 'NO') {
       this.license = 'Es wird kein Führerschein benötigt';
-    }
-    else{
-      this.license = 'Führerschein wäre vorteilhaft, kein Muss.'
+    } else {
+      this.license = 'Führerschein wäre vorteilhaft, kein Muss.';
     }
   }
 
   getAds() {
     this.AdData = JSON.parse(localStorage.getItem('data'));
-   
+
   }
 
-  GetEmployeeData(){
+  GetEmployeeData() {
     this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
       this.getEmployeeData = res;
-      this.employeeName = (this.getEmployeeData.vorname +' '+ this.getEmployeeData.nachname)
+      this.employeeName = (this.getEmployeeData.vorname + ' ' + this.getEmployeeData.nachname);
       // console.log(this.employeeName)
-  })
-}
-
-  updateAds(){
-  //   if(this.AdData.apply=[]){
-  //   this.AdData.apply = [{'uid':localStorage.getItem('uid'), 'name':this.employeeName}];
-  //   this.api.updateAds(this.AdData.id, this.AdData)
-  //   .then(after => {
-
-  //   });
-  // }
-    this.AdData.apply.push({'uid':localStorage.getItem('uid'), 'name':this.employeeName})
-    this.api.updateAds(this.AdData.id, this.AdData)
-    .then(after => {
-
     });
-    
   }
-  isApply(){
-    if(this.AdData.apply.map(data => {return data.uid;}).indexOf(localStorage.getItem('uid')) > -1){
-       return true
-    }else{
-       return false
+
+  updateAds() {
+    //   if(this.AdData.apply=[]){
+    //   this.AdData.apply = [{'uid':localStorage.getItem('uid'), 'name':this.employeeName}];
+    //   this.api.updateAds(this.AdData.id, this.AdData)
+    //   .then(after => {
+
+    //   });
+    // }
+    this.AdData.apply.push({ 'uid': localStorage.getItem('uid'), 'name': this.employeeName });
+    this.api.updateAds(this.AdData.id, this.AdData)
+      .then(after => {
+
+      });
+
+  }
+  isApply() {
+    if (this.AdData.apply.map(data => data.uid).indexOf(localStorage.getItem('uid')) > -1) {
+      return true;
+    } else if (this.AdData.requiredEmployees === this.AdData.confirmEmployee.length) {
+      return true;
+    } else {
+      return false;
     }
   }
 

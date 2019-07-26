@@ -51,7 +51,7 @@ export class DetailsPage implements OnInit {
         this.userData = { ...this.userData, ...resy };
 
         this.myLocation = this.userData.address;
-        console.log('my Location is ', this.myLocation);
+        // console.log('my Location is ', this.myLocation);
 
         this.location.addressAutocomplete = {
           query: this.myLocation
@@ -85,11 +85,6 @@ export class DetailsPage implements OnInit {
       });
     });
 
-    /*
-      name: [{ value: '', disabled: true }, Validators.required],
-      name: [{ value: '', disabled: this.variable }, Validators.required]
-      this.form.controls['name'].disable();
-   */
 
   }
   // end ngOnInit
@@ -124,22 +119,7 @@ export class DetailsPage implements OnInit {
       });
     } // else ended
 
-
-
-
-
-    // this.updated();
-
   }
-  // async updated() {
-  //   const toast = await this.toastController.create({
-  //     message: 'Erfolgreich aktualisiert.',
-  //     position: 'top',
-  //     duration: 1000
-  //   });
-  //   toast.present();
-  //   this.navController.navigateBack("/employer/profile");
-  // }
 
   get f() {
     return this.form.controls;

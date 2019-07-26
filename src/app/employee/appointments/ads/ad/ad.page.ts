@@ -13,18 +13,18 @@ export class AdPage implements OnInit {
   qualification;
   location;
 
-  constructor(private navController: NavController, private api:ApiService) { }
+  constructor(private navController: NavController, private api: ApiService) { }
 
   navigateAdDetails() {
-    this.navController.navigateForward("employee/appointments/ads/ad/details");
+    this.navController.navigateForward('employee/appointments/ads/ad/details');
   }
 
   ngOnInit() {
     this.getAds();
   }
 
-  getAds(){
-    this.AdData = JSON.parse(localStorage.getItem('data'))
+  getAds() {
+    this.AdData = JSON.parse(localStorage.getItem('data'));
   }
 
 }

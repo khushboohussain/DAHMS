@@ -63,12 +63,6 @@ export class OnboardingPage implements OnInit {
       address: form.value.address,
       telephone: form.value.telephone
     };
-    // console.log(this.form.value);
-    // console.log(this.data);
-
-    // console.log(this.data.role + " " + this.data.name + " " + this.data.address + " \n" + this.data.telephone);
-    // let userId = localStorage.getItem('uid');
-    // console.log(localStorage.getItem('uid'));
 
     this.api.updateEmployerData(localStorage.getItem('uid'), this.data).then(res => {
 

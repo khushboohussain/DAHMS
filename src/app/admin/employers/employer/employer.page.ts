@@ -17,7 +17,8 @@ export class EmployerPage implements OnInit {
 
   ngOnInit() {
     this.data = JSON.parse(localStorage.getItem('empData'));
-    // console.log(this.data);
+    // console.log('employer side ', this.data);
+
     if (this.data.block) {
       if (this.data.block === true) {
         this.isBlocked = true;
@@ -44,11 +45,11 @@ export class EmployerPage implements OnInit {
   }
 
   deleteUser() {
-    console.log(localStorage.getItem('empId'));
+    // console.log(localStorage.getItem('empId'));
 
     const uid = localStorage.getItem('empId');
     this.helper.deleteUser(uid).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       // if (res.code === 'auth/user-not-found') {
       //   console.log('working....');
       // }

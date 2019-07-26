@@ -37,7 +37,7 @@ export class Step1Page implements OnInit {
   // end Date minimum and maximum values
 
   disableaddress = true;
-  myLocation: string;
+  // myLocation: string;
 
   // tslint:disable-next-line: max-line-length
   constructor(public actionSheetController: ActionSheetController, private navController: NavController, private fb: FormBuilder, public helper: HelperService, private location: LocationService) {
@@ -88,8 +88,6 @@ export class Step1Page implements OnInit {
       this.location.addressAutocomplete = {
         query: this.data.address
       };
-
-
     }
 
   } // end Of ngOnInIt()
@@ -112,7 +110,7 @@ export class Step1Page implements OnInit {
     this.disableaddress = true;
     this.location.addressAutocomplete.query = item;
     this.form.controls['address'].setValue(item);
-    this.myLocation = item;
+    // this.myLocation = item;
     // console.log('MY ITEM ', this.myLocation);
     this.location.addressChooseItem(item);
   }
@@ -140,15 +138,9 @@ export class Step1Page implements OnInit {
       latitude: this.location.company.latitude,
       longitude: this.location.company.longitude
     };
-    // console.log(data);
-    // this.continueWork = data.continoueWork;
-    // console.log(this.continueWork);
+
     // Put the object into storage
     localStorage.setItem('AdsData', JSON.stringify(data));
-    // let id = localStorage.getItem('uid');
-    // console.log('Current User Id is' + localStorage.getItem('uid'));
-
-    // console.log(this.differDates, this.continuoueCheck);
 
     if (this.differDates === true && this.continuoueCheck === true) {
 
@@ -215,41 +207,6 @@ export class Step1Page implements OnInit {
         }]
     });
     await actionSheet.present();
-    // }
-    // else if (this.differDates === false && this.continuoueCheck === true) {
-    //   {
-    //     const actionSheet = await this.actionSheetController.create({
-    //       header: 'Stelleneinstellung',
-    //       buttons: [
-    //         {
-    //           text: 'Alle Termine gleich',
-    //           handler: () => {
-    //             localStorage.setItem('actionController', JSON.stringify(true));
-    //             localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-    //             this.navController.navigateForward('/employer/ads/create/step2');
-    //           }
-    //         },
-    //         // {
-    //         //   text: 'Einzelne Termine bearbeiten',
-    //         //   handler: () => {
-    //         //     localStorage.setItem('actionController', JSON.stringify(false));
-
-
-    //         //     localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-
-    //         //     this.navController.navigateForward('/employer/ads/create/step2');
-    //         //   }
-    //         // },
-    //         {
-    //           text: 'Abbrechen',
-    //           role: 'cancel',
-    //           handler: () => { }
-    //         }]
-    //     });
-    //     await actionSheet.present();
-
-    //   }
-    // }
 
   }
 

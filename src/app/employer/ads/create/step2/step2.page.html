@@ -419,34 +419,37 @@
                       </ion-icon>
                     </ion-item>
 
-                    <div class="grid-2-l" *ngIf="extra.index === i">
-                      <!-- personal qualification -->
-                      <ion-item lines="none">
-                        <ion-label position="stacked">Einsatzkraft</ion-label>
-                        <ion-select [(ngModel)]="extra.qualification" [ngModelOptions]="{standalone: true}"
-                          cancelText="Abbrechen" okText="Fertig">
-                          <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                          <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
-                          <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
-                          <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
-                          <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
-                          <ion-select-option value="ARZT">Arzt</ion-select-option>
-                          <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
-                        </ion-select>
-                      </ion-item>
+                    <div *ngIf="extra.index === i">
+                      <div class="grid-2-l">
+                        <!-- personal qualification -->
+                        <ion-item lines="none">
+                          <ion-label position="stacked">Einsatzkraft</ion-label>
+                          <ion-select [(ngModel)]="extra.qualification" [ngModelOptions]="{standalone: true}"
+                            cancelText="Abbrechen" okText="Fertig">
+                            <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
+                            <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+                            <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
+                            <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
+                            <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
+                            <ion-select-option value="ARZT">Arzt</ion-select-option>
+                            <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                          </ion-select>
+                        </ion-item>
 
-                      <!-- how many of those employees -->
-                      <ion-item lines="none">
-                        <ion-label position="stacked">Anzahl</ion-label>
-                        <ion-input type="number" [(ngModel)]="extra.requiredEmployees"
-                          [ngModelOptions]="{standalone: true}" clearInput></ion-input>
-                      </ion-item>
+                        <!-- how many of those employees -->
+                        <ion-item lines="none">
+                          <ion-label position="stacked">Anzahl</ion-label>
+                          <ion-input type="number" [(ngModel)]="extra.requiredEmployees"
+                            [ngModelOptions]="{standalone: true}" clearInput></ion-input>
+
+                        </ion-item>
+                      </div>
                       <!-- wage -->
                       <div class="grid-2-l">
                         <!-- money -->
                         <ion-item lines="none">
                           <ion-label position="stacked">Honorar</ion-label>
-                          <ion-input type="number" [(ngModel)]="item.wage" [ngModelOptions]="{standalone: true}"
+                          <ion-input type="number" [(ngModel)]="extra.wage" [ngModelOptions]="{standalone: true}"
                             clearInput>
                           </ion-input>
                         </ion-item>
@@ -454,7 +457,7 @@
                         <!-- money per day or per hour paid -->
                         <ion-item lines="none">
                           <ion-label position="stacked">Tag/Std.</ion-label>
-                          <ion-select [(ngModel)]="item.wageType" [ngModelOptions]="{standalone: true}"
+                          <ion-select [(ngModel)]="extra.wageType" [ngModelOptions]="{standalone: true}"
                             cancelText="Abbrechen" okText="Fertig">
                             <ion-select-option value="HOURLY">pro Stunde</ion-select-option>
                             <ion-select-option value="DAILY">pro Tag</ion-select-option>
@@ -464,7 +467,7 @@
                       <!-- driving license -->
                       <ion-item lines="none">
                         <ion-label position="stacked">Führerschein benötigt?</ion-label>
-                        <ion-select [(ngModel)]="item.drivingLicence" [ngModelOptions]="{standalone: true}"
+                        <ion-select [(ngModel)]="extra.drivingLicence" [ngModelOptions]="{standalone: true}"
                           cancelText="Abbrechen" okText="Fertig">
                           <ion-select-option value="NO">Kein Führerschein</ion-select-option>
                           <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
@@ -472,8 +475,6 @@
                           <ion-select-option value="B1">B1</ion-select-option>
                         </ion-select>
                       </ion-item>
-
-
                     </div>
                   </div>
                   <!-- new field creation end -->

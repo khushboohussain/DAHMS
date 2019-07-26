@@ -12,8 +12,9 @@
     <div class="content">
       <div class="title container">
         <h1>Organisationen ({{totalRecord}}) </h1>
-        
-        <ion-searchbar (input)="onSearchChange($event.target.value)" showCancelButton cancelButtonText="Abbrechen" autocomplete autocorrect animated placeholder="Name eintippen"></ion-searchbar>
+
+        <ion-searchbar (input)="onSearchChange($event.target.value)" showCancelButton cancelButtonText="Abbrechen"
+          autocomplete autocorrect animated placeholder="Name eintippen"></ion-searchbar>
       </div>
 
       <div class="employees pointer" *ngFor="let item of userData">

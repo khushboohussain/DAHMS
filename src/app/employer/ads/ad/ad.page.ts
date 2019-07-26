@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -25,18 +28,29 @@ export class AdPage implements OnInit {
   acceptedEmploye: boolean;
 
 
-  constructor(private navController: NavController) { }
+  constructor(private navController: NavController,
+     private api: ApiService, private helper: HelperService, private router: Router) { }
 
   ngOnInit() {
+    console.log(localStorage);
+
     localStorage.removeItem('confirm');
 
-    this.data = JSON.parse(localStorage.getItem('adDetail'));
+    this.helper.getAdDetails()
+      .subscribe(res => {
+        console.log('%c next Line','background: #222; color: #bada55')
+        console.log(res);
+        this.data = res;
+        this.totalApp = this.data.apply.length;
+        
+      });
+
+    // this.data = JSON.parse(localStorage.getItem('adDetail'));
     // console.log('Ad data ', this.data);
+
     if (this.data.step2) {
       this.step2 = this.data.step2;
-      // console.log(this.step2);
 
-      // if (this.data.step2) {
       for (let index = 0; index < this.step2.length; index++) {
         if (this.step2[index].wageType === 'DAILY') {
           this.formatType.push('Tag');
@@ -54,15 +68,18 @@ export class AdPage implements OnInit {
     }
 
     // console.log('Applications length', this.data.did);
-    if (this.data.apply) {
-      this.totalApp = this.data.apply.length;
-    }
+    // 
     // console.log(this.data.confirmEmployeeIds.length);
-    if (this.data.confirmEmployeeIds.length !== 0) {
+    if (this.data.confirmEmployee.length !== 0) {
       this.acceptedEmploye = true;
       this.totalConfirm = this.data.confirmEmployee.length;
       if (this.data.confirmEmployee.length === this.data.requiredEmployees) {
         this.getAllEmployees = true;
+        this.data.status = 'close';
+        const id = this.data.did;
+        delete this.data['did'];
+        this.api.updateAds(id, this.data)
+          .then(res => { this.data.did = id; });
       } else {
         this.getAllEmployees = false;
       }
@@ -88,17 +105,16 @@ export class AdPage implements OnInit {
       this.licenseType = this.data.drivingLinse;
     }
 
-  } //ngOnit end
+  } // ngOnit end
 
   // <!-- dont show this one, =>  once the employer got all his employees -->
   navigateApplications() {
-    if (localStorage.getItem('AdId') === undefined) {
+    if (this.data.did === undefined) {
       alert('Sorry! You have not any application');
-      // this.navController.navigateForward('/employer/ads/ad/applications');
     } else {
       // console.log('Doc id is ', localStorage.getItem('AdId'));
-      this.navController.navigateForward('/employer/ads/ad/applications');
-
+      // this.navController.navigateForward('');
+      this.router.navigate(['/employer/ads/ad/applications'])
     }
   }
 

@@ -22,12 +22,11 @@ export class ApplicationPage implements OnInit {
     private ngzone: NgZone, private helper: HelperService) { }
 
   ngOnInit() {
-    // console.log(localStorage.getItem('appliedId'));
+    console.log(localStorage);
+
     this.api.getEmployeeData(localStorage.getItem('appliedId')).subscribe(res => {
       this.userDetail = res;
       this.otherQual = this.userDetail.qualification;
-      // console.log('Qualification Data ', this.userDetail.qualification);
-      // console.log('otherQyal Data ', this.otherQual);
     }, err => {
       console.log('errors!', err.message);
     });
@@ -42,17 +41,11 @@ export class ApplicationPage implements OnInit {
     }
 
     this.isConfirmApp = JSON.parse(localStorage.getItem('confirm'));
-    // console.log(this.isConfirmApp);
 
     if (this.otherQual !== '' || this.otherQual !== undefined) {
       this.otherQualifications = false;
-      // this.otherQual = this.userDetail.qualification;
-      // console.log('Other Qualifications ', this.otherQualifications);
-      // console.log('Other Qual ', this.userDetail.qualification.length);
     } else {
       this.otherQualifications = true;
-      // console.log('Other Qualifications ', this.otherQualifications);
-      // console.log('Other Qualification ', this.otherQualifications);
     }
 
   }
@@ -66,70 +59,91 @@ export class ApplicationPage implements OnInit {
         text: 'Verbindliche Zusage abschicken',
         handler: () => {
           // Confirmation of application
-          let ad = JSON.parse(localStorage.getItem('adDetail'));
-          // console.log('ad is ', ad);
-          if (ad.confirmEmployee) {
-            ad.confirmEmployee.push({
-              name: this.userDetail.vorname + '' + this.userDetail.nachname,
-              uid: localStorage.getItem('appliedId')
-            });
-            ad.confirmEmployeeIds.push(localStorage.getItem('appliedId'));
-          } else {
-            ad.confirmEmployee = [];
-            ad.confirmEmployeeIds = [];
-            ad.confirmEmployee.push({
-              name: this.userDetail.vorname + '' + this.userDetail.nachname,
-              uid: localStorage.getItem('appliedId')
-            });
-            ad.confirmEmployeeIds.push(localStorage.getItem('appliedId'));
-          }
-          // console.log('detail is ', ad);
-          const x = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
-          if (x > -1) {
-            ad.apply.splice(x, 1);
-            delete ad.id;
-            // console.log(ad);
-            this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
-              this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
-              // this.confirmation('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
-              // this.navController.pop();
-              this.navController.navigateBack('/employer/ads/ad/applications');
+          // let ad = JSON.parse(localStorage.getItem('adDetail'));
+          let ad;
+          this.helper.getAdDetails()
+            .subscribe(res => {
+              ad = res;
+              if (ad.confirmEmployee) {
+                ad.confirmEmployee.push({
+                  name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
+                  uid: localStorage.getItem('appliedId')
+                });
+                ad.confirmEmployeeIds.push(localStorage.getItem('appliedId'));
+              } else {
+                ad.confirmEmployee = [];
+                ad.confirmEmployeeIds = [];
+                ad.confirmEmployee.push({
+                  name: this.userDetail.vorname + '' + this.userDetail.nachname,
+                  uid: localStorage.getItem('appliedId')
+                });
+                ad.confirmEmployeeIds.push(localStorage.getItem('appliedId'));
+              }
+
+              const x = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+              if (x > -1) {
+                ad.apply.splice(x, 1);
+                delete ad.id;
+                this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
+                  this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
+
+                  console.log('confirm Emp is ', ad);
+                  localStorage.setItem('adDetail', JSON.stringify(ad));
+                  this.helper.setAdDetails(ad);
+
+                  this.navController.pop();
+                  // this.navController.navigateForward('/employer/ads/ad/applications');
+
+                  // this.navController.navigateBack('/employer/ads/ad/applications');
+                });
+              }
 
             });
-          }
-          // this.ngzone.run(this.navController.navigateBack('/employer/ads/ad/applications'));
+          // console.log('ad is ', ad);
         }
+
 
       }, {
         text: 'Verbindliche Absage abschicken',
         handler: () => {
           // Rejection of application
-          let ad = JSON.parse(localStorage.getItem('adDetail'));
-          // console.log(' is ', ad);
-          if (ad.rejectedEmployee) {
-            ad.rejectedEmployee.push({
-              name: this.userDetail.vorname + '' + this.userDetail.nachname,
-              uid: localStorage.getItem('appliedId')
-            });
-          } else {
-            ad.rejectedEmployee = [];
-            ad.rejectedEmployee.push({
-              name: this.userDetail.vorname + '' + this.userDetail.nachname,
-              uid: localStorage.getItem('appliedId')
-            });
-            const x = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
-            if (x > -1) {
-              ad.apply.splice(x, 1);
-              delete ad.id;
-              this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
-                // this.confirmation('Sie haben erfolgreich dem Bewerber eine Absage gesendet.');
-                this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Absage gesendet.');
-                this.navController.navigateBack('/employer/ads/ad/applications');
-              });
-            }
-          }
-          // console.log('detail is ', ad);
+          let ad;
+          this.helper.getAdDetails()
+            .subscribe(res => {
+              ad = res;
+              if (ad.rejectedEmployee) {
+                ad.rejectedEmployee.push({
+                  name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
+                  uid: localStorage.getItem('appliedId')
+                });
 
+              } else {
+                ad.rejectedEmployee = [];
+                ad.rejectedEmployee.push({
+                  name: this.userDetail.vorname + '' + this.userDetail.nachname,
+                  uid: localStorage.getItem('appliedId')
+                });
+              }
+
+
+
+              const x = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+              if (x > -1) {
+                ad.apply.splice(x, 1);
+                delete ad.id;
+                this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
+                  this.helper.presentToast('Rejected Employee!');
+                  console.log('detail is ', ad);
+                  localStorage.setItem('adDetail', JSON.stringify(ad));
+                  this.helper.setAdDetails(ad);
+                  this.navController.pop();
+                  // this.navController.navigateForward('/employer/ads/ad/applications');
+                  // this.navController.navigateBack('/employer/ads/ad/applications');
+                });
+              }
+            });
+
+          // console.log('rejectedEmployee ad is ', ad);
         }
       }, {
         text: 'Abbrechen',
@@ -139,15 +153,6 @@ export class ApplicationPage implements OnInit {
     });
     await actionSheet.present();
   }
-
-  // async confirmation(message) {
-  //   const toast = await this.toastController.create({
-  //     message: message,
-  //     duration: 1500,
-  //     position: 'top'
-  //   });
-  //   toast.present();
-  // }
 
 
 

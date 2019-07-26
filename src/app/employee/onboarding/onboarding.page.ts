@@ -49,7 +49,7 @@ export class OnboardingPage implements OnInit {
       file: x
     });
     this.form = this.fb.group({
-      adresse: ['', ],
+      adresse: ['',],
       telefonnumer: ['', Validators.required],
       zugehorigkeit: ['', Validators.required],
       Einsatzradius: ['', Validators.required],
@@ -74,7 +74,7 @@ export class OnboardingPage implements OnInit {
     this.disableaddress = true;
     this.location.addressAutocomplete.query = item;
     this.form.controls['adresse'].setValue(item);
-    // console.log('MY ITEM ', this.myLocation);
+    // console.log('MY ITEM ', item);
     this.location.addressChooseItem(item);
   }
 
@@ -90,9 +90,9 @@ export class OnboardingPage implements OnInit {
 
 
   submit(form) {
-    console.log(form);
+    // console.log(form);
     this.data = {
-      // adresse: form.value.adresse,
+      adresse: form.value.adresse,
       telefonnumer: form.value.telefonnumer,
       zugehorigkeit: form.value.zugehorigkeit,
       Einsatzradius: form.value.Einsatzradius,

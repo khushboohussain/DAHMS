@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 // import { HttpClient, RequestOptions, Headers } from 'selenium-webdriver/http';
 // import { RequestOptions, Headers } from '@angular/http';
@@ -10,9 +11,29 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class HelperService {
-  loading;
 
-  constructor(public toastController: ToastController, private loadingController: LoadingController, public http: HttpClient) { }
+  loading;
+  adDetail: BehaviorSubject<any>;
+
+
+  constructor(public toastController: ToastController, private loadingController: LoadingController, public http: HttpClient) {
+
+
+    if (localStorage.getItem('adDetail')) {
+      this.adDetail = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('adDetail')));
+    } else {
+      this.adDetail = new BehaviorSubject<any>({});
+    }
+
+  }
+
+  setAdDetails(val){
+    this.adDetail.next(val);
+  }
+
+  getAdDetails(): Observable<any> {
+    return this.adDetail.asObservable();
+  }
 
   async presentToast(MSG) {
     const toast = await this.toastController.create({
@@ -34,7 +55,7 @@ export class HelperService {
 
 
 
-  // Delete User 
+  // Delete User
   deleteUser(id: string) {
     // const myHeaders = new HttpHeaders();
     // myHeaders.append('Content-Type', 'application/json');
@@ -73,5 +94,13 @@ export class HelperService {
     }, options);
 
   }
+
+  convertDate(x) {
+    // tslint:disable-next-line: max-line-length
+    return `${x.getFullYear()}-${(x.getMonth() + 1) < 10 ? ('0' + (x.getMonth() + 1)) : (x.getMonth() + 1)}-${(x.getDate() < 10) ? ('0' + (x.getDate())) : x.getDate()}`;
+
+  }
+
+
 
 }

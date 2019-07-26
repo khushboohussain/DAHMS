@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { finalize } from 'rxjs/operators';
+import { LocationService } from 'src/app/services/location.service';
 
 @Component({
   selector: 'app-details',
@@ -16,39 +17,42 @@ export class DetailsPage implements OnInit {
 
   form: FormGroup;
   base64Image;
-  image = 'assets/profile.jpg';
+  image;
+
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   uploadImageId;
   data;
   file;
 
-  // tslint:disable-next-line: max-line-length
-  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService) { }
+  disableaddress: boolean;
 
-  async update() {
-    const toast = await this.toastController.create({
-      message: 'Erfolgreich aktualisiert.',
-      position: 'top',
-      duration: 1000
-    });
-    toast.present();
-    this.navController.navigateBack('/employee/profile');
+  // tslint:disable-next-line: max-line-length
+  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService, private location: LocationService) {
+
+    this.location.addressAutocompleteItems = [];
+    this.location.addressAutocomplete = {
+      query: ''
+    };
   }
+
 
   ngOnInit() {
     // this.api.getAllEmployees();
 
     this.form = this.fb.group({
-      email: ['', Validators.compose([
-        Validators.required,
-        Validators.email
-      ])],
-      password: ['', Validators.compose(
-        [
-          Validators.required,
-          Validators.minLength(6)
-        ])],
+      email: ['',
+        // Validators.compose([
+        //   Validators.required,
+        //   Validators.email
+        // ])
+      ],
+      password: ['',
+        // Validators.compose([
+        //     Validators.required,
+        //     Validators.minLength(6)
+        //   ])
+      ],
       vorname: ['', Validators.required],
       nachname: ['', Validators.required],
       adresse: ['', Validators.required],
@@ -60,17 +64,22 @@ export class DetailsPage implements OnInit {
 
     this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
       this.data = res;
-      console.log(this.data.Einsatzradius);
+      // console.log(this.data);
       this.form.patchValue({
         vorname: this.data.vorname,
         nachname: this.data.nachname,
         email: this.data.email,
-        // password: this.data.password,
-        adresse: this.data.adresse,
+        password: this.data.password,
+        // adresse: this.data.adresse,
         telefonnumer: this.data.telefonnumer,
         zugehörigkeit: this.data.zugehorigkeit,
+        imageURL: this.data.imageURL,
         Einsatzradius: this.data.Einsatzradius
       });
+      this.location.addressAutocomplete = {
+        query: this.data.adresse
+      };
+      this.image = this.data.imageURL;
       // this.form.get('Einsatzradius').setValue(this.data.Einsatzradius);
       // this.form.controls['Einsatzradius'].setValue(this.data.Einsatzradius);
 
@@ -92,6 +101,42 @@ export class DetailsPage implements OnInit {
 
   }
 
+  async update() {
+    const toast = await this.toastController.create({
+      message: 'Erfolgreich aktualisiert.',
+      position: 'top',
+      duration: 1000
+    });
+    toast.present();
+    this.navController.navigateBack('/employee/profile');
+  }
+
+
+  getLocations() {
+    this.location.addressUpdateSearch();
+  }
+
+  addressItem(item) {
+    this.disableaddress = true;
+    this.location.addressAutocomplete.query = item;
+    this.form.controls['adresse'].setValue(item);
+    // this.myLocation = item;
+    // console.log('MY ITEM ', item);
+
+    this.location.addressChooseItem(item);
+  }
+
+  pickupBlur() {
+    if (this.location.addressAutocomplete.query.length === 0) {
+      this.disableaddress = true;
+    }
+  }
+
+  pickupFocus() {
+    this.disableaddress = false;
+  }
+
+
   submit(form) {
     this.data = {
       vorname: form.value.vorname,
@@ -103,6 +148,7 @@ export class DetailsPage implements OnInit {
       zugehörigkeit: form.value.zugehörigkeit,
       Einsatzradius: form.value.Einsatzradius,
     };
+    // this.helper.presentLoading();
     this.uploadImage();
   }
 
@@ -150,21 +196,29 @@ export class DetailsPage implements OnInit {
 
   updateEmplyeeData() {
 
-    this.api.updateUser(localStorage.getItem('uid'), {
-      email: this.data.email,
-      password: this.data.password
-    }).then(res => {
-      this.api.updateEmployee(localStorage.getItem('uid'), {
-        vorname: this.data.vorname,
-        nachname: this.data.nachname,
-        adresse: this.data.adresse,
-        telefonnumer: this.data.telefonnumer,
-        zugehörigkeit: this.data.zugehörigkeit,
-        Einsatzradius: this.data.Einsatzradius,
-      })
-        .then(after => {
-          this.router.navigate(['employee/profile']);
-        });
+    // console.log('update ', this.data);
+
+
+    // this.api.updateUser(localStorage.getItem('uid'), {
+    //   email: this.data.email,
+    //   password: this.data.password
+    // }).then(res => {
+    this.api.updateEmployee(localStorage.getItem('uid'), {
+      vorname: this.data.vorname,
+      nachname: this.data.nachname,
+      // email: this.data.email,
+      // password: this.data.password,
+      adresse: this.data.adresse,
+      telefonnumer: this.data.telefonnumer,
+      zugehörigkeit: this.data.zugehörigkeit,
+      Einsatzradius: this.data.Einsatzradius,
+      imageURL: this.data.imageURL
+
+    }).then(after => {
+      this.helper.presentToast('Profile updated Successfully!');
+      this.router.navigate(['employee/profile']);
+    }, err => {
+      alert(err.message);
     });
 
 

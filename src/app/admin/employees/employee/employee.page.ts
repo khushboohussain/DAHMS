@@ -74,59 +74,34 @@ export class EmployeePage implements OnInit {
   //   window.open(data)
   // }
 
-  downloadFile(id): Observable<Blob> {
-    // tslint:disable-next-line: deprecation
+  downloadFile(id) {
+    location.href = this.getData.files[id].fileURL;
+    // const headers = new HttpHeaders()
+    //   .set('responseType', 'image/jpeg');
+    // return this.http.get(this.getData.files[2].fileURL,{headers: headers});
 
-    // const options = { headers: new HttpHeaders({ 'Content-Type': 'application/blob' }) };
-
-    const options = { headers: new HttpHeaders({ 'Conten`t-Type': 'application/blob', responseType: 'blob' }) };
-
-    // return this.http.get(this.authKeys.serverURL, { headers: this.header, responseType: ResponseContentType.Blob });
-
-    // const options = new HttpHeaders({ 'Conten`t-Type': 'application/blob', responseType: 'blob' });
-
-    // let x = new HttpRequest()
-
-    // tslint:disable-next-line: deprecation
-    // const options = new RequestOptions({ responseType: ResponseContentType.Blob });
-    // tslint:disable-next-line: deprecation
-    // let options = new RequestOptions({ responseType: ResponseContentType.Blob });
-
-    // const options = new HttpRequest({ responseType: ResponseContentType.Blob });
-
-    return this.http.get(this.getData.files[2].fileURL + '/' + id, options)
-      .pipe(map((res: any) => res.blob()));
 
   }
 
   downloadCredential1() {
-    this.downloadFile(this.getData.files[2].fileID).subscribe(blob => {
-      importedSaveAs(blob, this.getData.files[2].name);
-    });
+    this.downloadFile(1);
   }
   downloadCredential2() {
-    this.downloadFile(this.getData.files[3].fileID).subscribe(blob => {
-      importedSaveAs(blob, this.getData.files[3].name);
-
-    });
+    this.downloadFile(2);
   }
 
   downloadtrainingCertificate() {
-    this.downloadFile(this.getData.files[0].fileID).subscribe(blob => {
-      importedSaveAs(blob, this.getData.files[0].name);
-    });
+    this.downloadFile(3);
   }
 
   downloadDrivingLisence1() {
-    this.downloadFile(this.getData.files[4].fileID).subscribe(blob => {
-      importedSaveAs(blob, this.getData.files[4].name);
-    });
+    this.downloadFile(4);
   }
   downloadDrivingLisence2() {
-    this.downloadFile(this.getData.files[5].fileID).subscribe(blob => {
-      importedSaveAs(blob, this.getData.files[5].name);
-    });
+    this.downloadFile(5);
   }
+
+
 
   // getAllEmplyees() {
   //   this.api.getAllEmployees().pipe(map((actions: any) => {
@@ -161,7 +136,8 @@ export class EmployeePage implements OnInit {
 
     this.helper.deleteUser(this.getData.id)
       .subscribe((res: any) => {
-        if (res.statusText === 'OK' || res.status === 200) {
+        console.log(res);
+        if (res.code === 'auth/user-not-found' || res.statusText === 'ok') {
           this.api.deleteEmployee(this.getData.id)
             .then(res1 => {
               this.api.deleteUser(this.getData.id)

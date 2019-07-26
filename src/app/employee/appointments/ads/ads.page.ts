@@ -14,44 +14,46 @@ export class AdsPage implements OnInit {
   getads;
   getEmployeedata;
   getAllads;
-  jobTitle:'';
-  qualification=[
-     'SANITAETSHELFER',
-     'RETTUNGSHELFER',
-     'RETTUNGSSANITATER',
-     'RETTUNGSASSISTENT',
-     'NOTFALLSANITATER'
+  jobTitle: '';
+  qualification = [
+    'SANITAETSHELFER',
+    'RETTUNGSHELFER',
+    'RETTUNGSSANITATER',
+    'RETTUNGSASSISTENT',
+    'NOTFALLSANITATER'
   ];
 
-  constructor(private navController: NavController, private api:ApiService) { }
+  constructor(private navController: NavController, private api: ApiService) { }
 
-  navigateAd(item) {
-    localStorage.setItem('data', JSON.stringify(item))
-    this.navController.navigateForward("employee/appointments/ads/ad");
-  }
+
 
   ngOnInit() {
     let x = [];
-    this.qualification.forEach((a,i) => {
-      if(a.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()){
-        x = this.qualification.slice(i,this.qualification.length);
+    this.qualification.forEach((a, i) => {
+      if (a.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()) {
+        x = this.qualification.slice(i, this.qualification.length);
         // console.log(x)
       }
     });
     // this.getAdsData()
 
-    this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res =>{
+    this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
       this.getEmployeedata = res;
-      if(this.getEmployeedata.status === true){
-        this.getAllAds(x)
+      if (this.getEmployeedata.status === true) {
+        this.getAllAds(x);
       }
-    })
-              
-            
-  
-   
+    });
+
+
+
+
   }
 
+  
+  navigateAd(item) {
+    localStorage.setItem('data', JSON.stringify(item));
+    this.navController.navigateForward('employee/appointments/ads/ad');
+  }
   // getAdsData(){
   //   this.api.getAdsByQualification(localStorage.getItem('qualifikation')).pipe(map((actions: any) => {
   //     return actions.map(a => {
@@ -65,34 +67,34 @@ export class AdsPage implements OnInit {
   //   })
   // }
 
-  getAllAds(x){
+  getAllAds(x) {
     this.api.getAllAds().pipe(map((actions: any) => {
       return actions.map(a => {
-        const data = a.payload.doc.data()
+        const data = a.payload.doc.data();
         const id = a.payload.doc.id;
         return { id, ...data };
       });
-    })).subscribe((res: Array<any>) =>{
-        this.getAllads = res.filter( result => {
-          let distance = haversine({
-            latitude: this.getEmployeedata.latitude,
-            longitude: this.getEmployeedata.longitude
-          },
+    })).subscribe((res: Array<any>) => {
+      this.getAllads = res.filter(result => {
+        const distance = haversine({
+          latitude: this.getEmployeedata.latitude,
+          longitude: this.getEmployeedata.longitude
+        },
           {
             latitude: result.latitude,
             longitude: result.longitude
           });
 
-          // console.log(distance);
+        // console.log(distance);
 
-          if(parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.qualification) > -1 ){
-            return result;
-          }
-          // x.indexOf(result.qualification) > -1
-        });
-        //  console.log(this.getAllads)
-    })
+        if (parseInt(this.getEmployeedata.Einsatzradius) <= distance && x.indexOf(result.qualification) > -1) {
+          return result;
+        }
+        // x.indexOf(result.qualification) > -1
+      });
+      //  console.log(this.getAllads)
+    });
   }
-  
+
 
 }

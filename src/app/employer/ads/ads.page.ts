@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class AdsPage {
   getAds: any;
   data;
 
-  constructor(private navController: NavController, private router: Router, private api: ApiService) {
+  constructor(private navController: NavController,
+    private helper: HelperService, private router: Router, private api: ApiService) {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
   }
 
@@ -28,6 +30,7 @@ export class AdsPage {
     localStorage.removeItem('AdId');
     localStorage.removeItem('confirm');
     localStorage.removeItem('appliedId');
+    localStorage.removeItem('adDetail');
 
     // console.log(localStorage.getItem('uid'))
     this.api.getEmployeerAds(localStorage.getItem('uid'))
@@ -39,10 +42,6 @@ export class AdsPage {
       })))
       .subscribe(res => {
         this.getAds = res;
-        // console.log('data \n');
-        // console.log(res.length);
-        // console.log('did \n');
-        // console.log(this.getAds.did);
       }, err => {
         console.log(err.message);
       });
@@ -52,6 +51,7 @@ export class AdsPage {
     // console.log('docID is ', data.did);
     localStorage.setItem('AdId', data.id);
     localStorage.setItem('adDetail', JSON.stringify(data));
+    this.helper.setAdDetails(data);
     this.navController.navigateForward('/employer/ads/ad');
 
   }

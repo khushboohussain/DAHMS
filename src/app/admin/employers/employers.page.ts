@@ -35,7 +35,6 @@ export class EmployersPage implements OnInit {
     this.api.getAllEmployer().pipe(map(actions => actions.map(a => {
       const data = a.payload.doc.data();
       const did = a.payload.doc.id;
-      // console.log(did);
       return { did, ...data };
     }))).subscribe(res => {
       this.userData = res;
@@ -49,7 +48,7 @@ export class EmployersPage implements OnInit {
       }
       // console.log(this.userData);
     }, err => {
-      console.log(err.message);
+      alert(err.message);
     });
 
 
@@ -110,9 +109,11 @@ export class EmployersPage implements OnInit {
   }
 
   navigateEmployer(data) {
-    // console.log(data.did);
+    // console.log('navigation is', data);
     localStorage.setItem('empId', data.did);
     localStorage.setItem('empData', JSON.stringify(data));
+    this.navController.navigateForward('/admin/employers/employer');
+
   }
 
 
