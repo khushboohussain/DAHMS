@@ -65,8 +65,8 @@
       </div>
 
       <!-- if a confirmation was sent, don't show the following button -->
-      <div class="container" *ngIf="!isConfirmApp">
-        <ion-button color="primary" expand="block" (click)="answerOptions()">Zusage / Absage</ion-button>
+      <div class="container">
+        <ion-button color="primary" expand="block" (click)="answerOptions()" [disabled]="isConfirmApp" >Zusage / Absage</ion-button>
       </div>
 
     </div>

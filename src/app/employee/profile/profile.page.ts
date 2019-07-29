@@ -17,6 +17,8 @@ export class ProfilePage implements OnInit {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
   }
 
+  ngOnInit() { }
+
   navigateDetails() {
     this.navController.navigateForward('/employee/profile/details');
   }
@@ -33,5 +35,4 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  ngOnInit() {}
 }

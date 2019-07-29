@@ -54,14 +54,14 @@
             <!-- qualification certificate -->
             <div class="item-no-icon container">
               <p class="pointer" (click)="downloadCredential1()">Qualifikationsnachweis Click to download
-                {{getData.files[2].name}}</p>
+                {{getData?.files[2]?.name}}</p>
               <p class="pointer" (click)="downloadCredential2()">Qualifikationsnachweis Click to download
-                {{getData.files[3].name}}</p>
+                {{getData?.files[3]?.name}}</p>
             </div>
             <!-- training certificate -->
             <div class="item-no-icon container pointer">
               <p (click)="downloadtrainingCertificate()">Fortbildungsnachweis Click to download
-                {{getData.files[0].name}}</p>
+                {{getData?.files[0]?.name}}</p>
             </div>
             <!-- driver license, FORMAT: Führerschein: "DRIVING LICENSE TYPE" -->
             <div class="item-no-icon container" *ngIf="getData.files[4] && getData.files[5]">

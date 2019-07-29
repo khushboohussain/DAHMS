@@ -179,6 +179,47 @@ export class Step2Page implements OnInit {
     this.extraWorkforce.splice(index, 1);
     // console.log('successfuly deleted item number '+ index);
   }
+  getValues(form, i) {
+    this.previousData = form[i - 1].value;
+
+    this.previousData.otherQualification = [];
+
+    this.extraWorkforce.forEach(a => {
+      if (a.index === i - 1) {
+        this.previousData.otherQualification.push(a);
+      }
+    });
+    // console.log(this.previousData);
+    // console.log(this.extraWorkforce);
+    // console.log('getting data from last slide', this.previousData);
+    // console.log('getting data from last slide', this.previousData.controls.startDate);
+
+    // console.log(`'Previous Slide data is \n'  ${JSON.stringify(this.previousData)}`);
+    this.form2[i].controls['startTime'].setValue(this.previousData.startTime);
+    this.form2[i].controls['endTime'].setValue(this.previousData.endTime);
+    this.form2[i].controls['qualification'].setValue(this.previousData.qualification);
+    this.form2[i].controls['requiredEmployees'].setValue(this.previousData.requiredEmployees);
+    this.form2[i].controls['wage'].setValue(this.previousData.wage);
+    this.form2[i].controls['wageType'].setValue(this.previousData.wageType);
+    this.form2[i].controls['drivingLicence'].setValue(this.previousData.drivingLicence);
+
+
+    const len = this.previousData.otherQualification.length;
+
+    // this.extraWorkforce = [];
+    for (let index = 0; index < len; index++) {
+      this.extraWorkforce.push({
+        qualification: this.previousData.otherQualification[index].qualification,
+        requiredEmployees: this.previousData.otherQualification[index].requiredEmployees,
+        wage: this.previousData.otherQualification[index].wage,
+        wageType: this.previousData.otherQualification[index].wageType,
+        drivingLicence: this.previousData.otherQualification[index].drivingLicence,
+        index: i
+      });
+
+    }
+  }
+
 
   nextSlide() {
     // console.log('Actual Date ', this.dateStart);
@@ -186,7 +227,7 @@ export class Step2Page implements OnInit {
     this.slides.slideNext().then(() => { this.slides.lockSwipes(true); });
     // this.dateStart = moment(this.dateStart).add(1, 'days').format();
     // console.log('Adding 1', this.dateStart);
-
+    console.log(this.extraWorkforce);
   }
 
   goBack() {
@@ -257,13 +298,14 @@ export class Step2Page implements OnInit {
           });
         }
 
-        this.api.createAds({status: 'open', ...this.record})
+        this.api.createAds({ status: 'open', rejectedEmployee: [], ...this.record })
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
             this.navController.navigateRoot('/employer/ads/create/step3');
           }, err => {
             this.helper.presentToast(err.message + 'Error!');
           });
+
         // end of template 3
       } else {
         //  for condition 1
@@ -315,7 +357,7 @@ export class Step2Page implements OnInit {
           );
         });
         // console.log(record);
-        this.api.createAds({status: 'open', ...record})
+        this.api.createAds({ status: 'open', rejectedEmployee: [], ...record })
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
             this.navController.navigateRoot('/employer/ads/create/step3');
@@ -365,12 +407,11 @@ export class Step2Page implements OnInit {
           wageType: a.wageType,
           drivingLicence: a.drivingLicence
         });
-      }
-      );
-      // });
+      });
+
       // console.log(record);
 
-      this.api.createAds({status: 'open', ...record})
+      this.api.createAds({ status: 'open', rejectedEmployee: [], ...record })
         .then(res => {
           this.helper.presentToast(' Ad Created Successfuliy!');
           this.navController.navigateRoot('/employer/ads/create/step3');
@@ -382,46 +423,5 @@ export class Step2Page implements OnInit {
 
     // end Else Bloack
   } // end SubmitForm method
-
-  getValues(form, i) {
-    this.previousData = form[i - 1].value;
-
-    this.previousData.otherQualification = [];
-
-    this.extraWorkforce.forEach(a => {
-      if (a.index === i - 1) {
-        this.previousData.otherQualification.push(a);
-      }
-    });
-
-    // console.log('getting data from last slide', this.previousData);
-    // console.log('getting data from last slide', this.previousData.controls.startDate);
-
-    // console.log(`'Previous Slide data is \n'  ${JSON.stringify(this.previousData)}`);
-    this.form2[i].controls['startTime'].setValue(this.previousData.startTime);
-    this.form2[i].controls['endTime'].setValue(this.previousData.endTime);
-    this.form2[i].controls['qualification'].setValue(this.previousData.qualification);
-    this.form2[i].controls['requiredEmployees'].setValue(this.previousData.requiredEmployees);
-    this.form2[i].controls['wage'].setValue(this.previousData.wage);
-    this.form2[i].controls['wageType'].setValue(this.previousData.wageType);
-    this.form2[i].controls['drivingLicence'].setValue(this.previousData.drivingLicence);
-
-
-    const len = this.previousData.otherQualification.length;
-
-    this.extraWorkforce = [];
-    for (let index = 0; index < len; index++) {
-      this.extraWorkforce.push({
-        qualification: this.previousData.otherQualification[index].qualification,
-        requiredEmployees: this.previousData.otherQualification[index].requiredEmployees,
-        wage: this.previousData.otherQualification[index].wage,
-        wageType: this.previousData.otherQualification[index].wageType,
-        drivingLicence: this.previousData.otherQualification[index].drivingLicence,
-        index: i
-      });
-
-    }
-  }
-
 
 }

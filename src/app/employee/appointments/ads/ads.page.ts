@@ -18,10 +18,15 @@ export class AdsPage implements OnInit {
   qualification = [
     'SANITAETSHELFER',
     'RETTUNGSHELFER',
-    'RETTUNGSSANITATER',
+    'RETTUNGSSANITAETER',
     'RETTUNGSASSISTENT',
-    'NOTFALLSANITATER'
+    'NOTFALLSANITAETER',
+    "ARZT",
+    "ARZTRETTUNGSDIENST"
   ];
+  //RETTUNGSSANITAETER
+
+  step2 = [];
 
   constructor(private navController: NavController, private api: ApiService) { }
 
@@ -39,6 +44,7 @@ export class AdsPage implements OnInit {
 
     this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
       this.getEmployeedata = res;
+      // console.log('employee data ', res);
       if (this.getEmployeedata.status === true) {
         this.getAllAds(x);
       }
@@ -49,7 +55,7 @@ export class AdsPage implements OnInit {
 
   }
 
-  
+
   navigateAd(item) {
     localStorage.setItem('data', JSON.stringify(item));
     this.navController.navigateForward('employee/appointments/ads/ad');
@@ -68,13 +74,15 @@ export class AdsPage implements OnInit {
   // }
 
   getAllAds(x) {
-    this.api.getAllAds().pipe(map((actions: any) => {
-      return actions.map(a => {
+    this.api.getAllAds().pipe(map((actions: any) =>
+      actions.map(a => {
         const data = a.payload.doc.data();
         const id = a.payload.doc.id;
         return { id, ...data };
-      });
-    })).subscribe((res: Array<any>) => {
+      }
+      )
+    )).subscribe((res: Array<any>) => {
+      // console.log(res);
       this.getAllads = res.filter(result => {
         const distance = haversine({
           latitude: this.getEmployeedata.latitude,
@@ -84,12 +92,26 @@ export class AdsPage implements OnInit {
             latitude: result.latitude,
             longitude: result.longitude
           });
+        // console.log('result is ', result);
 
-        // console.log(distance);
+        if (result.condition3 === true) {
+          this.step2 = result.step2;
+          for (let index = 0; index < this.step2.length; index++) {
+            if (parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.step2[index].qualification) > -1) {
+              return result;
+            }
+          }
 
-        if (parseInt(this.getEmployeedata.Einsatzradius) <= distance && x.indexOf(result.qualification) > -1) {
-          return result;
+        } else {
+          if (parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.qualification) > -1) {
+            return result;
+          }
+
         }
+        // console.log(distance);
+        // console.log('this is x', x);
+
+        // template 1 and template 2
         // x.indexOf(result.qualification) > -1
       });
       //  console.log(this.getAllads)

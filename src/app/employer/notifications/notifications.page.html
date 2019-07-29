@@ -46,7 +46,7 @@
         <div class="yesterday" *ngIf="yesterday.length > 0">
           <p class="small-title container">Gestern</p>
           <div class="list-items" *ngFor="let item of yesterday">
-            <div class="item" (click)="navigateApplication()">
+            <div class="item" (click)="navigateApplication(item)">
               <div class="item-text text container pointer">
                 <!-- <p>Sie haben eine Bewerbung auf Ihrer Stellenanzeige erhalten.</p> -->
                 <p>{{item?.message}}</p>

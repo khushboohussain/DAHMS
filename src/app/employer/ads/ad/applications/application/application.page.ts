@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { ActionSheetController, NavController, ToastController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-application',
@@ -19,10 +20,10 @@ export class ApplicationPage implements OnInit {
 
   // tslint:disable-next-line: max-line-length
   constructor(public actionSheetController: ActionSheetController, private toastController: ToastController, private navController: NavController, public api: ApiService,
-    private ngzone: NgZone, private helper: HelperService) { }
+    private ngzone: NgZone, private helper: HelperService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    console.log(localStorage);
+    // console.log(localStorage);
 
     this.api.getEmployeeData(localStorage.getItem('appliedId')).subscribe(res => {
       this.userDetail = res;
@@ -30,6 +31,33 @@ export class ApplicationPage implements OnInit {
     }, err => {
       console.log('errors!', err.message);
     });
+
+    this.route.params.subscribe(res => {
+      if (res.type) {
+        let x = JSON.parse(localStorage.getItem('notification'));
+        // console.log(x);
+        this.api.getAd(x.notificationId).subscribe((result: any) => {
+          console.log('value', result);
+
+
+          let x = result.confirmEmployeeIds.findIndex(data => data.indexOf(localStorage.getItem('appliedId')) > -1);
+          if (x > -1) {
+            this.isConfirmApp = true;
+          }
+        });
+      } else {
+        let ad = JSON.parse(localStorage.getItem('adDetail'));
+        this.api.getAd(ad.did)
+          .subscribe((res: any) => {
+            let x = res.confirmEmployeeIds.findIndex(data => data.indexOf(localStorage.getItem('appliedId')) > -1);
+            if (x > -1) {
+              this.isConfirmApp = true;
+            }
+          });
+      }
+    });
+
+
     if (this.userDetail.führerscheinklasse === 'NO') {
       this.licenseType = 'Es wird kein Führerschein benötigt';
     } else if (this.userDetail.führerscheinklasse === 'BENEFICIAL') {
@@ -61,9 +89,11 @@ export class ApplicationPage implements OnInit {
           // Confirmation of application
           // let ad = JSON.parse(localStorage.getItem('adDetail'));
           let ad;
-          this.helper.getAdDetails()
+          ad = JSON.parse(localStorage.getItem('adDetail'));
+          this.api.getAd(ad.did)
             .subscribe(res => {
               ad = res;
+              // console.log(res);
               if (ad.confirmEmployee) {
                 ad.confirmEmployee.push({
                   name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
@@ -84,14 +114,14 @@ export class ApplicationPage implements OnInit {
               if (x > -1) {
                 ad.apply.splice(x, 1);
                 delete ad.id;
-                this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
+                this.api.updateAds(localStorage.getItem('AdId'), ad).then(() => {
                   this.helper.presentToast('Sie haben erfolgreich dem Bewerber eine Zusage gesendet.');
 
-                  console.log('confirm Emp is ', ad);
+                  // console.log('confirm Emp is ', ad);
                   localStorage.setItem('adDetail', JSON.stringify(ad));
-                  this.helper.setAdDetails(ad);
+                  // this.helper.setAdDetails(ad);
 
-                  this.navController.pop();
+                  this.navController.navigateRoot('employer/ads');
                   // this.navController.navigateForward('/employer/ads/ad/applications');
 
                   // this.navController.navigateBack('/employer/ads/ad/applications');
@@ -108,7 +138,8 @@ export class ApplicationPage implements OnInit {
         handler: () => {
           // Rejection of application
           let ad;
-          this.helper.getAdDetails()
+          ad = JSON.parse(localStorage.getItem('adDetail'));
+          this.api.getAd(ad.did)
             .subscribe(res => {
               ad = res;
               if (ad.rejectedEmployee) {
@@ -125,18 +156,16 @@ export class ApplicationPage implements OnInit {
                 });
               }
 
-
-
               const x = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
               if (x > -1) {
                 ad.apply.splice(x, 1);
                 delete ad.id;
                 this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
                   this.helper.presentToast('Rejected Employee!');
-                  console.log('detail is ', ad);
+                  // console.log('detail is ', ad);
                   localStorage.setItem('adDetail', JSON.stringify(ad));
-                  this.helper.setAdDetails(ad);
-                  this.navController.pop();
+                  // this.helper.setAdDetails(ad);
+                  this.navController.navigateRoot('employer/ads');
                   // this.navController.navigateForward('/employer/ads/ad/applications');
                   // this.navController.navigateBack('/employer/ads/ad/applications');
                 });

@@ -69,7 +69,8 @@
               <!-- other qualification certificate -->
               <!-- <ion-input type="file" (change)="uploadFile($event, 4, i)" placeholder="Qualifikationsnachweis"></ion-input> -->
               <ion-item lines="none">
-                <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(6)" >Choose a File</ion-button><span>{{getEmployeeData?.files[6].name}}</span>
+                <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(6)" >Choose a File</ion-button>
+                <!-- <span>{{getEmployeeData?.files[6].name}}</span> -->
                 <ion-input type="file" (change)="uploadFile($event)" style="visibility: hidden;"></ion-input>
               </ion-item>
               <ion-item lines="none" *ngFor="let itemm of extras; let j = index">

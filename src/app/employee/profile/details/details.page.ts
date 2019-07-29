@@ -74,7 +74,7 @@ export class DetailsPage implements OnInit {
         telefonnumer: this.data.telefonnumer,
         zugehörigkeit: this.data.zugehorigkeit,
         imageURL: this.data.imageURL,
-        Einsatzradius: this.data.Einsatzradius
+        Einsatzradius: this.data.Einsatzradius,
       });
       this.location.addressAutocomplete = {
         query: this.data.adresse
@@ -147,6 +147,8 @@ export class DetailsPage implements OnInit {
       telefonnumer: form.value.telefonnumer,
       zugehörigkeit: form.value.zugehörigkeit,
       Einsatzradius: form.value.Einsatzradius,
+      latitude: this.location.company.latitude,
+      longitude: this.location.company.longitude
     };
     // this.helper.presentLoading();
     this.uploadImage();
@@ -203,6 +205,8 @@ export class DetailsPage implements OnInit {
     //   email: this.data.email,
     //   password: this.data.password
     // }).then(res => {
+    // console.log('updating values', this.data);
+
     this.api.updateEmployee(localStorage.getItem('uid'), {
       vorname: this.data.vorname,
       nachname: this.data.nachname,
@@ -212,7 +216,9 @@ export class DetailsPage implements OnInit {
       telefonnumer: this.data.telefonnumer,
       zugehörigkeit: this.data.zugehörigkeit,
       Einsatzradius: this.data.Einsatzradius,
-      imageURL: this.data.imageURL
+      imageURL: this.data.imageURL,
+      latitude: this.data.latitude,
+      longitude: this.data.longitude
 
     }).then(after => {
       this.helper.presentToast('Profile updated Successfully!');
@@ -220,8 +226,7 @@ export class DetailsPage implements OnInit {
     }, err => {
       alert(err.message);
     });
-
-
   }
+
 
 }

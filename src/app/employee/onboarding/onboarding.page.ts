@@ -16,6 +16,15 @@ import { LocationService } from 'src/app/services/location.service';
 })
 export class OnboardingPage implements OnInit {
 
+  // tslint:disable-next-line: max-line-length
+  constructor(private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService, public location: LocationService) {
+
+    this.location.addressAutocompleteItems = [];
+    this.location.addressAutocomplete = {
+      query: ''
+    };
+  }
+
   form: FormGroup;
   base64Image;
   image = 'assets/profile.jpg';
@@ -33,14 +42,13 @@ export class OnboardingPage implements OnInit {
   disableaddress: boolean;
   myLocation: string;
 
-  // tslint:disable-next-line: max-line-length
-  constructor(private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService, public location: LocationService) {
+  // navigateHome() {
+  //   this.navController.navigateRoot("/employee/appointments");
+  // }
 
-    this.location.addressAutocompleteItems = [];
-    this.location.addressAutocomplete = {
-      query: ''
-    };
-  }
+  promises = [];
+
+  urls = [];
 
   ngOnInit() {
     let x: File;
@@ -49,21 +57,21 @@ export class OnboardingPage implements OnInit {
       file: x
     });
     this.form = this.fb.group({
-      adresse: ['',],
+      adresse: ['', ],
       telefonnumer: ['', Validators.required],
       zugehorigkeit: ['', Validators.required],
       Einsatzradius: ['', Validators.required],
       qualifikation: ['', Validators.required],
       führerscheinklasse: ['', Validators.required],
-      image: ['', Validators.required]
+      image: ['', Validators.required],
+      AusweisA: ['', Validators.required],
+      AusweisB: ['', Validators.required],
+      abc: ['', Validators.required],
+      cde: ['', Validators.required],
+      efg: ['', Validators.required],
+      ghi: ['', Validators.required]
     });
   }
-
-  // navigateHome() {
-  //   this.navController.navigateRoot("/employee/appointments");
-  // }
-
-  promises = [];
 
 
   getLocations() {
@@ -90,7 +98,7 @@ export class OnboardingPage implements OnInit {
 
 
   submit(form) {
-    // console.log(form);
+    // console.log('form value', form);
     this.data = {
       adresse: form.value.adresse,
       telefonnumer: form.value.telefonnumer,
@@ -107,15 +115,16 @@ export class OnboardingPage implements OnInit {
       longitude: this.location.company.longitude
     };
     this.helper.presentLoading();
-
-    console.log(this.field);
-    console.log(this.fileArr)
-
+    /*
+        console.log(this.field);
+        console.log(this.fileArr);
+     */
 
     this.field.forEach(a => {
-      this.data.qualification.push(a.text)
-      if (a.file)
+      this.data.qualification.push(a.text);
+      if (a.file) {
         this.fileArr.push(a.file);
+      }
     });
 
     this.fileArr.forEach((a, i) => {
@@ -124,7 +133,7 @@ export class OnboardingPage implements OnInit {
       this.task = this.ref.put(a);
       this.promises.push(this.task);
       this.urls.push({ ref: this.ref, index: i, fileId: this.fileID, name: a.name });
-      localStorage.setItem('fID', this.fileID)
+      localStorage.setItem('fID', this.fileID);
 
       this.task.snapshotChanges().subscribe();
 
@@ -146,7 +155,7 @@ export class OnboardingPage implements OnInit {
         this.uploadImage();
       })
       .catch((error) => {
-        console.log(`Some failed: `, error.message)
+        console.log(`Some failed: `, error.message);
       });
   }
 
@@ -173,7 +182,7 @@ export class OnboardingPage implements OnInit {
         this.form.controls['image'].setValue(this.base64Image);
       };
     } catch (e) {
-      //no error
+      // no error
     }
   }
 
@@ -188,7 +197,7 @@ export class OnboardingPage implements OnInit {
           if (this.image !== '') {
             this.data.imageURL = this.image;
             this.data.imageId = this.uploadImageId;
-            localStorage.setItem('imgid', this.data.imageId)
+            localStorage.setItem('imgid', this.data.imageId);
             this.createEmplyee();
           }
         });
@@ -196,39 +205,19 @@ export class OnboardingPage implements OnInit {
   }
 
   uploadFile(event, val, i?) {
-    // this.fileID = Math.floor(Date.now());
     if (i && i > 0) {
       this.field[i].file = event.target.files[0];
       return;
-    }
-    else
+    } else {
       this.fileArr[val] = event.target.files[0];
-    // this.filepath=(`files'/${this.fileID}`);
-    // this.ref=this.fireStorage.ref(this.filepath);
-    // this.task= this.ref.put(this.file);
+    }
   }
-
-  urls = [];
-
-  // async uploadAllFiles(item,i){
-  //   this.fileID = Math.floor(Date.now());
-  //   this.ref = this.fireStorage.ref('Files/'+this.fileID);
-  //   this.task = this.ref.put(item);
-  //   await this.task.snapshotChanges().pipe(
-  //     finalize( async() => {
-  //      await this.ref.getDownloadURL().subscribe( (url) => {
-  //        this.urls[i] =url;
-  //        console.log(url);
-  //        return Promise.resolve(url);
-  //       });
-  //     })
-  //   ).subscribe();
-  // }
 
   createEmplyee() {
 
     this.api.updateEmployee(localStorage.getItem('uid'), this.data)
       .then(after => {
+        this.helper.closeLoading();
         this.router.navigate(['employee/appointments']);
       });
   }
@@ -237,16 +226,6 @@ export class OnboardingPage implements OnInit {
     this.field.push({
       text: '',
       file: ''
-    })
+    });
   }
 }
-
-
-/*
-[
-  {
-    text: '',
-    file: ''
-  }
-]
-*/

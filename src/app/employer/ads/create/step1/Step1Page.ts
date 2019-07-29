@@ -52,27 +52,16 @@ export class Step1Page implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       jobTitle: ['', Validators.required],
-      address: ['', ],
+      address: ['',],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      continoueWork: ['', ],
-      fastReply: ['', ]
+      continoueWork: ['',],
+      fastReply: ['',]
     });
 
 
     // tslint:disable-next-line: max-line-length
     this.today = `${this.nowDate.getFullYear()}-${(this.nowDate.getMonth() + 1) < 10 ? ('0' + (this.nowDate.getMonth() + 1)) : (this.nowDate.getMonth() + 1)}-${(this.nowDate.getDate() < 10) ? ('0' + (this.nowDate.getDate())) : this.nowDate.getDate()}`;
-
-    // this.time = this.nowDate.toTimeString().split(' ')[0].substring(0,5);
-    // console.log(" Today ", this.today);
-    // console.log(this.minDate);
-    // console.log(this.maxDate);
-    // console.log(new Date(this.nowDate.getFullYear() + 2, 0, 1).toISOString());
-    // console.log("maxDate", new Date(this.nowDate.getFullYear() + 2, 0, 1).toISOString().slice(0, 10));
-    // console.log(new Date(this.nowDate.getFullYear() + 2, 11, 31).toISOString().slice(0, 10));
-    // console.log("20 days added in current date", new Date(new Date().setDate(new Date().getDate() + 20)).toISOString().slice(0, 10));
-
-    // this.onChanges();
 
     this.data = JSON.parse(localStorage.getItem('AdsData'));
 
@@ -85,22 +74,13 @@ export class Step1Page implements OnInit {
         'continoueWork': this.data.continoueWork,
         'fastReply': this.data.fastReply
       });
-      this.location.addressAutocomplete = {
-        query: this.data.address
-      };
+      // this.location.addressAutocomplete = {
+      //   query: this.data.address
+      // };
     }
 
   } // end Of ngOnInIt()
 
-  // onChanges() {
-  /* this.form.get('continoueWork').valueChanges.subscribe(res => {
-    this.continuoueCheck = res;
-    console.log(' Continuous Check is ' + this.continuoueCheck);
-  });
-   this.form.get('endDate').valueChanges.subscribe(res => {
-      console.log(' end date is ' + res);
-    }); */
-  // }
 
   getLocations() {
     this.location.addressUpdateSearch();

@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'admin/employers', loadChildren: './admin/employers/employers.module#EmployersPageModule' },
   { path: 'admin/employers/employer', loadChildren: './admin/employers/employer/employer.module#EmployerPageModule' },
   { path: 'admin/settings', loadChildren: './admin/settings/settings.module#SettingsPageModule' },
+  { path: 'admin/settings/qualification', loadChildren: './admin/settings/qualification/qualification.module#QualificationPageModule' },
 
   { path: 'employee/onboarding', loadChildren: './employee/onboarding/onboarding.module#OnboardingPageModule' },
   { path: 'employee/appointments', loadChildren: './employee/appointments/appointments.module#AppointmentsPageModule' },
@@ -38,6 +39,8 @@ const routes: Routes = [
   { path: 'employer/ads/create/step3', loadChildren: './employer/ads/create/step3/step3.module#Step3PageModule' },
   { path: 'employer/profile/details', loadChildren: './employer/profile/details/details.module#DetailsPageModule' },
   { path: 'employer/profile/payment-methods', loadChildren: './employer/profile/payment-methods/payment-methods.module#PaymentMethodsPageModule' },
+
+
 
 ];
 

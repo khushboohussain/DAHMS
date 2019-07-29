@@ -51,7 +51,7 @@ export class AdsPage {
     // console.log('docID is ', data.did);
     localStorage.setItem('AdId', data.id);
     localStorage.setItem('adDetail', JSON.stringify(data));
-    this.helper.setAdDetails(data);
+    // this.helper.setAdDetails(data);
     this.navController.navigateForward('/employer/ads/ad');
 
   }

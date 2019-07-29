@@ -25,6 +25,15 @@ export class NotificationsPage implements OnInit {
   $otherNotifications: Observable<Array<any>>;
   one: Array<any>;
   two: Array<any>;
+  qualification = [
+    'SANITAETSHELFER',
+    'RETTUNGSHELFER',
+    'RETTUNGSSANITAETER',
+    'RETTUNGSASSISTENT',
+    'NOTFALLSANITAETER',
+    "ARZT",
+    "ARZTRETTUNGSDIENST"
+  ];
 
   constructor(private navController: NavController, private router: Router, private api: ApiService, private helper: HelperService) {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
@@ -36,7 +45,13 @@ export class NotificationsPage implements OnInit {
     // this.$newNotification = this.api.getNewAdNotification();
     // // where uid == empty
     // this.$otherNotifications = this.api.getNotifications(localStorage.getItem('uid'));
-
+    // let x = [];
+    // this.qualification.forEach((a, i) => {
+    //   if (a.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()) {
+    //     x = this.qualification.slice(i, this.qualification.length);
+    //     console.log(x)
+    //   }
+    // });
 
 
     this.$newNotification = this.api.getNotifications(localStorage.getItem('uid'))
@@ -59,11 +74,11 @@ export class NotificationsPage implements OnInit {
       })));
     combineLatest(this.$newNotification, this.$otherNotifications)
       .pipe(map(([one, two]) => [...one, ...two]))
-      .subscribe(res => {
-        // console.log(res);
+      .subscribe((res:Array<any>) => {
 
-        this.NotificationType = res.filter(data => data.type === 'offer' || data.type === 'rejected' || data.type === 'new');
 
+        this.NotificationType = res.filter(data => (data.type === 'offer' || data.type === 'rejected' || data.type === 'new') && data.qualification.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()  );
+        console.log(this.NotificationType);
         this.today = this.NotificationType.filter(data => {
           if (this.helper.convertDate(data.date.toDate()) === this.helper.convertDate(new Date())) {
             return data;
@@ -100,27 +115,30 @@ export class NotificationsPage implements OnInit {
   }
 
   navigateAppointment(data) {
-    // console.log(data);
+    console.log(data);
     localStorage.removeItem('data');
-
+    localStorage.setItem('notification',JSON.stringify(data));
     if (data.type === 'offer') {
       this.api.getAd(data.notificationId).subscribe(res => {
         // console.log(res);
-        localStorage.setItem('data', JSON.stringify(res));
+        localStorage.setItem('data', JSON.stringify({id: data.notificationId, ...res}));
         this.navController.navigateForward('/employee/appointments/appointment');
       });
 
     } else if (data.type === 'new') {
       this.api.getAd(data.notificationId).subscribe(res => {
         // console.log(res);
-        localStorage.setItem('data', JSON.stringify(res));
-        this.navController.navigateForward('/employee/appointments/ads/ad');
+        localStorage.setItem('data', JSON.stringify({id: data.notificationId, ...res}));
+        // this.navController.navigateForward('/employee/appointments/ads/ad');
+        this.router.navigate(['/employee/appointments/ads/ad',{
+          type: 'notification'
+        }]);
       });
 
     } else {
       this.api.getAd(data.notificationId).subscribe(res => {
         // console.log(res);
-        localStorage.setItem('data', JSON.stringify(res));
+        localStorage.setItem('data', JSON.stringify({id: data.notificationId, ...res}));
         this.navController.navigateForward('/employee/appointments/ads/ad');
       });
 

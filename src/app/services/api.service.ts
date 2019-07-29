@@ -124,7 +124,7 @@ export class ApiService {
   // 
 
   getNewAdNotification() {
-    return this.afs.collection('notifications', ref => ref.where('uid', '>=', '')).snapshotChanges();
+    return this.afs.collection('notifications', ref => ref.where('uid', '>=', '').where('type', '==', 'new')).snapshotChanges();
   }
 
   getNotifications(id) {
@@ -135,6 +135,19 @@ export class ApiService {
     return this.afs.collection('notifications', ref => ref.where('employerId', '==', id)).snapshotChanges();
   }
 
+  deleteNotification(id: any) {
+    return this.afs.doc('notifications/' + id).delete();
+  }
+
+  //  Personal Qualification
+
+  getPersonalQualification() {
+    return this.afs.doc('settings/qualifications').valueChanges();
+  }
+
+  updatePersonalQualification(data) {
+    return this.afs.doc('settings/qualifications').update(data);
+  }
 
 
 }

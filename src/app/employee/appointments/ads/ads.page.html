@@ -13,7 +13,7 @@
       <div class="ads" *ngFor="let item of getAllads">
         <div class="list-items">
           <!-- single ad -->
-          <div class="item" (click)="navigateAd(item)">
+          <div class="item pointer" (click)="navigateAd(item)">
             <!-- ad title -->
             <div class="item-text text container">
               <p>{{item?.jobTitle}}</p>

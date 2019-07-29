@@ -27,13 +27,13 @@ export class HelperService {
 
   }
 
-  setAdDetails(val){
-    this.adDetail.next(val);
-  }
+  // setAdDetails(val){
+  //   this.adDetail.next(val);
+  // }
 
-  getAdDetails(): Observable<any> {
-    return this.adDetail.asObservable();
-  }
+  // getAdDetails(): Observable<any> {
+  //   return this.adDetail.asObservable();
+  // }
 
   async presentToast(MSG) {
     const toast = await this.toastController.create({
@@ -47,9 +47,13 @@ export class HelperService {
   async presentLoading() {
     this.loading = await this.loadingController.create({
       message: 'Please Wait...',
-      duration: 10000
+      duration: 15000
     });
     await this.loading.present();
+  }
+
+  closeLoading() {
+    this.loading.dismiss();
   }
 
 

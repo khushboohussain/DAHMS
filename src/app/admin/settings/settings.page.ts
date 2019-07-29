@@ -23,7 +23,7 @@ export class SettingsPage implements OnInit {
 
 
   navigateEmployer() {
-    this.navController.navigateForward('/admin/employers/employer');
+    this.navController.navigateForward('admin/settings/qualification');
   }
 
   logout() {

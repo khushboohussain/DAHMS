@@ -20,10 +20,12 @@ export class ApplicationsPage implements OnInit {
     console.log(localStorage);
     localStorage.removeItem('confirm');
 
-    this.helper.getAdDetails()
-      .subscribe(res => {
-        this.getAllAds = res;
-      });
+    this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
+
+    // this.helper.getAdDetails()
+    //   .subscribe(res => {
+    //     this.getAllAds = res;
+    //   });
     // this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
     // this.api.getAd(localStorage.getItem('AdId')).subscribe(res => {
     // this.getAllAds = res;

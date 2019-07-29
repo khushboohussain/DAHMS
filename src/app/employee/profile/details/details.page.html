@@ -15,7 +15,7 @@
             <!-- profile image -->
             <ion-item lines="none">
               <ion-label position="stacked">Profilbild</ion-label>
-              <div class="profile-image container">
+              <div class="profile-image container pointer">
                 <img src="{{image }} " (click)="choosePicture()" id="profileImage">
                 <input type="file" (change)="upload($event)" accept=".png,.jpg" style="visibility: hidden;">
               </div>
