@@ -55,8 +55,10 @@ export class AdPage implements OnInit {
             this.data.status = 'close';
             const id = this.data.did;
             delete this.data['did'];
-            this.api.updateAds(id, this.data)
-              .then(res => { this.data.did = id; });
+
+            this.api.updateAds(id, this.data).then(() => {
+              this.data.did = id;
+            });
           } else {
             this.getAllEmployees = false;
           }
@@ -71,20 +73,7 @@ export class AdPage implements OnInit {
     this.option1 = this.data.condition1;
     this.option2 = this.data.condition2;
     this.option3 = this.data.condition3;
-    // console.log(this.option1 + " " + this.option2 + " " + this.option3 + " ");
-
-    // this.helper.getAdDetails()
-    //   .subscribe(res => {
     // console.log('%c next Line', 'background: #222; color: #bada55');
-    //     console.log(res);
-    //     this.data = res;
-    //     this.totalApp = this.data.apply.length;
-
-    //   });
-
-    // this.data = JSON.parse(localStorage.getItem('adDetail'));
-    // console.log('Ad data ', this.data);
-
     if (this.data.step2) {
       this.step2 = this.data.step2;
 
@@ -123,13 +112,6 @@ export class AdPage implements OnInit {
       }
 
     }
-
-    // console.log('Applications length', this.data.did);
-    // console.log(this.data.confirmEmployeeIds.length);
-    // console.log('Applications length', this.data.apply.length);
-    // console.log('Confirmation length', this.data.confirmation.length);
-
-    // for wage type daily or per hour
 
 
   } // ngOnit end

@@ -34,13 +34,6 @@ export class EmployeePage implements OnInit {
     this.getAllAds();
     this.getEmplyeesData();
 
-
-    //     this.downloadFile(this.getData.files[2].fileID).subscribe(blob => {
-    //       importedSaveAs(blob, this.getData.files[2].name);
-    //   }
-    // )
-    // this.downloadFile(this.getData.files[1].fileURL)
-    // console.log(this.getData.files[1].fileURL)
   }
 
 
@@ -68,19 +61,9 @@ export class EmployeePage implements OnInit {
     });
   }
 
-  // downloadFile(data) {
-  //   const blob = new Blob([data]);
-  //   const url= window.URL.createObjectURL(blob);
-  //   window.open(data)
-  // }
 
   downloadFile(id) {
     location.href = this.getData.files[id].fileURL;
-    // const headers = new HttpHeaders()
-    //   .set('responseType', 'image/jpeg');
-    // return this.http.get(this.getData.files[2].fileURL,{headers: headers});
-
-
   }
 
   downloadCredential1() {
@@ -101,37 +84,6 @@ export class EmployeePage implements OnInit {
     this.downloadFile(5);
   }
 
-
-
-  // getAllEmplyees() {
-  //   this.api.getAllEmployees().pipe(map((actions: any) => {
-  //     return actions.map(a => {
-  //       const data = a.payload.doc.data()
-  //       const id = a.payload.doc.id;
-  //       return { id, ...data };
-  //     });
-  //   })).subscribe(res => {
-  //     this.getAllEmp = res
-
-  //   })
-  // }
-
-  // getAllUsers() {
-  //   this.api.getAllUsers().pipe(map((actions: any) => {
-  //     return actions.map(a => {
-  //       const data = a.payload.doc.data()
-  //       const id = a.payload.doc.did;
-  //       return { id, ...data };
-  //     });
-  //   })).subscribe(res => {
-  //     this.getAllUserss = res
-
-  //     //  console.log(this.getAllEmp)
-  //   })
-  // }
-
-
-
   deleteEmployee() {
 
     this.helper.deleteUser(this.getData.id)
@@ -142,11 +94,6 @@ export class EmployeePage implements OnInit {
             .then(res1 => {
               this.api.deleteUser(this.getData.id)
                 .then(res2 => {
-
-                  // const x = this.Allads.map(data => {return data.confirmEmployee;}).findIndex(data => data.map(a =>{return a.uid;}).indexOf(this.getData.id) > -1)
-
-                  // console.log(x);
-
                   this.Allads.forEach((a, i) => {
                     const y = a.confirmEmployee.findIndex(data => data.uid === this.getData.id);
                     if (y > -1) {

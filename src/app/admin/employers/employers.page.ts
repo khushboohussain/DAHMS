@@ -26,8 +26,6 @@ export class EmployersPage implements OnInit {
     localStorage.removeItem('empData');
 
     this.getAllEmployers();
-    // console.log(this.userData);
-
 
   }
 
@@ -40,13 +38,10 @@ export class EmployersPage implements OnInit {
       this.userData = res;
       if (res !== undefined) {
         this.totalRecord = res.length;
-        // console.log(this.totalRecord);
 
       } else {
         this.totalRecord = 0;
-        // console.log(this.totalRecord);
       }
-      // console.log(this.userData);
     }, err => {
       alert(err.message);
     });
@@ -65,24 +60,8 @@ export class EmployersPage implements OnInit {
           text: 'Download',
           handler: () => {
             alert('not clear!');
-            // localStorage.setItem('actionController', JSON.stringify(true));
-            // localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-            // this.navController.navigateForward('/employer/ads/create/step2');
           }
         },
-        // {
-        //   text: 'Einzelne Termine bearbeiten',
-        //   handler: () => {
-        //     // localStorage.setItem('actionController', JSON.stringify(false));
-        //     // localStorage.setItem('continuoueCheck', JSON.stringify(this.continuoueCheck));
-        //     this.navController.navigateForward('/employer/ads/create/step2');
-        //   }
-        // }, 
-        // {
-        //   text: 'Cancel',
-        //   role: 'cancel',
-        //   handler: () => { }
-        // },
         {
           text: 'Download',
           role: '',

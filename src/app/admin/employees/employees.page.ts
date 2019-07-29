@@ -50,18 +50,6 @@ export class EmployeesPage implements OnInit {
     this.navController.navigateForward('/admin/employees/employee');
   }
 
-  //   getUsersData(){
-  //     this.api.getAllUsers().pipe(map((action : any) => {
-  //       return action.map(a => {
-  //         const data = a.payload.doc.data()
-  //         const id = a.payload.doc.id;
-  //         return { id, ...data };
-  //       });
-  //     })).subscribe(res =>{
-  //       this.getAllEmp=res
-  //       console.log(this.getAllEmp)
-  //   })
-  // }
 
   onSearchChange(value: string) {
     if (value === '') {

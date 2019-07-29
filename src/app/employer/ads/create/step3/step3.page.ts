@@ -10,6 +10,9 @@ export class Step3Page implements OnInit {
 
   constructor(private navController: NavController) { }
 
+  ngOnInit() {
+  }
+
   navigateHome() {
     // console.log(localStorage);
     localStorage.removeItem('AdsData');
@@ -20,7 +23,5 @@ export class Step3Page implements OnInit {
     this.navController.navigateRoot('/employer/ads');
   }
 
-  ngOnInit() {
-  }
 
 }

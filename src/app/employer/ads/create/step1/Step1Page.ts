@@ -22,20 +22,13 @@ export class Step1Page implements OnInit {
   differDates: boolean;
   // will get values from Start Date and End Date
   nowDate = new Date();
-  today;
-  // minDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
-  // maxDate = new Date(this.nowDate.getFullYear() + 10, this.nowDate.getMonth());
+  today: string;
   startMonth = '';
   startDay = '';
   endDay = '';
   endMonth = '';
-  // start date minimum and maximum values
   minDate = new Date().toISOString();
-  // maxDate: any = new Date(this.nowDate.Date().setFullDate(this.nowDate Date().getFullDate() + 2)).toISOString();
   maxDate = new Date(this.nowDate.getFullYear() + 2, 11, 31).toISOString().slice(0, 10);
-  // new Date(new Date().setDate(new Date().getDate() + 2)).toISOString();
-  // end Date minimum and maximum values
-
   disableaddress = true;
   // myLocation: string;
 
@@ -105,7 +98,6 @@ export class Step1Page implements OnInit {
     this.disableaddress = false;
   }
 
-
   // Getting Values form form on Submittion
   submit(form: any) {
     const data = {
@@ -129,35 +121,13 @@ export class Step1Page implements OnInit {
       this.navController.navigateForward('/employer/ads/create/step2');
 
     } else if (this.differDates === false && this.continuoueCheck === false) {
-
       localStorage.setItem('actionController', JSON.stringify(true));
       localStorage.setItem('continuoueCheck', JSON.stringify(false));
       this.navController.navigateForward('/employer/ads/create/step2');
 
     } else {
-      // console.log('woorrkkkinnnggg.....');
-
       this.adOptions();
     }
-    // this.api.createAds(localStorage.getItem('uid'), {
-    //   jobTitle: this.data.value.jobTitle,
-    //   address: this.data.address,
-    //   startDate: this.data.startDate,
-    //   endDate: this.data.value.endDate
-    // }).then(res => {
-    //   if (this.data.continoueWork == '' || this.data.continoueWork == false) {
-    //     this.continousCheck = false;
-    //   }
-    //   else {
-    //     this.continousCheck = true;
-    //   }
-    //   this.helper.presentToast("")
-    // }, err => {
-    //   this.helper.presentToast(err.message + 'Error!');
-    // });
-    // var test = JSON.parse(localStorage.getItem("continousCheck"));
-    // console.log(typeof test);
-    // console.log(test);
   }
 
   async adOptions() {

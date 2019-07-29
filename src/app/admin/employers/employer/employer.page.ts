@@ -17,8 +17,6 @@ export class EmployerPage implements OnInit {
 
   ngOnInit() {
     this.data = JSON.parse(localStorage.getItem('empData'));
-    // console.log('employer side ', this.data);
-
     if (this.data.block) {
       if (this.data.block === true) {
         this.isBlocked = true;
@@ -29,11 +27,9 @@ export class EmployerPage implements OnInit {
   }
 
   blockUser() {
-    // console.log(localStorage.getItem('empId'));
     if (!this.data.block) {
       this.data.block = true;
     }
-    // console.log(this.data);
 
     this.api.updateEmployerData(localStorage.getItem('empId'), this.data).then(res => {
       this.helper.presentToast(`User block successfully! `);
@@ -45,14 +41,9 @@ export class EmployerPage implements OnInit {
   }
 
   deleteUser() {
-    // console.log(localStorage.getItem('empId'));
 
     const uid = localStorage.getItem('empId');
     this.helper.deleteUser(uid).subscribe((res: any) => {
-      // console.log(res);
-      // if (res.code === 'auth/user-not-found') {
-      //   console.log('working....');
-      // }
       if (res.code === 'auth/user-not-found' || res.statusText === 'ok' || res.statusText === 'OK' || res.status === 200) {
         this.api.deleteEmployer(uid).then(delEmp => {
           this.api.deleteUser(uid).then(delUser => {

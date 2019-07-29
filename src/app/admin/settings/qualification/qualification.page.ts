@@ -8,8 +8,8 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class QualificationPage implements OnInit {
 
-  qualification=[];
-  newQualification ='';
+  qualification = [];
+  newQualification = '';
 
   constructor(
     private api: ApiService
@@ -17,30 +17,30 @@ export class QualificationPage implements OnInit {
 
   ngOnInit() {
     this.api.getPersonalQualification()
-      .subscribe((res:any) =>{
+      .subscribe((res: any) => {
         this.qualification = res.data;
         console.log(this.qualification);
       });
   }
 
-  moveUp(index){
-    [this.qualification[index-1],this.qualification[index]] = [this.qualification[index], this.qualification[index-1]];
+  moveUp(index) {
+    [this.qualification[index - 1], this.qualification[index]] = [this.qualification[index], this.qualification[index - 1]];
   }
 
-  moveDown(index){
-    [this.qualification[index+1],this.qualification[index]] = [this.qualification[index], this.qualification[index+1]];
+  moveDown(index) {
+    [this.qualification[index + 1], this.qualification[index]] = [this.qualification[index], this.qualification[index + 1]];
   }
 
-  delete(index){
-    this.qualification.splice(index,1);
+  delete(index) {
+    this.qualification.splice(index, 1);
   }
 
-  addQualification(){
+  addQualification() {
 
-    if(this.newQualification !== ''){
+    if (this.newQualification !== '') {
       this.qualification.push(this.capitalizeFirstLetter(this.newQualification));
-      this.api.updatePersonalQualification({data: this.qualification})
-        .then( done =>{
+      this.api.updatePersonalQualification({ data: this.qualification })
+        .then(done => {
           this.newQualification = '';
         });
     }
@@ -52,11 +52,11 @@ export class QualificationPage implements OnInit {
 
 
 
-  update(){
-    this.api.updatePersonalQualification({data: this.qualification})
-    .then( done =>{
-      this.newQualification = '';
-    });
+  update() {
+    this.api.updatePersonalQualification({ data: this.qualification })
+      .then(done => {
+        this.newQualification = '';
+      });
   }
 
 }

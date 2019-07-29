@@ -41,13 +41,7 @@ export class OnboardingPage implements OnInit {
   field = [];
   disableaddress: boolean;
   myLocation: string;
-
-  // navigateHome() {
-  //   this.navController.navigateRoot("/employee/appointments");
-  // }
-
   promises = [];
-
   urls = [];
 
   ngOnInit() {
@@ -57,7 +51,7 @@ export class OnboardingPage implements OnInit {
       file: x
     });
     this.form = this.fb.group({
-      adresse: ['', ],
+      adresse: ['',],
       telefonnumer: ['', Validators.required],
       zugehorigkeit: ['', Validators.required],
       Einsatzradius: ['', Validators.required],

@@ -21,10 +21,10 @@ export class AdsPage implements OnInit {
     'RETTUNGSSANITAETER',
     'RETTUNGSASSISTENT',
     'NOTFALLSANITAETER',
-    "ARZT",
-    "ARZTRETTUNGSDIENST"
+    'ARZT',
+    'ARZTRETTUNGSDIENST'
   ];
-  //RETTUNGSSANITAETER
+  // RETTUNGSSANITAETER
 
   step2 = [];
 
@@ -44,14 +44,10 @@ export class AdsPage implements OnInit {
 
     this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
       this.getEmployeedata = res;
-      // console.log('employee data ', res);
       if (this.getEmployeedata.status === true) {
         this.getAllAds(x);
       }
     });
-
-
-
 
   }
 
@@ -60,18 +56,6 @@ export class AdsPage implements OnInit {
     localStorage.setItem('data', JSON.stringify(item));
     this.navController.navigateForward('employee/appointments/ads/ad');
   }
-  // getAdsData(){
-  //   this.api.getAdsByQualification(localStorage.getItem('qualifikation')).pipe(map((actions: any) => {
-  //     return actions.map(a => {
-  //       const data = a.payload.doc.data()
-  //       const id = a.payload.doc.id;
-  //       return { id, ...data };
-  //     });
-  //   })).subscribe(res =>{
-  //       this.getads=res;
-  //       //  console.log(res)
-  //   })
-  // }
 
   getAllAds(x) {
     this.api.getAllAds().pipe(map((actions: any) =>
@@ -82,7 +66,6 @@ export class AdsPage implements OnInit {
       }
       )
     )).subscribe((res: Array<any>) => {
-      // console.log(res);
       this.getAllads = res.filter(result => {
         const distance = haversine({
           latitude: this.getEmployeedata.latitude,
@@ -92,29 +75,24 @@ export class AdsPage implements OnInit {
             latitude: result.latitude,
             longitude: result.longitude
           });
-        // console.log('result is ', result);
 
         if (result.condition3 === true) {
           this.step2 = result.step2;
           for (let index = 0; index < this.step2.length; index++) {
+            // tslint:disable-next-line: radix
             if (parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.step2[index].qualification) > -1) {
               return result;
             }
           }
 
         } else {
+          // tslint:disable-next-line: radix
           if (parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.qualification) > -1) {
             return result;
           }
 
         }
-        // console.log(distance);
-        // console.log('this is x', x);
-
-        // template 1 and template 2
-        // x.indexOf(result.qualification) > -1
       });
-      //  console.log(this.getAllads)
     });
   }
 

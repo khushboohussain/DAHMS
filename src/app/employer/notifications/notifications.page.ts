@@ -22,6 +22,7 @@ export class NotificationsPage implements OnInit {
   today = [];
   yesterday = [];
   older = [];
+  altraOlder: any = [];
 
   constructor(private navController: NavController, private router: Router, private helper: HelperService, private api: ApiService) {
     router.events.subscribe((_: NavigationEnd) => this.currentUrl = this.router.url);
@@ -71,6 +72,20 @@ export class NotificationsPage implements OnInit {
           }
         });
 
+        /* Deletiong all notifications of greater than 7 day */
+        /* this.altraOlder = this.NotificationType.filter(data => {
+          const today = moment(this.helper.convertDate(new Date()));
+          const otherDate = moment(this.helper.convertDate(data.date.toDate()));
+          if (today.diff(otherDate, 'days') > 1 && today.diff(otherDate, 'days') > 7) {
+            this.api.deleteNotification(this.altraOlder.did).then(() => {
+              console.log('deleted ');
+            }, err => {
+              console.log('error in notification deleting', err.message);
+
+            });
+          }
+        });
+ */
         for (let i = 0; i < this.NotificationData.length; i++) {
           // console.log(this.NotificationData[i].type);
 
@@ -86,23 +101,25 @@ export class NotificationsPage implements OnInit {
 
                 });
 
-              } else {
-                // const x = ad.apply.findIndex(data => data.uid === this.NotificationData[i].uid);
-                // if (x < 0) {
-                //   this.api.deleteNotification(this.NotificationData[i].did).then(() => {
-                //     console.log('deleted ');
+              } else {  /* if ad is already cofirm than delete apply notifications */
 
-                //   }, err => {
-                //     console.log('error in notification deleting', err.message);
+                /* const x = ad.apply.findIndex(data => data.uid === this.NotificationData[i].uid);
+                if (x < 0) {
+                  this.api.deleteNotification(this.NotificationData[i].did).then(() => {
+                    console.log('deleted ');
 
-                //   });
-                // }
+                  }, err => {
+                    console.log('error in notification deleting', err.message);
+
+                  });
+                } */
 
               }
             });
           }
 
         } // end of for loop
+
 
 
       });
@@ -114,35 +131,7 @@ export class NotificationsPage implements OnInit {
   } // end of ngOnInIt
 
   navigateApplication(data) {
-    console.log('data', data);
-
-    // localStorage.removeItem('appliedId');
-    // localStorage.removeItem('adDetail');
-    // localStorage.removeItem('AdId');
-
-    // localStorage.setItem('appliedId', data.uid);
-
-    // this.api.getAd(data.notificationId).subscribe((ad: any) => {
-    //   console.log('ad data', ad);
-
-    //   localStorage.removeItem('confirm');
-
-    //   const x = ad.apply.findIndex(res => res.uid === data.uid);
-    //   if (x > -1) {
-    //     localStorage.setItem('adDetail', JSON.stringify(ad));
-    //     localStorage.setItem('confirm', JSON.stringify(false));
-    //   } else {
-    //     localStorage.setItem('adDetail', JSON.stringify(ad));
-    //     localStorage.setItem('confirm', JSON.stringify(true));
-    //   }
-
-    // });
-
-
-    // this.navController.navigateForward('/employer/ads/ad/applications/application');
-    // this.router.navigate(['/employer/ads/ad/applications/application', {
-    //   type: 'notification'
-    // }]);
+    // console.log('data', data);
 
     localStorage.setItem('appliedId', data.uid);
     localStorage.setItem('notification', JSON.stringify(data));

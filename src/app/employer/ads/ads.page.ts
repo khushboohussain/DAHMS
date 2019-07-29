@@ -32,6 +32,13 @@ export class AdsPage {
     localStorage.removeItem('appliedId');
     localStorage.removeItem('adDetail');
 
+    localStorage.removeItem('EmployeeData');
+    localStorage.removeItem('empData');
+    localStorage.removeItem('empId');
+    localStorage.removeItem('actionController');
+    localStorage.removeItem('continuoueCheck');
+    localStorage.removeItem('days');
+
     // console.log(localStorage.getItem('uid'))
     this.api.getEmployeerAds(localStorage.getItem('uid'))
       .pipe(map(actions => actions.map(a => {

@@ -21,6 +21,7 @@ export class NotificationsPage implements OnInit {
   today = [];
   yesterday = [];
   older = [];
+  altraOlder = [];
   $newNotification: Observable<Array<any>>;
   $otherNotifications: Observable<Array<any>>;
   one: Array<any>;
@@ -31,8 +32,8 @@ export class NotificationsPage implements OnInit {
     'RETTUNGSSANITAETER',
     'RETTUNGSASSISTENT',
     'NOTFALLSANITAETER',
-    "ARZT",
-    "ARZTRETTUNGSDIENST"
+    'ARZT',
+    'ARZTRETTUNGSDIENST'
   ];
 
   constructor(private navController: NavController, private router: Router, private api: ApiService, private helper: HelperService) {
@@ -42,28 +43,12 @@ export class NotificationsPage implements OnInit {
 
   ngOnInit() {
 
-    // this.$newNotification = this.api.getNewAdNotification();
-    // // where uid == empty
-    // this.$otherNotifications = this.api.getNotifications(localStorage.getItem('uid'));
-    // let x = [];
-    // this.qualification.forEach((a, i) => {
-    //   if (a.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()) {
-    //     x = this.qualification.slice(i, this.qualification.length);
-    //     console.log(x)
-    //   }
-    // });
-
-
     this.$newNotification = this.api.getNotifications(localStorage.getItem('uid'))
       .pipe(map(actions => actions.map(a => {
         const data = a.payload.doc.data();
         const did = a.payload.doc.id;
         return { did, ...data };
       })));
-    // .subscribe((res: Array<any>) => {
-    //   console.log(res);
-    //   this.one = res;
-    // });
 
     // console.log(localStorage.getItem('uid'));
     this.$otherNotifications = this.api.getNewAdNotification()
@@ -74,10 +59,11 @@ export class NotificationsPage implements OnInit {
       })));
     combineLatest(this.$newNotification, this.$otherNotifications)
       .pipe(map(([one, two]) => [...one, ...two]))
-      .subscribe((res:Array<any>) => {
+      .subscribe((res: Array<any>) => {
 
 
-        this.NotificationType = res.filter(data => (data.type === 'offer' || data.type === 'rejected' || data.type === 'new') && data.qualification.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()  );
+        // tslint:disable-next-line: max-line-length
+        this.NotificationType = res.filter(data => (data.type === 'offer' || data.type === 'rejected' || data.type === 'new') && data.qualification.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase());
         console.log(this.NotificationType);
         this.today = this.NotificationType.filter(data => {
           if (this.helper.convertDate(data.date.toDate()) === this.helper.convertDate(new Date())) {
@@ -103,34 +89,26 @@ export class NotificationsPage implements OnInit {
 
 
       });
-    // .subscribe((res: Array<any>) => {
-    //   console.log(res);
-    //   this.two=res;
-    //   
-
-
-    // });
-
 
   }
 
   navigateAppointment(data) {
     console.log(data);
     localStorage.removeItem('data');
-    localStorage.setItem('notification',JSON.stringify(data));
+    localStorage.setItem('notification', JSON.stringify(data));
     if (data.type === 'offer') {
       this.api.getAd(data.notificationId).subscribe(res => {
         // console.log(res);
-        localStorage.setItem('data', JSON.stringify({id: data.notificationId, ...res}));
+        localStorage.setItem('data', JSON.stringify({ id: data.notificationId, ...res }));
         this.navController.navigateForward('/employee/appointments/appointment');
       });
 
     } else if (data.type === 'new') {
       this.api.getAd(data.notificationId).subscribe(res => {
         // console.log(res);
-        localStorage.setItem('data', JSON.stringify({id: data.notificationId, ...res}));
+        localStorage.setItem('data', JSON.stringify({ id: data.notificationId, ...res }));
         // this.navController.navigateForward('/employee/appointments/ads/ad');
-        this.router.navigate(['/employee/appointments/ads/ad',{
+        this.router.navigate(['/employee/appointments/ads/ad', {
           type: 'notification'
         }]);
       });
@@ -138,7 +116,7 @@ export class NotificationsPage implements OnInit {
     } else {
       this.api.getAd(data.notificationId).subscribe(res => {
         // console.log(res);
-        localStorage.setItem('data', JSON.stringify({id: data.notificationId, ...res}));
+        localStorage.setItem('data', JSON.stringify({ id: data.notificationId, ...res }));
         this.navController.navigateForward('/employee/appointments/ads/ad');
       });
 
