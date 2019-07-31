@@ -43,8 +43,14 @@ export class OnboardingPage implements OnInit {
   myLocation: string;
   promises = [];
   urls = [];
+  adQualifications: string;
 
   ngOnInit() {
+    this.api.getPersonalQualification().subscribe((res: any) => {
+      this.adQualifications = res.data;
+      // console.log(this.adQualifications);
+    });
+
     let x: File;
     this.field.push({
       text: '',

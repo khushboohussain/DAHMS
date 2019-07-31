@@ -41,13 +41,16 @@
                 <ion-item lines="none">
                   <ion-label position="stacked">Einsatzkraft</ion-label>
                   <ion-select formControlName="qualification" cancelText="Abbrechen" okText="Fertig">
-                    <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                    <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+
+                    <ion-select-option *ngFor="let item of adQualifications" [value]='item'> {{ item }}
+                    </ion-select-option>
+                    <!-- <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                     <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
                     <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
                     <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
                     <ion-select-option value="ARZT">Arzt</ion-select-option>
-                    <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                    <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option> -->
+
                   </ion-select>
                 </ion-item>
                 <!-- how many of those employees -->
@@ -71,13 +74,16 @@
                     <ion-label position="stacked">Einsatzkraft</ion-label>
                     <ion-select [(ngModel)]="item.otherQualification" [ngModelOptions]="{standalone: true}"
                       cancelText="Abbrechen" okText="Fertig">
-                      <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                      <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
-                      <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
-                      <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
-                      <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
-                      <ion-select-option value="ARZT">Arzt</ion-select-option>
-                      <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+
+                      <ion-select-option *ngFor="let item of adQualifications" [value]='item'> {{ item }}
+                      </ion-select-option>
+                      <!-- <ion-select-option value=" RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+                        <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
+                        <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
+                        <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
+                        <ion-select-option value="ARZT">Arzt</ion-select-option>
+                        <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                        -->
                     </ion-select>
                   </ion-item>
                   <!-- how many of those employees -->
@@ -209,13 +215,17 @@
                 <ion-item lines="none">
                   <ion-label position="stacked">Einsatzkraft</ion-label>
                   <ion-select formControlName="qualification" cancelText="Abbrechen" okText="Fertig">
-                    <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                    <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+
+                    <ion-select-option *ngFor="let item of adQualifications" [value]='item'> {{ item }}
+                    </ion-select-option>
+
+                    <!-- <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                     <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
                     <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
                     <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
                     <ion-select-option value="ARZT">Arzt</ion-select-option>
                     <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                   -->
                   </ion-select>
                 </ion-item>
 
@@ -239,13 +249,17 @@
                     <ion-label position="stacked">Einsatzkraft</ion-label>
                     <ion-select [(ngModel)]="item.otherQualification" [ngModelOptions]="{standalone: true}"
                       cancelText="Abbrechen" okText="Fertig">
-                      <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                      <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+
+                      <ion-select-option *ngFor="let item of adQualifications" [value]='item'> {{ item }}
+                      </ion-select-option>
+
+                      <!-- <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                       <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
                       <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
                       <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
                       <ion-select-option value="ARZT">Arzt</ion-select-option>
-                      <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                      <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option> -->
+
                     </ion-select>
                   </ion-item>
 
@@ -390,13 +404,16 @@
                     <ion-item lines="none">
                       <ion-label position="stacked">Einsatzkraft</ion-label>
                       <ion-select formControlName="qualification" cancelText="Abbrechen" okText="Fertig">
-                        <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                        <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+
+                        <ion-select-option *ngFor="let item of adQualifications" [value]='item'> {{ item }}
+                        </ion-select-option>
+                        <!-- <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                         <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
                         <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
                         <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
                         <ion-select-option value="ARZT">Arzt</ion-select-option>
                         <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                         -->
                       </ion-select>
                     </ion-item>
 
@@ -440,8 +457,7 @@
                 <div *ngFor="let extra of extraWorkforce; let j = index">
                   <ion-item float-right *ngIf="extra.index === i">
 
-                    <ion-icon name="close-circle" title="Remove newly created fields"
-                      (click)="removeField( j)">
+                    <ion-icon name="close-circle" title="Remove newly created fields" (click)="removeField( j)">
                     </ion-icon>
                   </ion-item>
 
@@ -452,13 +468,16 @@
                         <ion-label position="stacked">Einsatzkraft</ion-label>
                         <ion-select [(ngModel)]="extra.qualification" [ngModelOptions]="{standalone: true}"
                           cancelText="Abbrechen" okText="Fertig">
-                          <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                          <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
+
+                          <ion-select-option *ngFor="let item of adQualifications " [value]='item'> {{ item }}
+                          </ion-select-option>
+                          <!-- <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
                           <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
                           <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
                           <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
                           <ion-select-option value="ARZT">Arzt</ion-select-option>
                           <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+                           -->
                         </ion-select>
                       </ion-item>
 

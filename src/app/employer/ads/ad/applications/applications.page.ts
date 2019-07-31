@@ -17,7 +17,7 @@ export class ApplicationsPage implements OnInit {
   constructor(private navController: NavController, private api: ApiService, private helper: HelperService) { }
 
   ngOnInit() {
-    console.log(localStorage);
+    // console.log(localStorage);
     localStorage.removeItem('confirm');
 
     this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
@@ -29,7 +29,7 @@ export class ApplicationsPage implements OnInit {
     // this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
     // this.api.getAd(localStorage.getItem('AdId')).subscribe(res => {
     // this.getAllAds = res;
-    console.log('data', this.getAllAds);
+    // console.log('data', this.getAllAds);
     // localStorage.setItem('adDetail', JSON.stringify(res));
 
     if (this.getAllAds.apply.length > 0) {

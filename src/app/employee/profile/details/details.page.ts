@@ -25,6 +25,7 @@ export class DetailsPage implements OnInit {
   data;
   file;
 
+
   disableaddress: boolean;
 
   // tslint:disable-next-line: max-line-length

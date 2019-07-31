@@ -21,7 +21,8 @@ export class NotificationsPage implements OnInit {
   today = [];
   yesterday = [];
   older = [];
-  altraOlder = [];
+  NotificationData: any = [];
+  altraOlder: any = [];
   $newNotification: Observable<Array<any>>;
   $otherNotifications: Observable<Array<any>>;
   one: Array<any>;
@@ -61,10 +62,11 @@ export class NotificationsPage implements OnInit {
       .pipe(map(([one, two]) => [...one, ...two]))
       .subscribe((res: Array<any>) => {
 
+        this.NotificationData = res;
 
         // tslint:disable-next-line: max-line-length
         this.NotificationType = res.filter(data => (data.type === 'offer' || data.type === 'rejected' || data.type === 'new') && data.qualification.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase());
-        console.log(this.NotificationType);
+        // console.log(this.NotificationType);
         this.today = this.NotificationType.filter(data => {
           if (this.helper.convertDate(data.date.toDate()) === this.helper.convertDate(new Date())) {
             return data;
@@ -87,13 +89,62 @@ export class NotificationsPage implements OnInit {
           }
         });
 
+        this.altraOlder = this.NotificationType.filter(data => {
+          const today = moment(this.helper.convertDate(new Date()));
+          const otherDate = moment(this.helper.convertDate(data.date.toDate()));
+          if (today.diff(otherDate, 'days') > 1 && today.diff(otherDate, 'days') > 7) {
+            this.api.deleteNotification(this.altraOlder.did).then(() => {
+              // console.log('notification deleted succesfully');
+            });
+          }
+        });
+
+        for (let i = 0; i < this.NotificationData.length; i++) {
+          // console.log(this.NotificationData[i].type);
+
+          // tslint:disable-next-line: max-line-length
+          if (this.NotificationData[i].type === 'new' || this.NotificationData[i].type === 'offer' || this.NotificationData[i].type === 'rejected') {
+            this.api.getAd(this.NotificationData[i].notificationId).subscribe(ad => {
+              // console.log('res', ad);
+              if (ad === undefined) {
+                this.api.deleteNotification(this.NotificationData[i].did).then(() => {
+                  // console.log('deleted ');
+
+                }, err => {
+                  console.log('error in notification deleting', err.message);
+
+                });
+
+              } else {  /* if ad is already cofirm than delete apply notifications */
+
+                /* const x = ad.apply.findIndex(data => data.uid === this.NotificationData[i].uid);
+                if (x < 0) {
+                  this.api.deleteNotification(this.NotificationData[i].did).then(() => {
+                    console.log('deleted ');
+
+                  }, err => {
+                    console.log('error in notification deleting', err.message);
+
+                  });
+                } */
+
+              }
+            });
+          }
+
+        } // end of for loop
+
+
+
+
+
 
       });
 
   }
 
   navigateAppointment(data) {
-    console.log(data);
+    // console.log(data);
     localStorage.removeItem('data');
     localStorage.setItem('notification', JSON.stringify(data));
     if (data.type === 'offer') {

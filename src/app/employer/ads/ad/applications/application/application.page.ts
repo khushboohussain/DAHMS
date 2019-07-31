@@ -37,7 +37,7 @@ export class ApplicationPage implements OnInit {
         let x = JSON.parse(localStorage.getItem('notification'));
         // console.log(x);
         this.api.getAd(x.notificationId).subscribe((result: any) => {
-          console.log('value', result);
+          // console.log('value', result);
 
 
           let x = result.confirmEmployeeIds.findIndex(data => data.indexOf(localStorage.getItem('appliedId')) > -1);

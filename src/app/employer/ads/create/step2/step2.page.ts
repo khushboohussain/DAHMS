@@ -36,11 +36,16 @@ export class Step2Page implements OnInit {
   dateStart;
   dateEnd: Date;
   extraWorkforce = [];
-
+  adQualifications = [];
 
   constructor(private navController: NavController, private fb: FormBuilder, private api: ApiService, public helper: HelperService) { }
 
   ngOnInit() {
+    this.api.getPersonalQualification().subscribe((res: any) => {
+      this.adQualifications = res.data;
+      // console.log(res);
+      // console.log('Qualifications in DataBase', this.adQualifications);
+    });
     this.data = JSON.parse(localStorage.getItem('AdsData'));
     // console.log('retrieved Object: \n', this.data);
 
@@ -272,7 +277,8 @@ export class Step2Page implements OnInit {
             }
           });
         }
-
+        // console.log(this.record);
+        // console.log('Qualifications from DB', this.record.qualification);
         this.api.createAds({ status: 'open', rejectedEmployee: [], ...this.record })
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
@@ -318,10 +324,10 @@ export class Step2Page implements OnInit {
             wage: a.wage,
             wageType: a.wageType,
             drivingLicence: a.drivingLicence
-          }
-          );
+          });
         });
         // console.log(record);
+        // console.log('Qualifications from DB', record.qualification);
         this.api.createAds({ status: 'open', rejectedEmployee: [], ...record })
           .then(res => {
             this.helper.presentToast(' Ad Created Successfuliy!');
@@ -373,6 +379,7 @@ export class Step2Page implements OnInit {
         });
       });
       // console.log(record);
+      // console.log('Qualifications from DB', record.qualification);
       this.api.createAds({ status: 'open', rejectedEmployee: [], ...record })
         .then(res => {
           this.helper.presentToast(' Ad Created Successfuliy!');

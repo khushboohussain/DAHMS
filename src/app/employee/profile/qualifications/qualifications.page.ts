@@ -15,8 +15,6 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class QualificationsPage implements OnInit {
 
-  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService) { }
-
   form: FormGroup;
   data;
   fileArr = [];
@@ -30,20 +28,17 @@ export class QualificationsPage implements OnInit {
   filesRecord;
   changedFiles = [];
   extras = [];
-
   currentSelectedFile: number;
+  adQualifications: string;
 
-  async update() {
-    const toast = await this.toastController.create({
-      message: 'Erfolgreich aktualisiert.',
-      position: 'top',
-      duration: 1000
-    });
-    toast.present();
-    this.navController.navigateBack('/employee/profile');
-  }
+  // tslint:disable-next-line: max-line-length
+  constructor(public toastController: ToastController, private navController: NavController, private helper: HelperService, private fb: FormBuilder, private fireStorage: AngularFireStorage, private router: Router, private api: ApiService) { }
 
   ngOnInit() {
+    this.api.getPersonalQualification().subscribe((res: any) => {
+      this.adQualifications = res.data;
+      // console.log(this.adQualifications);
+    });
     this.getEmployeeID = localStorage.getItem('uid');
     this.api.getEmployeeData(localStorage.getItem('uid')).subscribe(res => {
       this.getEmployeeData = res;
@@ -70,8 +65,19 @@ export class QualificationsPage implements OnInit {
     });
   }
 
-  submit(data) {
 
+
+  async update() {
+    const toast = await this.toastController.create({
+      message: 'Erfolgreich aktualisiert.',
+      position: 'top',
+      duration: 1000
+    });
+    toast.present();
+    this.navController.navigateBack('/employee/profile');
+  }
+
+  submit(data) {
     this.changedFiles.forEach((a, i) => {
       this.ref = this.fireStorage.ref('Files/' + a.fileId);
       // console.log(a.file);

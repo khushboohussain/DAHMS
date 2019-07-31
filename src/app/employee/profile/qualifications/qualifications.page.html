@@ -8,7 +8,7 @@
       <div class="title container">
         <h2>Qualifikationen ändern</h2>
       </div>
-      
+
       <div class="general">
         <form [formGroup]="form">
           <!-- {{ getEmployeeData.nachname}} -->
@@ -17,13 +17,9 @@
               <ion-label position="stacked">Persönliche Qualifikation</ion-label>
               <!-- {{getEmployeeData.qualifikation}} -->
               <ion-select cancelText="Abbrechen" okText="Fertig" formControlName="qualifikation">
-                <ion-select-option value="SANITAETSHELFER">Sanitätsheler</ion-select-option>
-                <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
-                <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
-                <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
-                <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
-                <ion-select-option value="ARZT">Arzt</ion-select-option>
-                <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+
+                <ion-select-option *ngFor="let item of adQualifications" [value]='item'> {{ item }}
+                </ion-select-option>
               </ion-select>
 
               <!-- training certificate -->
@@ -32,9 +28,11 @@
             </ion-item>
 
             <ion-item lines="none">
-              <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(2)" >Choose a File</ion-button><span>{{getEmployeeData?.files[2].name}}</span>
+              <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(2)">Choose a File
+              </ion-button><span>{{getEmployeeData?.files[2].name}}</span>
               <ion-input type="file" (change)="uploadFile($event)" style="visibility: hidden;"></ion-input>
-              <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(3)" >Choose a File</ion-button><span>{{getEmployeeData?.files[3].name}}</span>
+              <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(3)">Choose a File
+              </ion-button><span>{{getEmployeeData?.files[3].name}}</span>
               <ion-input type="file" (change)="uploadFile($event)" style="visibility: hidden;"></ion-input>
             </ion-item>
 
@@ -46,21 +44,23 @@
                 <ion-select-option value="BENEFICIAL">Führerschein vorteilhaft</ion-select-option>
                 <ion-select-option value="B">B</ion-select-option>
                 <ion-select-option value="B1">B1</ion-select-option>
-              </ion-select> 
+              </ion-select>
 
               <!-- Show only if first option is not selected, driving license certificate -->
               <!-- <ion-input type="file" (change)="uploadFile($event, 2)" placeholder="Führerschein Vorderseite hochladen"></ion-input>
               <ion-input type="file" (change)="uploadFile($event, 3)" placeholder="Führerschein Rückseite hochladen"></ion-input> -->
             </ion-item>
             <ion-item lines="none">
-              <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(4)" >Choose a File</ion-button><span>{{getEmployeeData?.files[4].name}}</span>
+              <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(4)">Choose a File
+              </ion-button><span>{{getEmployeeData?.files[4].name}}</span>
               <ion-input type="file" (change)="uploadFile($event)" style="visibility: hidden;"></ion-input>
-              <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(5)" >Choose a File</ion-button><span>{{getEmployeeData?.files[5].name}}</span>
+              <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(5)">Choose a File
+              </ion-button><span>{{getEmployeeData?.files[5].name}}</span>
               <ion-input type="file" (change)="uploadFile($event)" style="visibility: hidden;"></ion-input>
             </ion-item>
 
             <!-- other qualification -->
-            <ion-item lines="none" >
+            <ion-item lines="none">
               <ion-label position="stacked">Sonstige Qualifikation</ion-label>
 
               <!-- name of qualification -->
@@ -69,16 +69,18 @@
               <!-- other qualification certificate -->
               <!-- <ion-input type="file" (change)="uploadFile($event, 4, i)" placeholder="Qualifikationsnachweis"></ion-input> -->
               <ion-item lines="none">
-                <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(6)" >Choose a File</ion-button>
+                <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(6)">Choose a File
+                </ion-button>
                 <!-- <span>{{getEmployeeData?.files[6].name}}</span> -->
                 <ion-input type="file" (change)="uploadFile($event)" style="visibility: hidden;"></ion-input>
               </ion-item>
               <ion-item lines="none" *ngFor="let itemm of extras; let j = index">
-                <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(j+7)" >Choose a File</ion-button><span></span>
+                <ion-button style="display: inline-grid; height: 50px; float: left;" (click)="openFile(j+7)">Choose a
+                  File</ion-button><span></span>
                 <ion-input type="file" (change)="uploadFile($event)" style="visibility: hidden;"></ion-input>
               </ion-item>
             </ion-item>
-           
+
 
             <!-- add another other qualification -->
             <!-- 
@@ -86,19 +88,20 @@
                 button (click)="openFile(i+7)"
              -->
             <div class="add-new container" (click)="addNewfield()">
-              <ion-icon name="add"></ion-icon><p>Weitere sonstige Qualifikation hinzufügen</p>
+              <ion-icon name="add"></ion-icon>
+              <p>Weitere sonstige Qualifikation hinzufügen</p>
             </div>
           </ion-list>
-          
+
           <div class="divider"></div>
-          
+
           <div class="container">
-            <ion-button color="primary" expand="block"  (click)="submit(form)">Aktualisieren</ion-button>
+            <ion-button color="primary" expand="block" (click)="submit(form)">Aktualisieren</ion-button>
           </div>
-          
+
         </form>
       </div>
-      
+
     </div>
   </div>
 </ion-content>

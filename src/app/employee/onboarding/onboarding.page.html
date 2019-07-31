@@ -92,13 +92,10 @@
               <ion-item lines="none">
                 <ion-label position="stacked">Persönliche Qualifikation</ion-label>
                 <ion-select cancelText="Abbrechen" okText="Fertig" formControlName="qualifikation">
-                  <ion-select-option value="SANITAETSHELFER">Sanitätshelfer</ion-select-option>
-                  <ion-select-option value="RETTUNGSHELFER">Rettungshelfer</ion-select-option>
-                  <ion-select-option value="RETTUNGSSANITAETER">Rettungssanitäter</ion-select-option>
-                  <ion-select-option value="RETTUNGSASSISTENT">Rettungsassistent</ion-select-option>
-                  <ion-select-option value="NOTFALLSANITAETER">Notfallsanitäter</ion-select-option>
-                  <ion-select-option value="ARZT">Arzt</ion-select-option>
-                  <ion-select-option value="ARZTRETTUNGSDIENST">Arzt im Rettungsdienst</ion-select-option>
+
+                  <ion-select-option *ngFor="let item of adQualifications" [value]='item'> {{ item }}
+                  </ion-select-option>
+                 
                 </ion-select>
 
                 <!-- qualification certificate -->
@@ -107,7 +104,8 @@
                 </ion-input>
 
                 <!-- training certificate -->
-                <ion-input type="file" formControlName="cde" (change)="uploadFile($event, 3)" placeholder="Fortbildungsnachweis hochladen">
+                <ion-input type="file" formControlName="cde" (change)="uploadFile($event, 3)"
+                  placeholder="Fortbildungsnachweis hochladen">
                 </ion-input>
               </ion-item>
 
