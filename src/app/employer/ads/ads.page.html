@@ -12,21 +12,20 @@
       <div class="title">
         <h1>Laufende Stellen</h1>
       </div>
-      <div class="ads" *ngFor="let item of getAds">
-        <div class="red-card">
-          <!--  -->
+      <div class="ads" *ngFor="let item of getAds; let i = index">
+        <div class="red-card" (click)="navigateAd(item)">
           <!-- ad title  -->
-          <h2 class="pointer" (click)="navigateAd(item)"> {{item?.jobTitle}} </h2>
+          <h2 class="pointer">{{item?.jobTitle}} </h2>
           <div class=" info">
             <!-- job date; FORMAT: Datum "STARTDATE" - "ENDDATE" -->
             <p>
               <b>Datum</b>
-              <br>{{item?.startDate }} - {{item?.endDate }}
+              <br> {{endStartDate[i]}}
             </p>
             <!-- job address; FORMAT: Einsatzort: "CITY" -->
             <p>
               <b>Einsatzort</b>
-              <br> {{item?.location}}
+              <br>{{item?.location}}
             </p>
           </div>
         </div>

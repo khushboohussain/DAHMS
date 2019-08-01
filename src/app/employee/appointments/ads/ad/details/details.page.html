@@ -16,18 +16,18 @@
           <div class="list-items" *ngIf="!AdData.step2">
             <!-- What kind of qualification -->
             <div class="item-no-icon container">
-              <p>{{AdData.qualification}}</p>
+              <p>{{qualification}}</p>
             </div>
             <!-- Wage, FORMAT: Honorar: "MONEY" / "If DAILY then Tag, if HOURLY then Stunde" -->
             <div class="item-no-icon container">
-              <p>Honorar: {{AdData.wage}} {{feeType}} </p>
+              <p>Honorar: {{AdData.wage}}€/{{feeType}} </p>
             </div>
             <!-- Is driving license necessary? 
               If yes - FORMAT: Führerscheinklasse "DRIVING LICENSE TYPE", 
               else if no - FORMAT: Es wird kein Führerschein benötigt, 
               else if beneficial - FORMAT: Führerschein wäre vorteilhaft, kein Muss. -->
             <div class="item-no-icon container">
-              <p>{{license}}</p>
+              <p>Führerscheinklasse: {{license}}</p>
             </div>
           </div>
           <div class="list-items" *ngIf="AdData.step2">
@@ -37,14 +37,14 @@
             </div>
             <!-- Wage, FORMAT: Honorar: "MONEY" / "If DAILY then Tag, if HOURLY then Stunde" -->
             <div class="item-no-icon container">
-              <p>Honorar: {{step2.wage}} {{feeType}} </p>
+              <p>Honorar: {{step2.wage}}€/{{feeType}} </p>
             </div>
             <!-- Is driving license necessary? 
               If yes - FORMAT: Führerscheinklasse "DRIVING LICENSE TYPE", 
               else if no - FORMAT: Es wird kein Führerschein benötigt, 
               else if beneficial - FORMAT: Führerschein wäre vorteilhaft, kein Muss. -->
             <div class="item-no-icon container">
-              <p>{{license}}</p>
+              <p>Führerscheinklasse: {{license}}</p>
             </div>
           </div>
         </div>

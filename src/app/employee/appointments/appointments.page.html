@@ -6,7 +6,7 @@
       </div>
 
       <!-- navigate to the ads overview -->
-      <ion-icon name="folder" (click)="navigateAds()"></ion-icon>
+      <ion-icon class="pointer" name="folder" (click)="navigateAds()"></ion-icon>
     </div>
 
     <div class="content">
@@ -34,17 +34,20 @@
 
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button [class.active]="currentUrl == '/employee/appointments'" routerLink="/employee/appointments" routerDirection="root">
+    <ion-tab-button [class.active]="currentUrl == '/employee/appointments'" routerLink="/employee/appointments"
+      routerDirection="root">
       <ion-icon name="calendar"></ion-icon>
       <ion-label>Stellenanzeigen</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button [class.active]="currentUrl == '/employee/notifications'" routerLink="/employee/notifications" routerDirection="root">
+    <ion-tab-button [class.active]="currentUrl == '/employee/notifications'" routerLink="/employee/notifications"
+      routerDirection="root">
       <ion-icon name="notifications"></ion-icon>
       <ion-label>Nachrichten</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button [class.active]="currentUrl == '/employee/profile'" routerLink="/employee/profile" routerDirection="root">
+    <ion-tab-button [class.active]="currentUrl == '/employee/profile'" routerLink="/employee/profile"
+      routerDirection="root">
       <ion-icon name="contact"></ion-icon>
       <ion-label>Profil</ion-label>
     </ion-tab-button>

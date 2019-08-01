@@ -12,7 +12,12 @@ export class AppointmentPage implements OnInit {
   AdData;
   feeType;
 
+  // tslint:disable-next-line: max-line-length
   constructor(public actionSheetController: ActionSheetController, private toastController: ToastController, private navController: NavController, private api: ApiService) { }
+
+  ngOnInit() {
+    this.getAds();
+  }
 
   async cancelAppointment() {
     const actionSheet = await this.actionSheetController.create({
@@ -42,17 +47,15 @@ export class AppointmentPage implements OnInit {
     toast.present();
   }
 
-  ngOnInit() {
-    this.getAds();
 
-
-  }
 
   getAds() {
     this.AdData = JSON.parse(localStorage.getItem('data'));
+    // console.log(this.AdData);
+
     if (this.AdData.wageType === 'DAILY') {
 
-      this.feeType = 'tag';
+      this.feeType = 'Tag';
     } else {
       this.feeType = '€';
     }

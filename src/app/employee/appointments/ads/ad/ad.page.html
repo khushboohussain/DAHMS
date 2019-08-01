@@ -7,7 +7,8 @@
     <div class="content">
       <!-- ad title -->
       <div class="title container">
-        <h2>Einsatzart</h2>
+        <!-- <h2>Einsatzart</h2> -->
+        <h2>{{AdData.jobTitle}}</h2>
       </div>
 
       <div class="ad-info">
@@ -15,9 +16,19 @@
           <p class="small-title container">Gesucht werden</p>
           <div class="list-items">
             <!-- show all personal qualification which are searched for -->
-            <div class="item" (click)="navigateAdDetails()">
+            <div class="item pointer" (click)="navigateAdDetails(-1)">
               <div class="item-text text container">
-                <p>{{AdData.qualification}}</p>
+                <p>{{qualification}}</p>
+              </div>
+              <div class="item-icon">
+                <ion-icon name="arrow-forward"></ion-icon>
+              </div>
+            </div>
+            <!-- other Qualifications -->
+            <div class="item pointer" *ngIf="otherQualification.length > 0">
+              <div class="item-text text container" *ngFor="let item of otherQualification; let x= index"
+                (click)="navigateAdDetails(x)">
+                <p>other {{otherQualification[x]}}</p>
               </div>
               <div class="item-icon">
                 <ion-icon name="arrow-forward"></ion-icon>
@@ -30,9 +41,20 @@
           <p class="small-title container">Gesucht werden</p>
           <div class="list-items" *ngFor="let item of step2; let i = index ">
             <!-- show all personal qualification which are searched for -->
-            <div class="item" (click)="navigateAdDetails2(i)">
+            <div class="item pointer" (click)="navigateAdDetails2(i, item, -1)">
               <div class="item-text text container">
-                <p>{{item.qualification}} </p>
+                <p>{{qualification[i] }}</p>
+                <!-- <p>{{otherQualification[i] }}</p> -->
+              </div>
+              <div class="item-icon">
+                <ion-icon name="arrow-forward"></ion-icon>
+              </div>
+            </div>
+            <!-- other Qualifications -->
+            <div class="item pointer" *ngIf="otherQualification.length > 0">
+              <div class="item-text text container" *ngFor="let item of otherQualification; let x= index"
+                (click)="navigateAdDetails2(i, item, x)">
+                <p>other = {{otherQualification[x]}}</p>
               </div>
               <div class="item-icon">
                 <ion-icon name="arrow-forward"></ion-icon>
@@ -88,7 +110,6 @@
               <div class="item-no-icon container" *ngFor="let item of step2">
                 <!-- FORMAT: Am "FIRST DATE" zwischen "START TIME" - "END TIME" Uhr -->
                 <p>Am {{AdData.startDate}} - {{AdData.endDate}} zwischen {{item.startTime}} - {{item.endTime}} Uhr</p>
-                {{item.endTime}}sss
               </div>
             </div>
           </div>

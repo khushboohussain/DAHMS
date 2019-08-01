@@ -88,7 +88,7 @@ export class EmployeePage implements OnInit {
 
     this.helper.deleteUser(this.getData.id)
       .subscribe((res: any) => {
-        console.log(res);
+        // console.log(res);
         if (res.code === 'auth/user-not-found' || res.statusText === 'ok') {
           this.api.deleteEmployee(this.getData.id)
             .then(res1 => {

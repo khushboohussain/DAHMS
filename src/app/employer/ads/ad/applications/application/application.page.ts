@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 export class ApplicationPage implements OnInit {
 
   userDetail: any = {};
+  // add: any = [];
+  // val;
   // name: string;
   licenseType = '';
   otherQualifications: boolean;
@@ -24,6 +26,17 @@ export class ApplicationPage implements OnInit {
 
   ngOnInit() {
     // console.log(localStorage);
+    // this.add = JSON.parse(localStorage.getItem('adDetail'));
+    // console.log(this.add.apply);
+
+    // const x = this.add.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+    // if (x > -1) {
+    //   this.val = x;
+    //   console.log(this.val);
+    // }
+
+
+
 
     this.api.getEmployeeData(localStorage.getItem('appliedId')).subscribe(res => {
       this.userDetail = res;
@@ -94,18 +107,30 @@ export class ApplicationPage implements OnInit {
             .subscribe(res => {
               ad = res;
               // console.log(res);
+              let index;
+              const adIndex = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+              if (adIndex > -1) {
+                index = adIndex;
+              }
+
+
+
               if (ad.confirmEmployee) {
                 ad.confirmEmployee.push({
-                  name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
-                  uid: localStorage.getItem('appliedId')
+                  name: ad.apply[index].name,
+                  // name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
+                  // qualification: ad.apply[index].qualification,
+                  uid: ad.apply[index].uid
                 });
                 ad.confirmEmployeeIds.push(localStorage.getItem('appliedId'));
               } else {
                 ad.confirmEmployee = [];
                 ad.confirmEmployeeIds = [];
                 ad.confirmEmployee.push({
-                  name: this.userDetail.vorname + '' + this.userDetail.nachname,
-                  uid: localStorage.getItem('appliedId')
+                  name: ad.apply[index].name,
+                  // name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
+                  // qualification: ad.apply[index].qualification,
+                  uid: ad.apply[index].uid
                 });
                 ad.confirmEmployeeIds.push(localStorage.getItem('appliedId'));
               }
@@ -142,17 +167,27 @@ export class ApplicationPage implements OnInit {
           this.api.getAd(ad.did)
             .subscribe(res => {
               ad = res;
+
+              let index;
+              const adIndex = ad.apply.findIndex(data => data.uid === localStorage.getItem('appliedId'));
+              if (adIndex > -1) {
+                index = adIndex;
+              }
               if (ad.rejectedEmployee) {
                 ad.rejectedEmployee.push({
-                  name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
-                  uid: localStorage.getItem('appliedId')
+                  name: ad.apply[index].name,
+                  // name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
+                  // qualification: ad.apply[index].qualification,
+                  uid: ad.apply[index].uid
                 });
 
               } else {
                 ad.rejectedEmployee = [];
                 ad.rejectedEmployee.push({
-                  name: this.userDetail.vorname + '' + this.userDetail.nachname,
-                  uid: localStorage.getItem('appliedId')
+                  name: ad.apply[index].name,
+                  // name: this.userDetail.vorname + ' ' + this.userDetail.nachname,
+                  // qualification: ad.apply[index].qualification,
+                  uid: ad.apply[index].uid
                 });
               }
 
@@ -160,7 +195,7 @@ export class ApplicationPage implements OnInit {
               if (x > -1) {
                 ad.apply.splice(x, 1);
                 delete ad.id;
-                this.api.updateAds(localStorage.getItem('AdId'), ad).then(res => {
+                this.api.updateAds(localStorage.getItem('AdId'), ad).then(() => {
                   this.helper.presentToast('Rejected Employee!');
                   // console.log('detail is ', ad);
                   localStorage.setItem('adDetail', JSON.stringify(ad));

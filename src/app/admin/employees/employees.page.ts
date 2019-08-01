@@ -45,7 +45,7 @@ export class EmployeesPage implements OnInit {
   }
 
   navigateEmployee(item) {
-    console.log(item);
+    // console.log(item);
     localStorage.setItem('EmployeeData', JSON.stringify(item));
     this.navController.navigateForward('/admin/employees/employee');
   }

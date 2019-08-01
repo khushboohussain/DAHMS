@@ -148,7 +148,8 @@ export class QualificationsPage implements OnInit {
     // console.log('here');
     this.api.updateEmployee(localStorage.getItem('uid'), this.getEmployeeData)
       .then(after => {
-        // this.router.navigate(['employee/profile']);
+        this.helper.presentToast('Qualification updated successfully');
+        this.router.navigate(['employee/profile']);
       });
   }
 

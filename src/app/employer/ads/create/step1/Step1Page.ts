@@ -103,13 +103,14 @@ export class Step1Page implements OnInit {
     const data = {
       jobTitle: form.value.jobTitle,
       address: form.value.address,
-      startDate: moment(form.value.startDate).format('DD-MM-YYYY'),
-      endDate: moment(form.value.endDate).format('DD-MM-YYYY'),
+      startDate: moment(form.value.startDate).format('DD.MM.YYYY'),
+      endDate: moment(form.value.endDate).format('DD.MM.YYYY'),
       continoueWork: form.value.continoueWork,
       fastReply: form.value.fastReply,
       latitude: this.location.company.latitude,
       longitude: this.location.company.longitude
     };
+    // console.log(data.startDate + ' ' + data.endDate);
 
     // Put the object into storage
     localStorage.setItem('AdsData', JSON.stringify(data));

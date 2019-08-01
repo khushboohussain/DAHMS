@@ -18,7 +18,6 @@ export class LocationService {
   geo: any;
   service = new google.maps.places.AutocompleteService();
 
-
   constructor(private ngzone: NgZone) { }
 
   addressChooseItem(item: any) {
@@ -67,7 +66,5 @@ addressGeoCode(address: any) {
       });
     });
   }
-
-
 
 }

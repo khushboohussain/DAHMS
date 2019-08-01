@@ -15,19 +15,18 @@
       </div>
 
       <!-- show applications after personal qualifications -->
-      <div class="applications" *ngFor="let item of data; let i =index">
+      <div class="applications">
         <div class="list-items">
           <!-- personal qualification -->
           <div class="title container">
-            <h3> {{getAllAds.qualification}} </h3>
-            <!-- <h3>Sanitätshelfer</h3> -->
+            <h3>{{qualifications}} </h3>
           </div>
+
           <!-- show each application for the specific qualification -->
-          <div class="item pointer" (click)="navigateApplication(item)">
-            <!-- FIRST NAME LAST NAME -->
+          <div class="item pointer" *ngFor="let item of data; let i=index" (click)="navigateApplication(item)">
             <div class="item-text text container">
-              <p> {{item.name }} </p>
-              <!-- <p>Max Mustermann</p> -->
+              <!-- FIRST NAME LAST NAME -->
+              <p>{{item.name }}</p>
             </div>
             <div class="item-icon">
               <ion-icon class="pointer" name="arrow-forward"></ion-icon>

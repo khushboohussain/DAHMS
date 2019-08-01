@@ -8,19 +8,33 @@ import { NavController } from '@ionic/angular';
 })
 export class ConfirmedPage implements OnInit {
 
-  getAllAds: any;
+  getAllAd: any;
   data: any = {};
+  qualifications;
 
   constructor(private navController: NavController) { }
 
   ngOnInit() {
     localStorage.removeItem('appliedId');
 
-    this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
-    // console.log('data', this.getAllAds.confirmEmployee);
-    this.data = this.getAllAds.confirmEmployee;
-  }
+    this.getAllAd = JSON.parse(localStorage.getItem('adDetail'));
+    // console.log('data', this.getAllAd);
 
+    if (this.getAllAd.step2) {
+      for (let i = 0; i < this.getAllAd.step2.length; i++) {
+        this.qualifications.push(this.getAllAd.step2[i].qualification);
+      }
+    } else {
+      this.qualifications = this.getAllAd.qualification;
+    }
+    // console.log('confirm employee', this.getAllAd.confirmEmployee);
+
+    this.data = this.getAllAd.confirmEmployee;
+    // for (let index = 0; index < this.data.length; index++) {
+
+    // }
+
+  }
 
   navigateApplication(data) {
     // console.log('id is ', data.uid);

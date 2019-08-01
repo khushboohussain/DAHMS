@@ -16,7 +16,7 @@ export class AdsPage {
   currentUrl: string;
   userType;
   getAds: any;
-  data;
+  endStartDate = [];
 
   constructor(private navController: NavController,
     private helper: HelperService, private router: Router, private api: ApiService) {
@@ -47,12 +47,31 @@ export class AdsPage {
         // console.log(did);
         return { did, ...data };
       })))
-      .subscribe(res => {
+      .subscribe((res: any) => {
         this.getAds = res;
+        // console.log('total ads \n', res);
+        // console.log(this.getAds.length);
+        // working on date
+        for (let i = 0; i < this.getAds.length; i++) {
+          // console.log(i + ' ', this.getAds[i].startDate + ' ' + this.getAds[i].endDate);
+
+          if (this.getAds[i].startDate === this.getAds[i].endDate) {
+            this.endStartDate[i] = this.getAds[i].startDate;
+          } else {
+
+            this.endStartDate[i] = this.getAds[i].startDate + ' - ' + this.getAds[i].endDate;
+          }
+        }
+        // console.log(this.endStartDate);
+
       }, err => {
         console.log(err.message);
       });
-  }
+
+
+
+
+  } // end of NgOnInIt
 
   navigateAd(data) {
     // console.log('docID is ', data.did);
@@ -65,7 +84,14 @@ export class AdsPage {
 
   // check payment method is integrated or not
   navigateCreateAd() {
+    /*  if (checkPayment === true) {
+       this.navController.navigateForward('/employer/ads/create/step1');
+     } else {
+     }
+     */
+    this.helper.presentToast('confirm Payment first!');
     this.navController.navigateForward('/employer/ads/create/step1');
+
 
   }
 

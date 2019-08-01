@@ -40,6 +40,7 @@ export class AdPage implements OnInit {
     this.data = JSON.parse(localStorage.getItem('adDetail'));
     let id = this.data.did;
     // console.log(this.data);
+
     this.totalApp = this.data.apply.length;
     this.api.getAd(this.data.did)
       .subscribe(res => {

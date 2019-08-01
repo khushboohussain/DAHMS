@@ -17,14 +17,11 @@ export class HelperService {
 
 
   constructor(public toastController: ToastController, private loadingController: LoadingController, public http: HttpClient) {
-
-
     if (localStorage.getItem('adDetail')) {
       this.adDetail = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('adDetail')));
     } else {
       this.adDetail = new BehaviorSubject<any>({});
     }
-
   }
 
   // setAdDetails(val){

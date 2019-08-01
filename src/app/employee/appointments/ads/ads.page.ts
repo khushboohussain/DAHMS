@@ -15,15 +15,7 @@ export class AdsPage implements OnInit {
   getEmployeedata;
   getAllads;
   jobTitle: '';
-  qualification = [
-    'SANITAETSHELFER',
-    'RETTUNGSHELFER',
-    'RETTUNGSSANITAETER',
-    'RETTUNGSASSISTENT',
-    'NOTFALLSANITAETER',
-    'ARZT',
-    'ARZTRETTUNGSDIENST'
-  ];
+  qualification = [];
   // RETTUNGSSANITAETER
 
   step2 = [];
@@ -33,12 +25,17 @@ export class AdsPage implements OnInit {
 
 
   ngOnInit() {
+
     let x = [];
-    this.qualification.forEach((a, i) => {
-      if (a.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()) {
-        x = this.qualification.slice(i, this.qualification.length);
-        // console.log(x)
-      }
+    this.api.getPersonalQualification().subscribe((res: any) => {
+      this.qualification = res.data;
+      // console.log('own qualification', localStorage.getItem('qualifikation'));
+      this.qualification.forEach((a, i) => {
+        if (a.toLowerCase() === localStorage.getItem('qualifikation').toLowerCase()) {
+          x = this.qualification.slice(i, this.qualification.length);
+        }
+      });
+      // console.log('Accordingly ', x);
     });
     // this.getAdsData()
 
@@ -66,6 +63,8 @@ export class AdsPage implements OnInit {
       }
       )
     )).subscribe((res: Array<any>) => {
+      // console.log(res);
+
       this.getAllads = res.filter(result => {
         const distance = haversine({
           latitude: this.getEmployeedata.latitude,
@@ -77,21 +76,42 @@ export class AdsPage implements OnInit {
           });
 
         if (result.condition3 === true) {
+          // this.getads = result;
           this.step2 = result.step2;
           for (let index = 0; index < this.step2.length; index++) {
             // tslint:disable-next-line: radix
             if (parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.step2[index].qualification) > -1) {
               return result;
             }
+            if (this.step2[index].otherQualification.length > -1) {
+
+              for (let xc = 0; xc < this.step2[index].otherQualification.length; xc++) {
+
+                // tslint:disable-next-line: max-line-length
+                if (parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(this.step2[index].otherQualification[xc].qualification) > -1) {
+                  return result;
+                }
+              }
+            }
           }
 
         } else {
-          // tslint:disable-next-line: radix
+          // tslint:disable-next-line: radix otherQualification
           if (parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.qualification) > -1) {
             return result;
           }
+          if (result.otherQualification.length > -1) {
+            for (let index = 0; index < result.otherQualification.length; index++) {
+              // tslint:disable-next-line: max-line-length
+              if (parseInt(this.getEmployeedata.Einsatzradius) >= distance && x.indexOf(result.otherQualification[index].qualification) > -1) {
+                return result;
+              }
 
+            }
+          }
         }
+        // console.log(result);
+
       });
     });
   }

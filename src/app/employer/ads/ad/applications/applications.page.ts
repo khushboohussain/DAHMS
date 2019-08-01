@@ -13,33 +13,31 @@ export class ApplicationsPage implements OnInit {
 
   getAllAds: any;
   data: any = [];
+  qualifications = [];
 
   constructor(private navController: NavController, private api: ApiService, private helper: HelperService) { }
 
   ngOnInit() {
-    // console.log(localStorage);
+    localStorage.removeItem('appliedId');
     localStorage.removeItem('confirm');
 
     this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
-
-    // this.helper.getAdDetails()
-    //   .subscribe(res => {
-    //     this.getAllAds = res;
-    //   });
-    // this.getAllAds = JSON.parse(localStorage.getItem('adDetail'));
-    // this.api.getAd(localStorage.getItem('AdId')).subscribe(res => {
-    // this.getAllAds = res;
-    // console.log('data', this.getAllAds);
-    // localStorage.setItem('adDetail', JSON.stringify(res));
+    // console.log(this.getAllAds);
 
     if (this.getAllAds.apply.length > 0) {
       this.data = this.getAllAds.apply;
+      if (this.getAllAds.step2) {
+        for (let i = 0; i < this.getAllAds.step2.length; i++) {
+          this.qualifications.push(this.getAllAds.step2[i].qualification);
+        }
+      } else {
+        this.qualifications = this.getAllAds.qualification;
+      }
+
     } else {
-
+      alert('you do not have any application!');
+      this.navController.navigateForward('/employer/ads');
     }
-
-    // });
-
 
   }
 
@@ -49,7 +47,7 @@ export class ApplicationsPage implements OnInit {
     this.navController.navigateForward('/employer/ads/ad/applications/application');
   }
 
-  navigateBack(){
+  navigateBack() {
     this.navController.pop();
   }
 

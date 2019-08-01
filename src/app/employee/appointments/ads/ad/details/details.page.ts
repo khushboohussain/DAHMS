@@ -19,6 +19,8 @@ export class DetailsPage implements OnInit {
   employeeName;
   type = '';
   step2: any = [];
+  qualification;
+  ApplyFor: string;
 
   // tslint:disable-next-line: max-line-length
   constructor(public actionSheetController: ActionSheetController, private api: ApiService, private toastController: ToastController, private navController: NavController, private route: ActivatedRoute) { }
@@ -40,41 +42,74 @@ export class DetailsPage implements OnInit {
   getAds() {
     this.AdData = JSON.parse(localStorage.getItem('data'));
     // console.log('detail', this.AdData);
+
     if (this.AdData.step2) {
-      let i = localStorage.getItem('index');
-      this.step2 = this.AdData.step2[i];
+      const q = JSON.parse(localStorage.getItem('qual'));
+      const oQ = JSON.parse(localStorage.getItem('otherQual'));
+      if (q > -1 && oQ === -1) {
+        this.step2 = this.AdData.step2[q];
+
+      } else {
+        this.step2 = this.AdData.step2[q].otherQualification[oQ];
+      }
+
       // console.log('this.step2[i]', this.step2);
       if (this.step2.wageType === 'DAILY') {
         this.feeType = 'Tag';
       } else {
-        this.feeType = '€';
+        this.feeType = 'Stunde';
       }
 
       if (this.step2.drivingLinse === 'B') {
-        this.license = 'Führerscheinklasse';
-      } else if (this.step2.drivingLinse == 'NO') {
-        this.license = 'Es wird kein Führerschein benötigt';
+        this.license = 'B';
+      } else if (this.step2.drivingLinse === 'B1') {
+        this.license = 'B1';
+      } else if (this.step2.drivingLinse === 'NO') {
+        this.license = 'Es wird kein Führerschein benötigt.';
       } else {
-        this.license = 'Führerschein wäre vorteilhaft, kein Muss.';
+        this.license = 'Ein Führerschein ist vorteilhaft, aber nicht notwendig.';
       }
-      // this.AdData = this.step2;
-
+      this.ApplyFor = this.step2.qualification;
+      // console.log(this.ApplyFor);
     } else {
-      if (this.AdData.wageType === 'DAILY') {
-
-        this.feeType = 'Tag';
+      let i = JSON.parse(localStorage.getItem('otherQual'));
+      if (i === -1) {
+        this.qualification = this.AdData.qualification;
+        if (this.AdData.wageType === 'DAILY') {
+          this.feeType = 'Tag';
+        } else {
+          this.feeType = 'Stunde';
+        }
+        if (this.AdData.drivingLinse === 'B') {
+          this.license = 'B';
+        } else if (this.AdData.drivingLinse === 'B1') {
+          this.license = 'B1';
+        } else if (this.AdData.drivingLinse === 'NO') {
+          this.license = 'Es wird kein Führerschein benötigt.';
+        } else {
+          this.license = 'Ein Führerschein ist vorteilhaft, aber nicht notwendig.';
+        }
       } else {
-        this.feeType = '€';
-      }
+        this.qualification = this.AdData.otherQualification[i].qualification;
 
-      if (this.AdData.drivingLinse === 'B') {
-        this.license = 'Führerscheinklasse';
-      } else if (this.AdData.drivingLinse == 'NO') {
-        this.license = 'Es wird kein Führerschein benötigt';
-      } else {
-        this.license = 'Führerschein wäre vorteilhaft, kein Muss.';
-      }
+        if (this.AdData.otherQualification[i].wageType === 'DAILY') {
+          this.feeType = 'Tag';
+        } else {
+          this.feeType = 'Stunde';
+        }
 
+        if (this.AdData.otherQualification[i].drivingLinse === 'B') {
+          this.license = 'B';
+        } else if (this.AdData.otherQualification[i].drivingLinse === 'B1') {
+          this.license = 'B1';
+        } else if (this.AdData.otherQualification[i].drivingLinse === 'NO') {
+          this.license = 'Es wird kein Führerschein benötigt.';
+        } else {
+          this.license = 'Ein Führerschein ist vorteilhaft, aber nicht notwendig.';
+        }
+      }
+      this.ApplyFor = this.qualification;
+      // console.log(this.ApplyFor);
     }
 
   }
@@ -95,7 +130,13 @@ export class DetailsPage implements OnInit {
 
     //   });
     // }
-    this.AdData.apply.push({ 'uid': localStorage.getItem('uid'), 'name': this.employeeName });
+    this.AdData.apply.push(
+      {
+        'uid': localStorage.getItem('uid'),
+        'applyFor': this.ApplyFor,
+        'name': this.employeeName
+      }
+    );
     // console.log(this.AdData);
     // debugger;
     this.api.updateAds(this.AdData.id, this.AdData)
@@ -122,7 +163,7 @@ export class DetailsPage implements OnInit {
   }
   async sendApplication() {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Möchten Sie verbindlich für diese Stelle bewerben?',
+      header: 'Möchten Sie sich verbindlich für diese Stelle bewerben?',
       buttons: [{
         text: 'Verbindliche Bewerbung abschicken',
         handler: () => {

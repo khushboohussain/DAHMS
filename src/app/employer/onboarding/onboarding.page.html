@@ -28,8 +28,7 @@
             <!-- organisation name -->
             <ion-item lines="none">
               <ion-label position="stacked">Name der Orga</ion-label>
-              <ion-input type="text" formControlName="CompanyName" clearInput autocapitalize="word" autocomplete
-                autocorrect></ion-input>
+              <ion-input type="text" formControlName="CompanyName" clearInput autocapitalize="word" autocomplete autocorrect required></ion-input>
             </ion-item>
 
             <!-- organisation address -->
@@ -56,10 +55,8 @@
 
           <!-- finish onboarding -->
           <div class="container">
-            <ion-button color="primary" expand="block" (click)="submit(form)"
-              [disabled]="form.invalid || form.pristine">Einrichtung abschließen</ion-button>
+            <ion-button color="primary" expand="block" (click)="submit(form)" [disabled]="form.invalid || form.pristine">Einrichtung abschließen</ion-button>
           </div>
-
         </form>
       </div>
 
